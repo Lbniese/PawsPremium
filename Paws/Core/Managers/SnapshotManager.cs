@@ -1,0 +1,174 @@
+﻿using Paws.Core.Abilities.Feral;
+using Paws.Core.Utilities;
+using Styx;
+using Styx.WoWInternals.WoWObjects;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
+
+namespace Paws.Core.Managers
+{
+    /// <summary>
+    /// Provides the management of snapshotting abilities.
+    /// </summary>
+    public sealed class SnapshotManager
+    {
+        #region Singleton Stuff
+
+        private static SnapshotManager _singletonInstance;
+
+        /// <summary>
+        /// Singleton instance.
+        /// </summary>
+        public static SnapshotManager Instance
+        {
+            get
+            {
+                return _singletonInstance ?? (_singletonInstance = new SnapshotManager());
+            }
+        }
+
+        /// <summary>
+        /// Rebuilds and reloads all of the abilities. Useful after changing settings.
+        /// </summary>
+        public static void Reload()
+        {
+            _singletonInstance = new SnapshotManager();
+        }
+
+        private static SettingsManager Settings { get { return SettingsManager.Instance; } }
+
+        #endregion
+
+        private Stopwatch _snapshotTimer = new Stopwatch();
+        private int _snapshotIntervalInMs = 250;
+
+        private static LocalPlayer Me { get { return StyxWoW.Me; } }
+        private static WoWUnit MyCurrentTarget { get { return Me.CurrentTarget; } }
+        private AbilityManager Abilities { get { return AbilityManager.Instance; } }
+
+        public static float CurrentMultiplier
+        {
+            get
+            {
+                var multiplier = 1.0f;
+
+                if (Me.HasSavageRoarAura()) multiplier *= 1.4f;
+                if (Me.HasAura(SpellBook.BloodtalonsProc)) multiplier *= 1.3f;
+                if (Me.HasAura(SpellBook.TigersFury)) multiplier *= 1.15f;
+                if (Me.KnowsSpell(SpellBook.ImprovedRake) && (Me.HasAura(SpellBook.FeralIncarnationForm) || Me.HasAura(SpellBook.Prowl))) multiplier *= 2.0f;
+
+                return multiplier;
+            }
+        }
+
+        public List<BleedingUnit> RakedTargets { get; private set; }
+        public List<BleedingUnit> RippedTargets { get; private set; }
+
+        public SnapshotManager()
+        {
+            this.RakedTargets = new List<BleedingUnit>();
+            this.RippedTargets = new List<BleedingUnit>();
+        }
+
+        public async Task<bool> CheckAndApplyBloodtalons()
+        {
+            // Do I have Blood Talons Talent?
+            var hasBloodTalonsTalent = Me.KnowsSpell(SpellBook.Bloodtalons);
+
+            // Do I have Predatory Swiftness Proc?
+            var hasPredatorySwiftnessProc = Me.HasAura(SpellBook.PredatorySwiftnessProc);
+
+            var accessGranted = false;
+
+            if (Settings.BloodtalonsApplyToFinishers)
+            {
+                // Do I have 5 combo points?
+                accessGranted = Me.ComboPoints == 5;
+            }
+
+            if (Settings.BloodtalonsApplyImmediately)
+            {
+                accessGranted = hasPredatorySwiftnessProc;
+            }
+
+            if (hasBloodTalonsTalent && hasPredatorySwiftnessProc)
+            {
+                if (accessGranted || Me.GetAuraById(SpellBook.PredatorySwiftnessProc).TimeLeft <= TimeSpan.FromSeconds(3))
+                {
+                    if (await Abilities.Cast<HealingTouchSnapshotAbility>(Me)) return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Updates the SnapShot manager. Should be called during Main.Pulse().
+        /// </summary>
+        public void Update()
+        {
+            if (!_snapshotTimer.IsRunning)
+            {
+                _snapshotTimer.Start();
+                return;
+            }
+
+            if (_snapshotTimer.ElapsedMilliseconds >= _snapshotIntervalInMs)
+            {
+                SnapShotTimerElapsed();
+
+                _snapshotTimer.Restart();
+            }
+        }
+
+        // This is to monitor the snapshotted targets.
+        private void SnapShotTimerElapsed()
+        {
+            // Remove targets that should not be here anymore
+            this.RakedTargets.RemoveAll(o => o == null || o.Unit == null || !o.Unit.IsValid || o.Unit.IsDead || !o.Unit.HasAura(SpellBook.RakeBleedDebuff));
+            this.RippedTargets.RemoveAll(o => o == null || o.Unit == null || !o.Unit.IsValid || o.Unit.IsDead || !o.Unit.HasAura(SpellBook.Rip));
+        }
+
+        public void AddRakedTarget(WoWUnit target)
+        {
+            foreach (var rakedTarget in this.RakedTargets)
+            {
+                if (target == rakedTarget.Unit)
+                {
+                    // target already exists, update the multiplier
+                    rakedTarget.AppliedMultiplier = CurrentMultiplier;
+                    return;
+                }
+            }
+
+            // target does not exist...
+            BleedingUnit unit = new BleedingUnit(target, CurrentMultiplier);
+
+            this.RakedTargets.Add(unit);
+
+            Log.Diagnostics(string.Format("Added Raked unit: {0} [{1}] ({2} total tracked units)", unit.Unit.SafeName, unit.Unit.GetUnitId(), this.RakedTargets.Count));
+        }
+
+        public void AddRippedTarget(WoWUnit target)
+        {
+            foreach (var rippedTarget in this.RippedTargets)
+            {
+                if (target == rippedTarget.Unit)
+                {
+                    // target already exists, update the multiplier
+                    rippedTarget.AppliedMultiplier = CurrentMultiplier;
+                    return;
+                }
+            }
+
+            // target does not exist...
+            BleedingUnit unit = new BleedingUnit(target, CurrentMultiplier);
+
+            this.RippedTargets.Add(unit);
+
+            Log.Diagnostics(string.Format("Added Ripped unit: {0} [{1}] ({2} total tracked units)", unit.Unit.Name, unit.Unit.GetUnitId(), this.RippedTargets.Count));
+        }
+    }
+}
