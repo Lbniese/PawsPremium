@@ -1,8 +1,11 @@
 ﻿using Paws.Core.Utilities;
 using Styx.Helpers;
 using System;
+using System.Collections;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Resources;
 
 namespace Paws.Core.Managers
 {
@@ -45,25 +48,29 @@ namespace Paws.Core.Managers
         public void Init()
         {
             // Determine if the Preset settings files exist for the routine //
-            var presetsDirectory = Path.Combine(GetPawsRoutineDirectory(), @"Paws\Presets");
-            if (!Directory.Exists(presetsDirectory))
-                throw new Exception("Presets directory is missing!");
+            // This has been changed so that the XML files are now embedded resources //
+
+            var presetResourceSet = new ResourceSet(Assembly.GetExecutingAssembly().GetManifestResourceStream("Paws.Properties.Resources.resources"));
 
             // Determine if the Preset settings files exist for the current character //
             var characterSettingsDirectory = Path.Combine(Settings.CharacterSettingsDirectory, "Paws");
             if (!Directory.Exists(characterSettingsDirectory))
             {
                 Directory.CreateDirectory(characterSettingsDirectory);
-                Log.Diagnostics("Character Settings Directory Established... loading default presets.");
+                Log.Diagnostics("Character Settings Directory Established... generating default presets.");
 
-                // Copy the presets file to the character settings directory
-                string[] presetFiles = Directory.GetFiles(presetsDirectory, "*.xml");
-                foreach (var file in presetFiles)
+
+                int resourceCount = 0;
+                foreach (DictionaryEntry entry in presetResourceSet)
                 {
-                    File.Copy(file, Path.Combine(characterSettingsDirectory, Path.GetFileName(file)));
+                    using (StreamWriter streamWriter = new StreamWriter(Path.Combine(characterSettingsDirectory, entry.Key.ToString().Replace("_", " ") + ".xml"), false))
+                    {
+                        streamWriter.Write(entry.Value);
+                        resourceCount++;
+                    }
                 }
 
-                Log.Diagnostics(string.Format("...Finished copying {0} preset files", presetFiles.Length));
+                Log.Diagnostics(string.Format("...Finished generating {0} preset files", resourceCount));
             }
         }
 

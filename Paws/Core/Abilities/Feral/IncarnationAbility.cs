@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Feral
@@ -13,6 +14,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>You may shapeshift in and out of this improved Cat Form for its duration.</para>
     /// <para>http://www.wowhead.com/spell=102543/incarnation-king-of-the-jungle#comments</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Incarnation: King of the Jungle")]
     public class IncarnationAbility : AbilityBase
     {
         public IncarnationAbility()

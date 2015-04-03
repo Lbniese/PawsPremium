@@ -56,8 +56,14 @@
             this.panel54 = new System.Windows.Forms.Panel();
             this.rtfAbout = new System.Windows.Forms.RichTextBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.generalTab = new System.Windows.Forms.TabPage();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.generalSootheEnabledCheckBox = new System.Windows.Forms.CheckBox();
+            this.generalSoothePanel = new System.Windows.Forms.Panel();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.generalSootheReactionTimeTextBox = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -156,13 +162,8 @@
             this.enabledColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.stateColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.itemUseConditionsColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.generalSootheEnabledCheckBox = new System.Windows.Forms.CheckBox();
-            this.generalSoothePanel = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.generalSootheReactionTimeTextBox = new System.Windows.Forms.TextBox();
+            this.abilityChainsTabPage = new System.Windows.Forms.TabPage();
+            this.label4 = new System.Windows.Forms.Label();
             this.itemsListViewContextMenu.SuspendLayout();
             this.vt.SuspendLayout();
             this.aboutTab.SuspendLayout();
@@ -171,8 +172,9 @@
             this.panel47.SuspendLayout();
             this.panel54.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.generalTab.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.generalSoothePanel.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel31.SuspendLayout();
@@ -197,8 +199,7 @@
             this.panel10.SuspendLayout();
             this.itemsTabPage.SuspendLayout();
             this.panel46.SuspendLayout();
-            this.panel3.SuspendLayout();
-            this.generalSoothePanel.SuspendLayout();
+            this.abilityChainsTabPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // FormHeader
@@ -404,6 +405,7 @@
             this.vt.Controls.Add(this.healingTab);
             this.vt.Controls.Add(this.trinketAndRacialsTab);
             this.vt.Controls.Add(this.itemsTabPage);
+            this.vt.Controls.Add(this.abilityChainsTabPage);
             this.vt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.vt.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.vt.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -435,7 +437,6 @@
             this.aboutTab.Controls.Add(this.panel47);
             this.aboutTab.Controls.Add(this.panel54);
             this.aboutTab.Controls.Add(this.pictureBox2);
-            this.aboutTab.Controls.Add(this.pictureBox1);
             this.aboutTab.Location = new System.Drawing.Point(204, 4);
             this.aboutTab.Name = "aboutTab";
             this.aboutTab.Padding = new System.Windows.Forms.Padding(3);
@@ -550,21 +551,11 @@
             // pictureBox2
             // 
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(133, 16);
+            this.pictureBox2.Location = new System.Drawing.Point(84, 11);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(212, 141);
+            this.pictureBox2.Size = new System.Drawing.Size(275, 142);
             this.pictureBox2.TabIndex = 11;
             this.pictureBox2.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(9, 4);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(125, 140);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 10;
-            this.pictureBox1.TabStop = false;
             // 
             // generalTab
             // 
@@ -588,6 +579,80 @@
             this.generalTab.Size = new System.Drawing.Size(776, 453);
             this.generalTab.TabIndex = 2;
             this.generalTab.Text = "General";
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.DarkGreen;
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.generalSootheEnabledCheckBox);
+            this.panel3.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panel3.ForeColor = System.Drawing.Color.White;
+            this.panel3.Location = new System.Drawing.Point(516, 153);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(249, 26);
+            this.panel3.TabIndex = 34;
+            // 
+            // generalSootheEnabledCheckBox
+            // 
+            this.generalSootheEnabledCheckBox.AutoSize = true;
+            this.generalSootheEnabledCheckBox.Location = new System.Drawing.Point(4, 3);
+            this.generalSootheEnabledCheckBox.Name = "generalSootheEnabledCheckBox";
+            this.generalSootheEnabledCheckBox.Size = new System.Drawing.Size(66, 19);
+            this.generalSootheEnabledCheckBox.TabIndex = 0;
+            this.generalSootheEnabledCheckBox.Text = "Soothe";
+            this.generalSootheEnabledCheckBox.UseVisualStyleBackColor = true;
+            this.generalSootheEnabledCheckBox.CheckedChanged += new System.EventHandler(this.generalSootheEnabledCheckBox_CheckedChanged);
+            // 
+            // generalSoothePanel
+            // 
+            this.generalSoothePanel.BackColor = System.Drawing.Color.Snow;
+            this.generalSoothePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.generalSoothePanel.Controls.Add(this.label36);
+            this.generalSoothePanel.Controls.Add(this.label3);
+            this.generalSoothePanel.Controls.Add(this.generalSootheReactionTimeTextBox);
+            this.generalSoothePanel.Controls.Add(this.label2);
+            this.generalSoothePanel.Location = new System.Drawing.Point(516, 171);
+            this.generalSoothePanel.Name = "generalSoothePanel";
+            this.generalSoothePanel.Size = new System.Drawing.Size(249, 76);
+            this.generalSoothePanel.TabIndex = 35;
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(162, 41);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(78, 15);
+            this.label36.TabIndex = 26;
+            this.label36.Text = "milliseconds";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(14, 41);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(96, 15);
+            this.label3.TabIndex = 25;
+            this.label3.Text = "Reaction time is";
+            // 
+            // generalSootheReactionTimeTextBox
+            // 
+            this.generalSootheReactionTimeTextBox.BackColor = System.Drawing.Color.Wheat;
+            this.generalSootheReactionTimeTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.generalSootheReactionTimeTextBox.Location = new System.Drawing.Point(111, 39);
+            this.generalSootheReactionTimeTextBox.Name = "generalSootheReactionTimeTextBox";
+            this.generalSootheReactionTimeTextBox.Size = new System.Drawing.Size(50, 21);
+            this.generalSootheReactionTimeTextBox.TabIndex = 24;
+            this.generalSootheReactionTimeTextBox.Text = "500";
+            this.generalSootheReactionTimeTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(8, 16);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(213, 15);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "Use Soothe to dispell enraged effects";
             // 
             // panel1
             // 
@@ -1648,79 +1713,26 @@
             this.itemUseConditionsColumnHeader.Text = "Use Conditions";
             this.itemUseConditionsColumnHeader.Width = 325;
             // 
-            // panel3
+            // abilityChainsTabPage
             // 
-            this.panel3.BackColor = System.Drawing.Color.DarkGreen;
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.generalSootheEnabledCheckBox);
-            this.panel3.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel3.ForeColor = System.Drawing.Color.White;
-            this.panel3.Location = new System.Drawing.Point(516, 153);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(249, 26);
-            this.panel3.TabIndex = 34;
+            this.abilityChainsTabPage.Controls.Add(this.label4);
+            this.abilityChainsTabPage.Location = new System.Drawing.Point(204, 4);
+            this.abilityChainsTabPage.Name = "abilityChainsTabPage";
+            this.abilityChainsTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.abilityChainsTabPage.Size = new System.Drawing.Size(776, 453);
+            this.abilityChainsTabPage.TabIndex = 9;
+            this.abilityChainsTabPage.Text = "Ability Chains";
+            this.abilityChainsTabPage.UseVisualStyleBackColor = true;
             // 
-            // generalSootheEnabledCheckBox
+            // label4
             // 
-            this.generalSootheEnabledCheckBox.AutoSize = true;
-            this.generalSootheEnabledCheckBox.Location = new System.Drawing.Point(4, 3);
-            this.generalSootheEnabledCheckBox.Name = "generalSootheEnabledCheckBox";
-            this.generalSootheEnabledCheckBox.Size = new System.Drawing.Size(66, 19);
-            this.generalSootheEnabledCheckBox.TabIndex = 0;
-            this.generalSootheEnabledCheckBox.Text = "Soothe";
-            this.generalSootheEnabledCheckBox.UseVisualStyleBackColor = true;
-            this.generalSootheEnabledCheckBox.CheckedChanged += new System.EventHandler(this.generalSootheEnabledCheckBox_CheckedChanged);
-            // 
-            // generalSoothePanel
-            // 
-            this.generalSoothePanel.BackColor = System.Drawing.Color.Snow;
-            this.generalSoothePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.generalSoothePanel.Controls.Add(this.label36);
-            this.generalSoothePanel.Controls.Add(this.label3);
-            this.generalSoothePanel.Controls.Add(this.generalSootheReactionTimeTextBox);
-            this.generalSoothePanel.Controls.Add(this.label2);
-            this.generalSoothePanel.Location = new System.Drawing.Point(516, 171);
-            this.generalSoothePanel.Name = "generalSoothePanel";
-            this.generalSoothePanel.Size = new System.Drawing.Size(249, 76);
-            this.generalSoothePanel.TabIndex = 35;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 16);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(213, 15);
-            this.label2.TabIndex = 11;
-            this.label2.Text = "Use Soothe to dispell enraged effects";
-            // 
-            // label36
-            // 
-            this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(162, 41);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(78, 15);
-            this.label36.TabIndex = 26;
-            this.label36.Text = "milliseconds";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(14, 41);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(96, 15);
-            this.label3.TabIndex = 25;
-            this.label3.Text = "Reaction time is";
-            // 
-            // generalSootheReactionTimeTextBox
-            // 
-            this.generalSootheReactionTimeTextBox.BackColor = System.Drawing.Color.Wheat;
-            this.generalSootheReactionTimeTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.generalSootheReactionTimeTextBox.Location = new System.Drawing.Point(111, 39);
-            this.generalSootheReactionTimeTextBox.Name = "generalSootheReactionTimeTextBox";
-            this.generalSootheReactionTimeTextBox.Size = new System.Drawing.Size(50, 21);
-            this.generalSootheReactionTimeTextBox.TabIndex = 24;
-            this.generalSootheReactionTimeTextBox.Text = "500";
-            this.generalSootheReactionTimeTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(17, 16);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(452, 15);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Ability Chains are a way to trigger a series of abilities based on various condit" +
+    "ions";
             // 
             // SettingsForm
             // 
@@ -1752,8 +1764,11 @@
             this.panel47.PerformLayout();
             this.panel54.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.generalTab.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            this.generalSoothePanel.ResumeLayout(false);
+            this.generalSoothePanel.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -1799,10 +1814,8 @@
             this.itemsTabPage.ResumeLayout(false);
             this.panel46.ResumeLayout(false);
             this.panel46.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
-            this.generalSoothePanel.ResumeLayout(false);
-            this.generalSoothePanel.PerformLayout();
+            this.abilityChainsTabPage.ResumeLayout(false);
+            this.abilityChainsTabPage.PerformLayout();
             this.ResumeLayout(false);
 
 		}
@@ -1816,7 +1829,6 @@
 		private System.Windows.Forms.Label versionLabel;
         private System.Windows.Forms.ToolTip tooltipHandler;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.TabPage mobilityTab;
         private System.Windows.Forms.TabPage offensiveTab;
         private System.Windows.Forms.TabPage defensiveTab;
@@ -1947,5 +1959,7 @@
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox generalSootheReactionTimeTextBox;
+        private System.Windows.Forms.TabPage abilityChainsTabPage;
+        private System.Windows.Forms.Label label4;
 	}
 }
