@@ -20,13 +20,19 @@ namespace Paws.Core.Abilities.Feral
             : base(WoWSpell.FromId(SpellBook.MarkOfTheWild), true, true)
         {
             base.Category = AbilityCategory.Buff;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.MarkOfTheWildEnabled));
             base.Conditions.Add(new MeNotInCombatCondition());
             base.Conditions.Add(new MeDoesNotHaveStatsBuffCondition());
-            // TODO: If mounted or in travel form, don't do it!
             if (Settings.MarkOfTheWildDoNotApplyIfStealthed)
+            {
                 base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+            }
         }
     }
 }

@@ -55,9 +55,6 @@ namespace Paws.Core.Abilities
             _mustWaitForSpellCooldown = mustWaitForSpellCooldown;
 
             this.Conditions = new List<ICondition>();
-
-            if (_mustWaitForGlobalCooldown) this.Conditions.Add(new IsOffGlobalCooldownCondition());
-            if (_mustWaitForSpellCooldown) this.Conditions.Add(new SpellIsNotOnCooldownCondition(this.Spell));
         }
 
         /// <summary>
@@ -97,6 +94,17 @@ namespace Paws.Core.Abilities
                 }
             }
             Log.GUI("------------------------");
+        }
+
+        /// <summary>
+        /// Provides an implementation of how default settings should be applied for each ability.
+        /// </summary>
+        public virtual void ApplyDefaultSettings()
+        {
+            this.Conditions.Clear();
+
+            if (_mustWaitForGlobalCooldown) this.Conditions.Add(new IsOffGlobalCooldownCondition());
+            if (_mustWaitForSpellCooldown) this.Conditions.Add(new SpellIsNotOnCooldownCondition(this.Spell));
         }
     }
 }

@@ -10,7 +10,12 @@ namespace Paws.Core.Abilities.Feral
     {
         public MoonfireHeightIssueAbility()
             : base(WoWSpell.FromId(SpellBook.Moonfire))
+        { }
+
+        public override void ApplyDefaultSettings()
         {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.TargetHeightEnabled));
             base.Conditions.Add(new MeHasAttackableTargetCondition());
             base.Conditions.Add(new MyTargetIsTooHighCondition(Settings.TargetHeightMinDistance));

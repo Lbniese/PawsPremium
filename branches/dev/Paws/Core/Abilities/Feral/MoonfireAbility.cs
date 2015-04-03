@@ -18,7 +18,12 @@ namespace Paws.Core.Abilities.Feral
     {
         public MoonfireAbility()
             : base(WoWSpell.FromId(SpellBook.Moonfire))
+        { }
+
+        public override void ApplyDefaultSettings()
         {
+            base.ApplyDefaultSettings();
+
             // Shared //
             var hasAttackableTarget = new MeHasAttackableTargetCondition();
             var isFacingTarget = new MeIsFacingTargetCondition();

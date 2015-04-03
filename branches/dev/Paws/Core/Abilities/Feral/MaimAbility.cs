@@ -23,10 +23,15 @@ namespace Paws.Core.Abilities.Feral
     {
         public MaimAbility()
             : base(WoWSpell.FromId(SpellBook.Maim), false)
+        { }
+
+        public override void ApplyDefaultSettings()
         {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.MaimEnabled));
             base.Conditions.Add(new SpellIsNotOnCooldownCondition(this.Spell));
-            base.Conditions.Add(new MyComboPointsCondition(Settings.MaimMinComboPoints, 5));
+            base.Conditions.Add(new MyComboPointsCondition(Settings.MaimMinComboPoints));
             base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
             base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, this.Spell.Id));
             base.Conditions.Add(new MyEnergyRangeCondition(35.0));

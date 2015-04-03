@@ -23,6 +23,13 @@ namespace Paws.Core.Abilities.Feral
         public FerociousBiteAbility()
             : base(WoWSpell.FromId(SpellBook.FerociousBite), true)
         {
+            
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.FerociousBiteEnabled));
             base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
             base.Conditions.Add(new MyComboPointsCondition(5));
