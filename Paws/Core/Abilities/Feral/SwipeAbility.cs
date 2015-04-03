@@ -19,7 +19,12 @@ namespace Paws.Core.Abilities.Feral
     {
         public SwipeAbility()
             : base(WoWSpell.FromId(SpellBook.FeralSwipe), true, true)
+        { }
+
+        public override void ApplyDefaultSettings()
         {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.SwipeEnabled));
             base.Conditions.Add(new AttackableTargetsMinCountCondition(Settings.SwipeMinEnemies));
             base.Conditions.Add(new MeHasAttackableTargetCondition());

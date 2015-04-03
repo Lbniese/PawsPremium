@@ -17,7 +17,12 @@ namespace Paws.Core.Abilities.Guardian
     {
         public WildChargeAbility()
             : base(WoWSpell.FromId(SpellBook.GuardianWildCharge), true, true)
+        { }
+
+        public override void ApplyDefaultSettings()
         {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.GuardianWildChargeEnabled));
             base.Conditions.Add(new MeHasAttackableTargetCondition());
             base.Conditions.Add(new MeIsInBearFormCondition());

@@ -26,37 +26,7 @@ namespace Paws.Core.Abilities.Feral
     {
         public RipAbility()
             : base(WoWSpell.FromId(SpellBook.Rip), true)
-        {
-            // Shared //
-            var ripIsEnabled = new BooleanCondition(Settings.RipEnabled);
-            var minComboPoints = new MyComboPointsCondition(5, 5);
-            var healthCheck = new ConditionTestSwitchCondition(
-                new BooleanCondition(Settings.RipEnemyHealthCheck),
-                new MyTargetHealthMultiplierCondition(Settings.RipEnemyHealthMultiplier)
-            );
-            var energy = new ConditionTestSwitchCondition(
-                new TargetHasAuraCondition(TargetType.Me, SpellBook.BerserkDruid),
-                new MyEnergyRangeCondition(30.0 / 2.0),
-                new MyEnergyRangeCondition(30.0)
-            );
-
-            // Normal //
-            base.Conditions.Add(ripIsEnabled);
-            base.Conditions.Add(minComboPoints);
-            base.Conditions.Add(healthCheck);
-            base.Conditions.Add(energy);
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, SpellBook.Rip));
-
-            // Pandemic //
-            base.PandemicConditions.Add(ripIsEnabled);
-            base.PandemicConditions.Add(minComboPoints);
-            base.PandemicConditions.Add(healthCheck);
-            base.PandemicConditions.Add(energy);
-            base.PandemicConditions.Add(new BooleanCondition(Settings.RipAllowClipping));
-            base.PandemicConditions.Add(new TargetHasAuraCondition(TargetType.MyCurrentTarget, SpellBook.Rip));
-            base.PandemicConditions.Add(new TargetHealthRangeCondition(TargetType.MyCurrentTarget, 25, 100));
-            base.PandemicConditions.Add(new TargetAuraMinTimeLeftCondition(TargetType.MyCurrentTarget, SpellBook.Rip, TimeSpan.FromSeconds(7)));
-        }
+        { }
 
         private TargetAuraMinTimeLeftCondition GetMinTimeLeftCondition()
         {
@@ -118,6 +88,41 @@ namespace Paws.Core.Abilities.Feral
 
                 if (ripUnitIndex != -1) SnapshotManager.Instance.RippedTargets.RemoveAt(ripUnitIndex);
             }
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
+            // Shared //
+            var ripIsEnabled = new BooleanCondition(Settings.RipEnabled);
+            var minComboPoints = new MyComboPointsCondition(5, 5);
+            var healthCheck = new ConditionTestSwitchCondition(
+                new BooleanCondition(Settings.RipEnemyHealthCheck),
+                new MyTargetHealthMultiplierCondition(Settings.RipEnemyHealthMultiplier)
+            );
+            var energy = new ConditionTestSwitchCondition(
+                new TargetHasAuraCondition(TargetType.Me, SpellBook.BerserkDruid),
+                new MyEnergyRangeCondition(30.0 / 2.0),
+                new MyEnergyRangeCondition(30.0)
+            );
+
+            // Normal //
+            base.Conditions.Add(ripIsEnabled);
+            base.Conditions.Add(minComboPoints);
+            base.Conditions.Add(healthCheck);
+            base.Conditions.Add(energy);
+            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, SpellBook.Rip));
+
+            // Pandemic //
+            base.PandemicConditions.Add(ripIsEnabled);
+            base.PandemicConditions.Add(minComboPoints);
+            base.PandemicConditions.Add(healthCheck);
+            base.PandemicConditions.Add(energy);
+            base.PandemicConditions.Add(new BooleanCondition(Settings.RipAllowClipping));
+            base.PandemicConditions.Add(new TargetHasAuraCondition(TargetType.MyCurrentTarget, SpellBook.Rip));
+            base.PandemicConditions.Add(new TargetHealthRangeCondition(TargetType.MyCurrentTarget, 25, 100));
+            base.PandemicConditions.Add(new TargetAuraMinTimeLeftCondition(TargetType.MyCurrentTarget, SpellBook.Rip, TimeSpan.FromSeconds(7)));
         }
     }
 }

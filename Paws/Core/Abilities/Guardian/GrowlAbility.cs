@@ -12,6 +12,11 @@ namespace Paws.Core.Abilities.Guardian
             : base(WoWSpell.FromId(SpellBook.Growl), true, true)
         {
             base.Category = AbilityCategory.Defensive;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.GrowlEnabled));
             base.Conditions.Add(new MeIsInBearFormCondition());

@@ -17,6 +17,13 @@ namespace Paws.Core.Abilities.Feral
         public SurvivalInstinctsAbility()
             : base(WoWSpell.FromId(SpellBook.SurvivalInstincts), true, true)
         {
+            base.Category = AbilityCategory.Defensive;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.SurvivalInstinctsEnabled));
             base.Conditions.Add(new MeIsInCatFormCondition());
             base.Conditions.Add(new MeIsInCombatCondition());

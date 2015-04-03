@@ -12,7 +12,12 @@ namespace Paws.Core.Abilities.Guardian
     {
         public MangleAbility()
             : base(WoWSpell.FromId(SpellBook.Mangle), true, true)
+        { }
+
+        public override void ApplyDefaultSettings()
         {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.MangleEnabled));
             base.Conditions.Add(new MeIsInBearFormCondition());
             base.Conditions.Add(new MeHasAttackableTargetCondition());

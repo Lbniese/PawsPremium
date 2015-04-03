@@ -17,7 +17,7 @@ namespace Paws.Core.Abilities.Feral
         public HeartOfTheWildAbility()
             : base(WoWSpell.FromId(SpellBook.HeartOfTheWild), true, true)
         {
-            base.Category = AbilityCategory.Buff;
+            base.Category = AbilityCategory.Defensive;
         }
 
         public override void ApplyDefaultSettings()

@@ -9,6 +9,11 @@ namespace Paws.Core.Abilities.Guardian
             : base(WoWSpell.FromId(SpellBook.SavageDefense), false, true)
         {
             base.Category = AbilityCategory.Defensive;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.SavageDefenseEnabled));
             base.Conditions.Add(new MeIsInBearFormCondition());

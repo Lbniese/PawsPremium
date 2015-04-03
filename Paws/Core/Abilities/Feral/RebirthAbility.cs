@@ -21,6 +21,11 @@ namespace Paws.Core.Abilities.Feral
             : base(WoWSpell.FromId(SpellBook.Rebirth), true, true)
         {
             base.Category = AbilityCategory.Heal;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
 
             if (Settings.RebirthOnlyDuringPredatorySwiftness)
             {

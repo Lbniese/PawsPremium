@@ -21,7 +21,12 @@ namespace Paws.Core.Abilities.Guardian
     {
         public FaerieFireAbility()
             : base(WoWSpell.FromId(SpellBook.FaerieFire), true, true)
+        { }
+
+        public override void ApplyDefaultSettings()
         {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.GuardianFaerieFireEnabled));
             base.Conditions.Add(new MeHasAttackableTargetCondition());
             base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, SpellBook.FaerieFire));
