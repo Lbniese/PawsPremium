@@ -18,6 +18,13 @@ namespace Paws.Core.Abilities.Shared
         public MassEntanglementAbility()
             : base(WoWSpell.FromId(SpellBook.MassEntanglement), true, true)
         {
+            
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new MeHasAttackableTargetCondition());
             base.Conditions.Add(new ConditionOrList(
                 new ConditionTestSwitchCondition(
@@ -31,7 +38,7 @@ namespace Paws.Core.Abilities.Shared
                 new ConditionTestSwitchCondition(
                     new MyExpectedSpecializationCondition(Styx.WoWSpec.DruidGuardian),
                     new ConditionDependencyList(
-                        new BooleanCondition(Settings.GuardianMassEntanglementEnabled),  
+                        new BooleanCondition(Settings.GuardianMassEntanglementEnabled),
                         new AttackableTargetsMinCountCondition(Settings.GuardianMassEntanglementMinEnemies)
                     ),
                     false

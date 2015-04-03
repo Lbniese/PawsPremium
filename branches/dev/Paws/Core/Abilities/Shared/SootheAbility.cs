@@ -9,6 +9,11 @@ namespace Paws.Core.Abilities.Shared
             : base(WoWSpell.FromId(SpellBook.Soothe))
         {
             base.Category = AbilityCategory.Defensive;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
 
             base.Conditions.Add(new MeHasAttackableTargetCondition());
             base.Conditions.Add(new MyTargetIsEnragedCondition());

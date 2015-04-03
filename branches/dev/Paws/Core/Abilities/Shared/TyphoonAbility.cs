@@ -18,6 +18,13 @@ namespace Paws.Core.Abilities.Shared
         public TyphoonAbility()
             : base(WoWSpell.FromId(SpellBook.Typhoon), true, true)
         {
+            
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new ConditionOrList(
                 new ConditionTestSwitchCondition(
                     new MyExpectedSpecializationCondition(Styx.WoWSpec.DruidFeral),

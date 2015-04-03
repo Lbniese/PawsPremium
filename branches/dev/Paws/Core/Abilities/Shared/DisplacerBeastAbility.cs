@@ -17,6 +17,13 @@ namespace Paws.Core.Abilities.Shared
         public DisplacerBeastAbility()
             : base(WoWSpell.FromId(SpellBook.DisplacerBeast), true, true)
         {
+            
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new MeHasAttackableTargetCondition());
             base.Conditions.Add(new ConditionOrList(
                 new ConditionTestSwitchCondition(
