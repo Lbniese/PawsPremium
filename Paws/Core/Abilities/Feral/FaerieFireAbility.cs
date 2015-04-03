@@ -19,14 +19,37 @@ namespace Paws.Core.Abilities.Feral
     /// </summary>
     public class FaerieFireAbility: AbilityBase
     {
-        public FaerieFireAbility(WoWClass playerClass, bool settingDef)
+        public bool Enabled { get; set; }
+        public WoWClass Class { get; set; }
+
+        public FaerieFireAbility()
             : base(WoWSpell.FromId(SpellBook.FaerieFire), true, true)
         {
-            base.Conditions.Add(new BooleanCondition(settingDef));
+            this.Enabled = false;
+            this.Class = WoWClass.None;
+        }
+
+        /// <summary>
+        /// Shortcut constructor to create the wow classes.
+        /// </summary>
+        public FaerieFireAbility(WoWClass @class, bool enabled)
+            : base(WoWSpell.FromId(SpellBook.FaerieFire), true, true)
+        {
+            this.Enabled = Enabled;
+            this.Class = @class;
+
+            ApplyDefaultSettings();
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
+            base.Conditions.Add(new BooleanCondition(this.Enabled));
             base.Conditions.Add(new MeIsInCombatCondition());
             base.Conditions.Add(new MeHasAttackableTargetCondition());
             base.Conditions.Add(new MyTargetIsNotPetCondition());
-            base.Conditions.Add(new MyTargetIsPlayerClassCondition(playerClass));
+            base.Conditions.Add(new MyTargetIsPlayerClassCondition(this.Class));
             base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, SpellBook.FaerieFire));
             base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, SpellBook.FaerieSwarm));
             base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));

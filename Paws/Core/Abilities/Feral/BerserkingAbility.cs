@@ -12,6 +12,11 @@ namespace Paws.Core.Abilities.Feral
             : base(WoWSpell.FromId(SpellBook.TrollRacialBerserking), true, true)
         {
             base.Category = AbilityCategory.Buff;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.TrollBerserkingEnabled));
             base.Conditions.Add(new MeIsInCatFormCondition());

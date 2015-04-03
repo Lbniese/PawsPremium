@@ -23,6 +23,11 @@ namespace Paws.Core.Abilities.Feral
             : base(WoWSpell.FromId(SpellBook.BerserkDruid), false, true)
         {
             base.Category = AbilityCategory.Buff;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.BerserkEnabled));
             base.Conditions.Add(new MeIsInCatFormCondition());

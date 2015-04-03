@@ -24,13 +24,19 @@ namespace Paws.Core.Abilities.Feral
     {
         public ShredAbility()
             : base(WoWSpell.FromId(SpellBook.Shred), true)
+        { }
+
+        public override void ApplyDefaultSettings()
         {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.ShredEnabled));
             base.Conditions.Add(new ConditionTestSwitchCondition(
                 new TargetHasAuraCondition(TargetType.Me, SpellBook.BerserkDruid),
                 new MyEnergyRangeCondition(40.0 / 2.0),
                 new MyEnergyRangeCondition(40.0)
             ));
+            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
             if (Settings.FerociousBiteEnabled)
             {
                 base.Conditions.Add(new ConditionTestSwitchCondition(
@@ -62,7 +68,14 @@ namespace Paws.Core.Abilities.Feral
     {
         public ShredAtFiveComboPointsAbility()
             : base(WoWSpell.FromId(SpellBook.Shred), true)
+        { }
+
+        public override void ApplyDefaultSettings()
         {
+            // This ability pools more energy at 5 combo points
+
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.ShredEnabled));
             base.Conditions.Add(new ConditionTestSwitchCondition(
                 new TargetHasAuraCondition(TargetType.Me, SpellBook.BerserkDruid),

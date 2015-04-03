@@ -20,6 +20,13 @@ namespace Paws.Core.Abilities.Feral
         public ForceOfNatureAbility()
             : base(WoWSpell.FromId(SpellBook.ForceOfNature), true, true)
         {
+            
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.ForceOfNatureEnabled));
             base.Conditions.Add(new MeHasAttackableTargetCondition());
             base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));

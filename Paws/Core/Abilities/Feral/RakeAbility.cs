@@ -26,27 +26,7 @@ namespace Paws.Core.Abilities.Feral
     {
         public RakeAbility()
             : base(WoWSpell.FromId(SpellBook.Rake), false)
-        {
-            // Shared //
-            var rakeIsEnabled = new BooleanCondition(Settings.RakeEnabled);
-            var energy = new ConditionTestSwitchCondition(
-                new TargetHasAuraCondition(TargetType.Me, SpellBook.BerserkDruid),
-                new MyEnergyRangeCondition(35.0 / 2.0),
-                new MyEnergyRangeCondition(35.0)
-            );
-           
-            // Normal //
-            base.Conditions.Add(rakeIsEnabled);
-            base.Conditions.Add(energy);
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, SpellBook.RakeBleedDebuff));
-
-            // Pandemic //
-            base.PandemicConditions.Add(rakeIsEnabled);
-            base.PandemicConditions.Add(energy);
-            base.PandemicConditions.Add(new BooleanCondition(Settings.RakeAllowClipping));
-            base.PandemicConditions.Add(new TargetHasAuraCondition(TargetType.MyCurrentTarget, SpellBook.RakeBleedDebuff));
-            base.PandemicConditions.Add(new TargetAuraMinTimeLeftCondition(TargetType.MyCurrentTarget, SpellBook.RakeBleedDebuff, TimeSpan.FromSeconds(4.5)));
-        }
+        { }
 
         private TargetAuraMinTimeLeftCondition GetMinTimeLeftCondition()
         {
@@ -108,6 +88,34 @@ namespace Paws.Core.Abilities.Feral
 
                 if (rakeUnitIndex != -1) SnapshotManager.Instance.RakedTargets.RemoveAt(rakeUnitIndex);
             }
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
+            // Shared //
+            var rakeIsEnabled = new BooleanCondition(Settings.RakeEnabled);
+            var notProwling = new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl);
+            var energy = new ConditionTestSwitchCondition(
+                new TargetHasAuraCondition(TargetType.Me, SpellBook.BerserkDruid),
+                new MyEnergyRangeCondition(35.0 / 2.0),
+                new MyEnergyRangeCondition(35.0)
+            );
+
+            // Normal //
+            base.Conditions.Add(rakeIsEnabled);
+            base.Conditions.Add(notProwling);
+            base.Conditions.Add(energy);
+            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, SpellBook.RakeBleedDebuff));
+
+            // Pandemic //
+            base.PandemicConditions.Add(rakeIsEnabled);
+            base.Conditions.Add(notProwling);
+            base.PandemicConditions.Add(energy);
+            base.PandemicConditions.Add(new BooleanCondition(Settings.RakeAllowClipping));
+            base.PandemicConditions.Add(new TargetHasAuraCondition(TargetType.MyCurrentTarget, SpellBook.RakeBleedDebuff));
+            base.PandemicConditions.Add(new TargetAuraMinTimeLeftCondition(TargetType.MyCurrentTarget, SpellBook.RakeBleedDebuff, TimeSpan.FromSeconds(4.5)));
         }
     }
 }

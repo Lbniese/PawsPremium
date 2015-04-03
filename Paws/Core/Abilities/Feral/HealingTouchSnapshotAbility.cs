@@ -18,6 +18,11 @@ namespace Paws.Core.Abilities.Feral
             : base(WoWSpell.FromId(SpellBook.HealingTouch))
         {
             base.Category = AbilityCategory.Bloodtalons;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.BloodtalonsEnabled));
             base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));

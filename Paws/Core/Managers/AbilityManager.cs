@@ -186,16 +186,41 @@ namespace Paws.Core.Managers
             this.Abilities = new List<IAbility>();
             this.BlockedAbilities = new BlockedAbilityList();
 
-            // Feral //
-            this.Abilities.Add(new Feral.MarkOfTheWildAbility());
-            this.Abilities.Add(new Feral.CatFormAbility());
-            this.Abilities.Add(new Feral.CatFormPowerShiftAbility());
-            this.Abilities.Add(new Feral.ProwlAbility());
-            this.Abilities.Add(new Feral.MoonfireHeightIssueAbility());
-            this.Abilities.Add(new Feral.SurvivalInstinctsAbility());
-            this.Abilities.Add(new Feral.SavageRoarAbility());
-            this.Abilities.Add(new Feral.WildChargeAbility());
-            this.Abilities.Add(new Feral.ProwlOpenerAbility());
+            // New Feral //
+            this.Abilities.Add(Create<Feral.MarkOfTheWildAbility>());
+            this.Abilities.Add(Create<Feral.CatFormAbility>());
+            this.Abilities.Add(Create<Feral.CatFormPowerShiftAbility>());
+            this.Abilities.Add(Create<Feral.ProwlAbility>());
+            this.Abilities.Add(Create<Feral.MoonfireHeightIssueAbility>());
+            this.Abilities.Add(Create<Feral.SurvivalInstinctsAbility>());
+            this.Abilities.Add(Create<Feral.SavageRoarAbility>());
+            this.Abilities.Add(Create<Feral.WildChargeAbility>());
+            this.Abilities.Add(Create<Feral.ProwlOpenerAbility>());
+            this.Abilities.Add(Create<Feral.ForceOfNatureAbility>());
+            this.Abilities.Add(Create<Feral.BerserkAbility>());
+            this.Abilities.Add(Create<Feral.TigersFuryAbility>());
+            this.Abilities.Add(Create<Feral.IncarnationAbility>());
+            this.Abilities.Add(Create<Feral.FerociousBiteAbility>());
+            this.Abilities.Add(Create<Feral.RipAbility>());
+            this.Abilities.Add(Create<Feral.RakeAbility>());
+            this.Abilities.Add(Create<Feral.WrathAbility>());
+            this.Abilities.Add(Create<Feral.MoonfireAbility>());
+            this.Abilities.Add(Create<Feral.ShredAbility>());
+            this.Abilities.Add(Create<Feral.MaimAbility>());
+            this.Abilities.Add(Create<Feral.RebirthAbility>());
+            this.Abilities.Add(Create<Feral.WarStompAbility>());
+            this.Abilities.Add(Create<Feral.BerserkingAbility>());
+            this.Abilities.Add(Create<Feral.ThrashAbility>());
+            this.Abilities.Add(Create<Feral.SwipeAbility>());
+            this.Abilities.Add(Create<Feral.HeartOfTheWildAbility>());
+            this.Abilities.Add(Create<Feral.RemoveSnareWithStampedingRoarAbility>());
+            this.Abilities.Add(Create<Feral.RemoveSnareWithDashAbility>());
+            this.Abilities.Add(Create<Feral.HealingTouchSnapshotAbility>());
+            this.Abilities.Add(Create<Feral.ShredAtFiveComboPointsAbility>());
+            this.Abilities.Add(Create<Feral.HealingTouchMyAllyAbility>());
+            this.Abilities.Add(Create<Feral.RejuvenateMyAllyAbility>());
+            this.Abilities.Add(Create<Feral.BearFormPowerShiftAbility>());
+
             this.Abilities.Add(new Feral.FaerieFireAbility(WoWClass.Rogue, Settings.FaerieFireRogueEnabled));
             this.Abilities.Add(new Feral.FaerieFireAbility(WoWClass.Druid, Settings.FaerieFireDruidEnabled));
             this.Abilities.Add(new Feral.FaerieFireAbility(WoWClass.Warrior, Settings.FaerieFireWarriorEnabled));
@@ -207,64 +232,51 @@ namespace Paws.Core.Managers
             this.Abilities.Add(new Feral.FaerieFireAbility(WoWClass.DeathKnight, Settings.FaerieFireDeathKnightEnabled));
             this.Abilities.Add(new Feral.FaerieFireAbility(WoWClass.Shaman, Settings.FaerieFireShamanEnabled));
             this.Abilities.Add(new Feral.FaerieFireAbility(WoWClass.Warlock, Settings.FaerieFireWarlockEnabled));
-            this.Abilities.Add(new Feral.ForceOfNatureAbility());
-            this.Abilities.Add(new Feral.BerserkAbility());
-            this.Abilities.Add(new Feral.TigersFuryAbility());
-            this.Abilities.Add(new Feral.IncarnationAbility());
-            this.Abilities.Add(new Feral.FerociousBiteAbility());
-            this.Abilities.Add(new Feral.RipAbility());
-            this.Abilities.Add(new Feral.RakeAbility());
-            this.Abilities.Add(new Feral.WrathAbility());
-            this.Abilities.Add(new Feral.MoonfireAbility());
-            this.Abilities.Add(new Feral.ShredAbility());
-            this.Abilities.Add(new Feral.MaimAbility());
-            this.Abilities.Add(new Feral.RebirthAbility());
-            this.Abilities.Add(new Feral.WarStompAbility());
-            this.Abilities.Add(new Feral.BerserkingAbility());
-            this.Abilities.Add(new Feral.ThrashAbility());
-            this.Abilities.Add(new Feral.SwipeAbility());
-            this.Abilities.Add(new Feral.HeartOfTheWildAbility());
-            this.Abilities.Add(new Feral.RemoveSnareWithStampedingRoarAbility());
-            this.Abilities.Add(new Feral.RemoveSnareWithDashAbility());
-            this.Abilities.Add(new Feral.HealingTouchSnapshotAbility());
-            this.Abilities.Add(new Feral.ShredAtFiveComboPointsAbility());
-            this.Abilities.Add(new Feral.HealingTouchMyAllyAbility());
-            this.Abilities.Add(new Feral.RejuvenateMyAllyAbility());
-            this.Abilities.Add(new Feral.BearFormPowerShiftAbility());
 
             // Guardian //
-            this.Abilities.Add(new Guardian.BearFormAbility());
-            this.Abilities.Add(new Guardian.MangleAbility());
-            this.Abilities.Add(new Guardian.LacerateAbility());
-            this.Abilities.Add(new Guardian.PulverizeAbility());
-            this.Abilities.Add(new Guardian.ThrashAbility());
-            this.Abilities.Add(new Guardian.MaulAbility());
-            this.Abilities.Add(new Guardian.SurvivalInstinctsAbility());
-            this.Abilities.Add(new Guardian.BarkskinAbility());
-            this.Abilities.Add(new Guardian.FrenziedRegenerationAbility());
-            this.Abilities.Add(new Guardian.SavageDefenseAbility());
-            this.Abilities.Add(new Guardian.BerserkAbility());
-            this.Abilities.Add(new Guardian.WildChargeAbility());
-            this.Abilities.Add(new Guardian.FaerieFireAbility());
-            this.Abilities.Add(new Guardian.GrowlAbility());
-            this.Abilities.Add(new Guardian.IncarnationAbility());
-            this.Abilities.Add(new Guardian.BristlingFurAbility());
+            this.Abilities.Add(Create<Guardian.BearFormAbility>());
+            this.Abilities.Add(Create<Guardian.MangleAbility>());
+            this.Abilities.Add(Create<Guardian.LacerateAbility>());
+            this.Abilities.Add(Create<Guardian.PulverizeAbility>());
+            this.Abilities.Add(Create<Guardian.ThrashAbility>());
+            this.Abilities.Add(Create<Guardian.MaulAbility>());
+            this.Abilities.Add(Create<Guardian.SurvivalInstinctsAbility>());
+            this.Abilities.Add(Create<Guardian.BarkskinAbility>());
+            this.Abilities.Add(Create<Guardian.FrenziedRegenerationAbility>());
+            this.Abilities.Add(Create<Guardian.SavageDefenseAbility>());
+            this.Abilities.Add(Create<Guardian.BerserkAbility>());
+            this.Abilities.Add(Create<Guardian.WildChargeAbility>());
+            this.Abilities.Add(Create<Guardian.FaerieFireAbility>());
+            this.Abilities.Add(Create<Guardian.GrowlAbility>());
+            this.Abilities.Add(Create<Guardian.IncarnationAbility>());
+            this.Abilities.Add(Create<Guardian.BristlingFurAbility>());
 
             // Shared //
-            this.Abilities.Add(new Shared.SkullBashAbility());
-            this.Abilities.Add(new Shared.CenarionWardAbility());
-            this.Abilities.Add(new Shared.MightyBashAbility());
-            this.Abilities.Add(new Shared.TyphoonAbility());
-            this.Abilities.Add(new Shared.IncapacitatingRoarAbility());
-            this.Abilities.Add(new Shared.MassEntanglementAbility());
-            this.Abilities.Add(new Shared.RenewalAbility());
-            this.Abilities.Add(new Shared.RejuvenationAbility());
-            this.Abilities.Add(new Shared.HealingTouchAbility());
-            this.Abilities.Add(new Shared.NaturesVigilAbility());
-            this.Abilities.Add(new Shared.DashAbility());
-            this.Abilities.Add(new Shared.StampedingRoarAbility());
-            this.Abilities.Add(new Shared.DisplacerBeastAbility());
-            this.Abilities.Add(new Shared.SootheAbility());
+            this.Abilities.Add(Create<Shared.SkullBashAbility>());
+            this.Abilities.Add(Create<Shared.CenarionWardAbility>());
+            this.Abilities.Add(Create<Shared.MightyBashAbility>());
+            this.Abilities.Add(Create<Shared.TyphoonAbility>());
+            this.Abilities.Add(Create<Shared.IncapacitatingRoarAbility>());
+            this.Abilities.Add(Create<Shared.MassEntanglementAbility>());
+            this.Abilities.Add(Create<Shared.RenewalAbility>());
+            this.Abilities.Add(Create<Shared.RejuvenationAbility>());
+            this.Abilities.Add(Create<Shared.HealingTouchAbility>());
+            this.Abilities.Add(Create<Shared.NaturesVigilAbility>());
+            this.Abilities.Add(Create<Shared.DashAbility>());
+            this.Abilities.Add(Create<Shared.StampedingRoarAbility>());
+            this.Abilities.Add(Create<Shared.DisplacerBeastAbility>());
+            this.Abilities.Add(Create<Shared.SootheAbility>());
+        }
+
+        /// <summary>
+        /// Create an instance of an ability using default settings.
+        /// </summary>
+        public static IAbility Create<T>() where T : AbilityBase
+        {
+            var instance = Activator.CreateInstance<T>();
+            instance.ApplyDefaultSettings();
+
+            return instance;
         }
     }
 }
