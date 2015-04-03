@@ -19,6 +19,13 @@ namespace Paws.Core.Abilities.Shared
         public SkullBashAbility()
             : base(WoWSpell.FromId(SpellBook.SkullBash), false, true)
         {
+            
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new ConditionOrList(
                 new ConditionTestSwitchCondition(
                     new MyExpectedSpecializationCondition(Styx.WoWSpec.DruidFeral),

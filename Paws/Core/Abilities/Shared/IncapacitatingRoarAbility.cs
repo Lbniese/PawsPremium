@@ -18,6 +18,13 @@ namespace Paws.Core.Abilities.Shared
         public IncapacitatingRoarAbility()
             : base(WoWSpell.FromId(SpellBook.IncapacitatingRoar), true, true)
         {
+            
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new MeHasAttackableTargetCondition());
             base.Conditions.Add(new ConditionOrList(
                 new ConditionTestSwitchCondition(

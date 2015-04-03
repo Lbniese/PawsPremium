@@ -18,6 +18,11 @@ namespace Paws.Core.Abilities.Shared
             : base(WoWSpell.FromId(SpellBook.NaturesVigil), true, true)
         {
             base.Category = AbilityCategory.Buff;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
 
             base.Conditions.Add(new MeHasAttackableTargetCondition());
             base.Conditions.Add(new ConditionOrList(

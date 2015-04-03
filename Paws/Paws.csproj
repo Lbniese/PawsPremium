@@ -127,7 +127,7 @@
     <Compile Include="Core\Abilities\Feral\SavageRoarAbility.cs" />
     <Compile Include="Core\Abilities\Feral\CatFormAbility.cs" />
     <Compile Include="Core\Abilities\Feral\WildChargeAbility.cs" />
-    <Compile Include="Core\AbilityChainSet.cs" />
+    <Compile Include="Core\Abilities\AbilityChain.cs" />
     <Compile Include="Core\BleedingUnit.cs" />
     <Compile Include="Core\Conditions\AttackableTargetsMaxCountCondition.cs" />
     <Compile Include="Core\Conditions\AttackableTargetsMinCountCondition.cs" />
@@ -187,6 +187,7 @@
     <Compile Include="Core\Conditions\TargetType.cs" />
     <Compile Include="Core\Conditions\ICondition.cs" />
     <Compile Include="Core\ItemCondition.cs" />
+    <Compile Include="Core\Managers\AbilityChainsManager.cs" />
     <Compile Include="Core\MyState.cs" />
     <Compile Include="Core\PawsItem.cs" />
     <Compile Include="Core\Managers\GlobalSettingsManager.cs" />
@@ -397,6 +398,7 @@
     <EmbeddedResource Include="Presets\Manual Raiding.xml" />
     <EmbeddedResource Include="Presets\Minimalist.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' == ''" />

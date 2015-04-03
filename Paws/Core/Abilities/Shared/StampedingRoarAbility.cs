@@ -18,6 +18,13 @@ namespace Paws.Core.Abilities.Shared
         public StampedingRoarAbility()
             : base(WoWSpell.FromId(SpellBook.StampedingRoar), true, true)
         {
+            
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new MeHasAttackableTargetCondition());
             base.Conditions.Add(new ConditionOrList(
                 new ConditionTestSwitchCondition(

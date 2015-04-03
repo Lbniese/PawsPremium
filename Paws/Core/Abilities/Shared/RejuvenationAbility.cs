@@ -18,7 +18,11 @@ namespace Paws.Core.Abilities.Shared
             : base(WoWSpell.FromId(SpellBook.Rejuvenation))
         {
             base.Category = AbilityCategory.Heal;
+        }
 
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
 
             var feralOrNoneSpecConditions = new ConditionDependencyList(
                         new BooleanCondition(Settings.RejuvenationEnabled),
