@@ -1,4 +1,5 @@
-﻿using Paws.Core.Conditions;
+﻿using Paws.Core.Abilities.Attributes;
+using Paws.Core.Conditions;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Feral
@@ -15,6 +16,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>Increases the duration of Berserk by 5 seconds.</para>
     /// <para>http://www.wowhead.com/spell=106952/berserk</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Incarnation: King of the Jungle")]
     public class BerserkAbility : AbilityBase
     {
         public BerserkAbility()

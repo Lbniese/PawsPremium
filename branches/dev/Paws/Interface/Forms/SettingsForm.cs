@@ -95,16 +95,10 @@ namespace Paws.Interface
         /// </summary>
         private void LoadIntroduction()
         {
-            try
-            {
-                var releaseNotesPath = Path.Combine(GlobalSettingsManager.GetPawsRoutineDirectory(), @"Paws\Resources\release-notes.rtf");
-                this.rtfAbout.LoadFile(releaseNotesPath);
-            }
-            catch
-            {
-                this.rtfAbout.Text = "Unable to load the release notes.\n\n" +
-                    "It may be possible that you have the release notes open in an external editor such as Microsoft Word.";
-            }
+            // This method has been changed so that we are no longer loading from file and instead loading from embedded resource
+            // to comply with store requirements.
+
+            this.rtfAbout.Rtf = Resources.release.release_notes;
         }
 
         /// <summary>
