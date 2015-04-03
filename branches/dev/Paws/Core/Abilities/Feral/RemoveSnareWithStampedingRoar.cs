@@ -18,6 +18,13 @@ namespace Paws.Core.Abilities.Feral
         public RemoveSnareWithStampedingRoarAbility()
             : base(WoWSpell.FromId(SpellBook.StampedingRoar), true, true)
         {
+            base.Category = AbilityCategory.Defensive;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.RemoveSnareWithStampedingRoar));
             base.Conditions.Add(new MeHasAttackableTargetCondition());
             base.Conditions.Add(new MeIsInCatFormCondition());

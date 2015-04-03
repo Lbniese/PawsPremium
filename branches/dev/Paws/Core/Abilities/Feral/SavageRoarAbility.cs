@@ -24,6 +24,11 @@ namespace Paws.Core.Abilities.Feral
             : base(WoWSpell.FromId(SpellBook.SavageRoar))
         {
             base.Category = AbilityCategory.Buff;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
 
             // Shared //
             var savageRoarIsEnabled = new BooleanCondition(Settings.SavageRoarEnabled);

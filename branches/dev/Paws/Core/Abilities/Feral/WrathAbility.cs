@@ -16,7 +16,12 @@ namespace Paws.Core.Abilities.Feral
     {
         public WrathAbility()
             : base(WoWSpell.FromId(SpellBook.Wrath))
+        { }
+
+        public override void ApplyDefaultSettings()
         {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new MeDoesNotKnowSpellCondition(SpellBook.CatForm));
             base.Conditions.Add(new MeHasAttackableTargetCondition());
             base.Conditions.Add(new MeIsFacingTargetCondition());

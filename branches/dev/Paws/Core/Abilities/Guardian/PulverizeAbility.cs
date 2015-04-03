@@ -7,7 +7,12 @@ namespace Paws.Core.Abilities.Guardian
     {
         public PulverizeAbility()
             : base(WoWSpell.FromId(SpellBook.Pulverize))
+        { }
+
+        public override void ApplyDefaultSettings()
         {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.PulverizeEnabled));
             base.Conditions.Add(new MeIsInBearFormCondition());
             base.Conditions.Add(new MeHasAttackableTargetCondition());

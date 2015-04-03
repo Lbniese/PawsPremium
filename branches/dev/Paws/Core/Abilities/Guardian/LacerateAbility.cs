@@ -12,7 +12,12 @@ namespace Paws.Core.Abilities.Guardian
     {
         public LacerateAbility()
             : base(WoWSpell.FromId(SpellBook.Lacerate), true, true)
+        { }
+
+        public override void ApplyDefaultSettings()
         {
+            base.ApplyDefaultSettings();
+
             var lacerateIsEnabled = new BooleanCondition(Settings.LacerateEnabled);
             var inBearForm = new MeIsInBearFormCondition();
             var attackableTarget = new MeHasAttackableTargetCondition();

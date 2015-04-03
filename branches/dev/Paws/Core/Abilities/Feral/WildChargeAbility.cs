@@ -17,7 +17,12 @@ namespace Paws.Core.Abilities.Feral
     {
         public WildChargeAbility()
             : base(WoWSpell.FromId(SpellBook.WildCharge), true, true)
+        { }
+
+        public override void ApplyDefaultSettings()
         {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.WildChargeEnabled));
             base.Conditions.Add(new MeHasAttackableTargetCondition());
             base.Conditions.Add(new MeIsInCatFormCondition());
