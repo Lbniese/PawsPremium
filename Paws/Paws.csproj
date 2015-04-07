@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GreyMagic">
+      <HintPath>..\..\..\GreyMagic.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Honorbuddy">
       <HintPath>..\..\..\Honorbuddy.exe</HintPath>
       <Private>False</Private>
@@ -188,6 +192,7 @@
     <Compile Include="Core\Conditions\ICondition.cs" />
     <Compile Include="Core\ItemCondition.cs" />
     <Compile Include="Core\Managers\AbilityChainsManager.cs" />
+    <Compile Include="Core\Managers\HotKeyManager.cs" />
     <Compile Include="Core\MyState.cs" />
     <Compile Include="Core\PawsItem.cs" />
     <Compile Include="Core\Managers\GlobalSettingsManager.cs" />

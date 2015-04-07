@@ -162,8 +162,9 @@
             this.enabledColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.stateColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.itemUseConditionsColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.abilityChainsTabPage = new System.Windows.Forms.TabPage();
-            this.label4 = new System.Windows.Forms.Label();
+            this.mobilityForceCombatCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobilityAutoTargetCheckBox = new System.Windows.Forms.CheckBox();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.itemsListViewContextMenu.SuspendLayout();
             this.vt.SuspendLayout();
             this.aboutTab.SuspendLayout();
@@ -199,7 +200,6 @@
             this.panel10.SuspendLayout();
             this.itemsTabPage.SuspendLayout();
             this.panel46.SuspendLayout();
-            this.abilityChainsTabPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // FormHeader
@@ -405,7 +405,6 @@
             this.vt.Controls.Add(this.healingTab);
             this.vt.Controls.Add(this.trinketAndRacialsTab);
             this.vt.Controls.Add(this.itemsTabPage);
-            this.vt.Controls.Add(this.abilityChainsTabPage);
             this.vt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.vt.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.vt.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -679,11 +678,14 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.Snow;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.panel4);
+            this.panel2.Controls.Add(this.mobilityForceCombatCheckBox);
             this.panel2.Controls.Add(this.mobilityGeneralTargetFacingCheckBox);
+            this.panel2.Controls.Add(this.mobilityAutoTargetCheckBox);
             this.panel2.Controls.Add(this.mobilityGeneralMovementCheckBox);
             this.panel2.Location = new System.Drawing.Point(6, 24);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(249, 63);
+            this.panel2.Size = new System.Drawing.Size(249, 116);
             this.panel2.TabIndex = 33;
             // 
             // panel31
@@ -924,7 +926,7 @@
             this.panel27.Controls.Add(this.generalMarkOfTheWildEnabledCheckBox);
             this.panel27.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel27.ForeColor = System.Drawing.Color.White;
-            this.panel27.Location = new System.Drawing.Point(6, 93);
+            this.panel27.Location = new System.Drawing.Point(6, 146);
             this.panel27.Name = "panel27";
             this.panel27.Size = new System.Drawing.Size(249, 26);
             this.panel27.TabIndex = 16;
@@ -945,7 +947,7 @@
             this.generalMarkOfTheWildPanel.BackColor = System.Drawing.Color.Snow;
             this.generalMarkOfTheWildPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.generalMarkOfTheWildPanel.Controls.Add(this.generalMarkOfTheWildDoNotApplyStealthedCheckBox);
-            this.generalMarkOfTheWildPanel.Location = new System.Drawing.Point(6, 111);
+            this.generalMarkOfTheWildPanel.Location = new System.Drawing.Point(6, 164);
             this.generalMarkOfTheWildPanel.Name = "generalMarkOfTheWildPanel";
             this.generalMarkOfTheWildPanel.Size = new System.Drawing.Size(249, 53);
             this.generalMarkOfTheWildPanel.TabIndex = 17;
@@ -1713,26 +1715,37 @@
             this.itemUseConditionsColumnHeader.Text = "Use Conditions";
             this.itemUseConditionsColumnHeader.Width = 325;
             // 
-            // abilityChainsTabPage
+            // mobilityForceCombatCheckBox
             // 
-            this.abilityChainsTabPage.Controls.Add(this.label4);
-            this.abilityChainsTabPage.Location = new System.Drawing.Point(204, 4);
-            this.abilityChainsTabPage.Name = "abilityChainsTabPage";
-            this.abilityChainsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.abilityChainsTabPage.Size = new System.Drawing.Size(776, 453);
-            this.abilityChainsTabPage.TabIndex = 9;
-            this.abilityChainsTabPage.Text = "Ability Chains";
-            this.abilityChainsTabPage.UseVisualStyleBackColor = true;
+            this.mobilityForceCombatCheckBox.AutoSize = true;
+            this.mobilityForceCombatCheckBox.Location = new System.Drawing.Point(8, 88);
+            this.mobilityForceCombatCheckBox.Name = "mobilityForceCombatCheckBox";
+            this.mobilityForceCombatCheckBox.Size = new System.Drawing.Size(104, 19);
+            this.mobilityForceCombatCheckBox.TabIndex = 1;
+            this.mobilityForceCombatCheckBox.Text = "Force Combat";
+            this.tooltipHandler.SetToolTip(this.mobilityForceCombatCheckBox, "Turn this off if you would like to control your character yourself.");
+            this.mobilityForceCombatCheckBox.UseVisualStyleBackColor = true;
             // 
-            // label4
+            // mobilityAutoTargetCheckBox
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(17, 16);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(452, 15);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Ability Chains are a way to trigger a series of abilities based on various condit" +
-    "ions";
+            this.mobilityAutoTargetCheckBox.AutoSize = true;
+            this.mobilityAutoTargetCheckBox.Location = new System.Drawing.Point(8, 69);
+            this.mobilityAutoTargetCheckBox.Name = "mobilityAutoTargetCheckBox";
+            this.mobilityAutoTargetCheckBox.Size = new System.Drawing.Size(88, 19);
+            this.mobilityAutoTargetCheckBox.TabIndex = 0;
+            this.mobilityAutoTargetCheckBox.Text = "Auto-Target";
+            this.tooltipHandler.SetToolTip(this.mobilityAutoTargetCheckBox, "Turn this off if you would like to control your character yourself.");
+            this.mobilityAutoTargetCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // panel4
+            // 
+            this.panel4.BackColor = System.Drawing.Color.DarkGray;
+            this.panel4.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panel4.ForeColor = System.Drawing.Color.White;
+            this.panel4.Location = new System.Drawing.Point(13, 60);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(220, 1);
+            this.panel4.TabIndex = 20;
             // 
             // SettingsForm
             // 
@@ -1814,8 +1827,6 @@
             this.itemsTabPage.ResumeLayout(false);
             this.panel46.ResumeLayout(false);
             this.panel46.PerformLayout();
-            this.abilityChainsTabPage.ResumeLayout(false);
-            this.abilityChainsTabPage.PerformLayout();
             this.ResumeLayout(false);
 
 		}
@@ -1959,7 +1970,8 @@
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox generalSootheReactionTimeTextBox;
-        private System.Windows.Forms.TabPage abilityChainsTabPage;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.CheckBox mobilityForceCombatCheckBox;
+        private System.Windows.Forms.CheckBox mobilityAutoTargetCheckBox;
 	}
 }

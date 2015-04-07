@@ -25,10 +25,13 @@ namespace Paws.Core.Abilities.Feral
             base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.ProwlEnabled));
-            base.Conditions.Add(new MeHasAttackableTargetCondition());
             base.Conditions.Add(new MeNotInCombatCondition());
             base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
-            base.Conditions.Add(new MyTargetDistanceCondition(0, Settings.ProwlMaxDistance));
+            if (Settings.ProwlOnlyDuringPull)
+            {
+                base.Conditions.Add(new MeHasAttackableTargetCondition());
+                base.Conditions.Add(new MyTargetDistanceCondition(0, Settings.ProwlMaxDistance));
+            }
         }
     }
 }

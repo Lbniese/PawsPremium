@@ -30,7 +30,7 @@ namespace Paws.Core.Routines
 
             if (Chains.TriggeredAbilityChain == null)
             {
-                Chains.Check();
+                //Chains.Check();
 
                 if (Me.Specialization == WoWSpec.DruidFeral && SnareManager.BearFormBlockedTimer.IsRunning && Me.Shapeshift == ShapeshiftForm.Bear)
                 {

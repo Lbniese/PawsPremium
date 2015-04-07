@@ -151,6 +151,8 @@ namespace Paws.Interface
             this.generalInterruptTimingSuccessRateTextBox.Text = SettingsManager.Instance.InterruptSuccessRate.ToString("0.##");
             this.mobilityGeneralMovementCheckBox.Checked = SettingsManager.Instance.AllowMovement;
             this.mobilityGeneralTargetFacingCheckBox.Checked = SettingsManager.Instance.AllowTargetFacing;
+            this.mobilityAutoTargetCheckBox.Checked = SettingsManager.Instance.AllowTargeting;
+            this.mobilityForceCombatCheckBox.Checked = SettingsManager.Instance.ForceCombat;
 
             // Mobility Tab //
             BindUISettingsToControlCollection(this.mobilityTab.Controls);
@@ -244,6 +246,8 @@ namespace Paws.Interface
             SettingsManager.Instance.InterruptSuccessRate = Convert.ToDouble(this.generalInterruptTimingSuccessRateTextBox.Text);
             SettingsManager.Instance.AllowMovement = this.mobilityGeneralMovementCheckBox.Checked;
             SettingsManager.Instance.AllowTargetFacing = this.mobilityGeneralTargetFacingCheckBox.Checked;
+            SettingsManager.Instance.AllowTargeting = this.mobilityAutoTargetCheckBox.Checked;
+            SettingsManager.Instance.ForceCombat = this.mobilityForceCombatCheckBox.Checked;
 
             // Mobility Tab //
             ApplySettingsFromControlCollection(this.mobilityTab.Controls);
