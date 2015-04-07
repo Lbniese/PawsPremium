@@ -181,6 +181,23 @@ namespace Paws.Core.Managers
             }
         }
 
+        private void TargetNearestEnemey()
+        {
+            // First, do I already have a target?  Do not auto target unless I do...
+            if (Me.CurrentTarget == null)
+            {
+                if (this.LastKnownSurroundingEnemies.Count > 0)
+                {
+                    var newTarget = this.LastKnownSurroundingEnemies.FirstOrDefault();
+
+                    if (newTarget != null && newTarget.IsValid && newTarget.IsAlive)
+                    {
+                        newTarget.Target();
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Taunts the target away from other players/ncps.
         /// </summary>
