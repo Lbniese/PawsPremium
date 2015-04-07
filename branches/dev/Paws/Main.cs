@@ -21,7 +21,9 @@ namespace Paws
     /// </summary>
     public class Main : CombatRoutine
     {
-        private static Version _version = new Version(2, 0, 0);
+        public static Product Product { get { return Paws.Product.Community; } }
+
+        private static Version _version = new Version(1, 8, 0);
         private static string _environment = "Development";
 
         public static Version Version { get { return _version; } }
@@ -30,7 +32,7 @@ namespace Paws
         private static LocalPlayer Me { get { return StyxWoW.Me; } }
         private static WoWUnit MyCurrentTarget { get { return Me.CurrentTarget; } }
         public override WoWClass Class { get { return WoWClass.Druid; } }
-        public override string Name { get { return string.Format("Paws Premium ({0}) (v{1})", _environment, Version); } }
+        public override string Name { get { return string.Format("Paws {0} ({1}) (v{2})", Product, _environment, Version); } }
         public override bool WantButton { get { return true; } }
         public override bool NeedDeath { get { return !BotManager.Current.IsRoutineBased() && Me.IsDead && !Me.IsGhost; } }
 
@@ -105,6 +107,8 @@ namespace Paws
             AbilityManager.Instance.Update();
             UnitManager.Instance.Update();
             SnapshotManager.Instance.Update();
+            HotKeyManager.Instance.Update();
+            UnitManager.Instance.TargetNearestEnemey();
 
             base.Pulse();
         }
@@ -130,5 +134,10 @@ namespace Paws
         }
 
         #endregion
+    }
+
+    public enum Product
+    {
+        Community = 0x00, Premium
     }
 }

@@ -181,21 +181,49 @@ namespace Paws.Core.Managers
             }
         }
 
-        private void TargetNearestEnemey()
+        /// <summary>
+        /// Targets the nearest enemey.
+        /// </summary>
+        public void TargetNearestEnemey()
         {
-            // First, do I already have a target?  Do not auto target unless I do...
-            if (Me.CurrentTarget == null)
+            if (Settings.AllowTargeting)
             {
-                if (this.LastKnownSurroundingEnemies.Count > 0)
+                if (Me.CurrentTarget == null || Me.CurrentTarget.IsDead)
                 {
-                    var newTarget = this.LastKnownSurroundingEnemies.FirstOrDefault();
-
-                    if (newTarget != null && newTarget.IsValid && newTarget.IsAlive)
+                    if (this.LastKnownSurroundingEnemies.Count > 0)
                     {
-                        newTarget.Target();
+                        var newTarget = this.LastKnownSurroundingEnemies.FirstOrDefault();
+
+                        if (newTarget != null && newTarget.IsValid && newTarget.IsAlive)
+                        {
+                            newTarget.Target();
+                        }
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Force combat with your current target.
+        /// </summary>
+        public async Task<bool> ForceCombat()
+        {
+            if (Settings.ForceCombat)
+            {
+                if (!Me.Combat && Me.HasAttackableTarget())
+                {
+                    if (Me.HasAura(SpellBook.Prowl))
+                    {
+                        if (await Abilities.Cast<ProwlOpenerAbility>(Me.CurrentTarget)) return true;
+                    }
+                    else
+                    {
+                        if (await Abilities.Cast<RakeAbility>(Me.CurrentTarget)) return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         /// <summary>

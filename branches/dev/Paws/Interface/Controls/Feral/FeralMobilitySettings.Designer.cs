@@ -81,6 +81,8 @@
             this.generalCatFormOnlyDuringPullOrCombatRadioButton = new System.Windows.Forms.RadioButton();
             this.generalCatFormDoNotOverrideBearFormCheckBox = new System.Windows.Forms.CheckBox();
             this.generalCatFormAlwaysRadioButton = new System.Windows.Forms.RadioButton();
+            this.mobilityProwlAlwaysRadioButton = new System.Windows.Forms.RadioButton();
+            this.mobilityProwlOnlyDuringPullRadioButton = new System.Windows.Forms.RadioButton();
             this.panel39.SuspendLayout();
             this.mobilityStampedingRoarPanel.SuspendLayout();
             this.panel37.SuspendLayout();
@@ -528,18 +530,20 @@
             // 
             this.generalProwlPanel.BackColor = System.Drawing.Color.Snow;
             this.generalProwlPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.generalProwlPanel.Controls.Add(this.mobilityProwlAlwaysRadioButton);
+            this.generalProwlPanel.Controls.Add(this.mobilityProwlOnlyDuringPullRadioButton);
             this.generalProwlPanel.Controls.Add(this.label29);
             this.generalProwlPanel.Controls.Add(this.generalProwlMaxDistanceTextBox);
             this.generalProwlPanel.Controls.Add(this.label30);
             this.generalProwlPanel.Location = new System.Drawing.Point(5, 162);
             this.generalProwlPanel.Name = "generalProwlPanel";
-            this.generalProwlPanel.Size = new System.Drawing.Size(249, 56);
+            this.generalProwlPanel.Size = new System.Drawing.Size(249, 88);
             this.generalProwlPanel.TabIndex = 42;
             // 
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(215, 21);
+            this.label29.Location = new System.Drawing.Point(215, 54);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(19, 15);
             this.label29.TabIndex = 9;
@@ -549,7 +553,7 @@
             // 
             this.generalProwlMaxDistanceTextBox.BackColor = System.Drawing.Color.Wheat;
             this.generalProwlMaxDistanceTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.generalProwlMaxDistanceTextBox.Location = new System.Drawing.Point(163, 19);
+            this.generalProwlMaxDistanceTextBox.Location = new System.Drawing.Point(163, 52);
             this.generalProwlMaxDistanceTextBox.Name = "generalProwlMaxDistanceTextBox";
             this.generalProwlMaxDistanceTextBox.Size = new System.Drawing.Size(50, 21);
             this.generalProwlMaxDistanceTextBox.TabIndex = 8;
@@ -559,11 +563,11 @@
             // label30
             // 
             this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(8, 21);
+            this.label30.Location = new System.Drawing.Point(30, 54);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(153, 15);
+            this.label30.Size = new System.Drawing.Size(131, 15);
             this.label30.TabIndex = 7;
-            this.label30.Text = "Max distance from Target =";
+            this.label30.Text = "Distance from Target =";
             // 
             // panel23
             // 
@@ -625,7 +629,7 @@
             // generalCatFormOnlyDuringPullOrCombatRadioButton
             // 
             this.generalCatFormOnlyDuringPullOrCombatRadioButton.AutoSize = true;
-            this.generalCatFormOnlyDuringPullOrCombatRadioButton.Location = new System.Drawing.Point(11, 11);
+            this.generalCatFormOnlyDuringPullOrCombatRadioButton.Location = new System.Drawing.Point(11, 30);
             this.generalCatFormOnlyDuringPullOrCombatRadioButton.Name = "generalCatFormOnlyDuringPullOrCombatRadioButton";
             this.generalCatFormOnlyDuringPullOrCombatRadioButton.Size = new System.Drawing.Size(172, 19);
             this.generalCatFormOnlyDuringPullOrCombatRadioButton.TabIndex = 2;
@@ -646,13 +650,35 @@
             // generalCatFormAlwaysRadioButton
             // 
             this.generalCatFormAlwaysRadioButton.AutoSize = true;
-            this.generalCatFormAlwaysRadioButton.Location = new System.Drawing.Point(11, 29);
+            this.generalCatFormAlwaysRadioButton.Location = new System.Drawing.Point(11, 12);
             this.generalCatFormAlwaysRadioButton.Name = "generalCatFormAlwaysRadioButton";
             this.generalCatFormAlwaysRadioButton.Size = new System.Drawing.Size(63, 19);
             this.generalCatFormAlwaysRadioButton.TabIndex = 3;
             this.generalCatFormAlwaysRadioButton.TabStop = true;
             this.generalCatFormAlwaysRadioButton.Text = "Always";
             this.generalCatFormAlwaysRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // mobilityProwlAlwaysRadioButton
+            // 
+            this.mobilityProwlAlwaysRadioButton.AutoSize = true;
+            this.mobilityProwlAlwaysRadioButton.Location = new System.Drawing.Point(11, 13);
+            this.mobilityProwlAlwaysRadioButton.Name = "mobilityProwlAlwaysRadioButton";
+            this.mobilityProwlAlwaysRadioButton.Size = new System.Drawing.Size(63, 19);
+            this.mobilityProwlAlwaysRadioButton.TabIndex = 10;
+            this.mobilityProwlAlwaysRadioButton.TabStop = true;
+            this.mobilityProwlAlwaysRadioButton.Text = "Always";
+            this.mobilityProwlAlwaysRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // mobilityProwlOnlyDuringPullRadioButton
+            // 
+            this.mobilityProwlOnlyDuringPullRadioButton.AutoSize = true;
+            this.mobilityProwlOnlyDuringPullRadioButton.Location = new System.Drawing.Point(11, 31);
+            this.mobilityProwlOnlyDuringPullRadioButton.Name = "mobilityProwlOnlyDuringPullRadioButton";
+            this.mobilityProwlOnlyDuringPullRadioButton.Size = new System.Drawing.Size(152, 19);
+            this.mobilityProwlOnlyDuringPullRadioButton.TabIndex = 11;
+            this.mobilityProwlOnlyDuringPullRadioButton.TabStop = true;
+            this.mobilityProwlOnlyDuringPullRadioButton.Text = "I have an Enemy Target";
+            this.mobilityProwlOnlyDuringPullRadioButton.UseVisualStyleBackColor = true;
             // 
             // FeralMobilitySettings
             // 
@@ -672,7 +698,7 @@
             this.Controls.Add(this.mobilityDashPanel);
             this.Font = new System.Drawing.Font("Arial", 9F);
             this.Name = "FeralMobilitySettings";
-            this.Size = new System.Drawing.Size(768, 223);
+            this.Size = new System.Drawing.Size(768, 259);
             this.Load += new System.EventHandler(this.FeralMobilitySettings_Load);
             this.panel39.ResumeLayout(false);
             this.panel39.PerformLayout();
@@ -758,6 +784,8 @@
         private System.Windows.Forms.RadioButton generalCatFormOnlyDuringPullOrCombatRadioButton;
         private System.Windows.Forms.CheckBox generalCatFormDoNotOverrideBearFormCheckBox;
         private System.Windows.Forms.RadioButton generalCatFormAlwaysRadioButton;
+        private System.Windows.Forms.RadioButton mobilityProwlAlwaysRadioButton;
+        private System.Windows.Forms.RadioButton mobilityProwlOnlyDuringPullRadioButton;
 
     }
 }

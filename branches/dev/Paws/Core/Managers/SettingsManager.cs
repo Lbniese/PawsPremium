@@ -295,6 +295,12 @@ namespace Paws.Core.Managers
         [Setting, DefaultValue(true)]
         public bool ProwlEnabled { get; set; }
 
+        [Setting, DefaultValue(false)]
+        public bool ProwlAlways { get; set; }
+
+        [Setting, DefaultValue(true)]
+        public bool ProwlOnlyDuringPull { get; set; }
+
         [Setting, DefaultValue(40.0)]
         public double ProwlMaxDistance { get; set; }
 
@@ -345,6 +351,12 @@ namespace Paws.Core.Managers
 
         [Setting, DefaultValue(true)]
         public bool AllowTargetFacing { get; set; }
+
+        [Setting, DefaultValue(false)]
+        public bool AllowTargeting { get; set; }
+
+        [Setting, DefaultValue(false)]
+        public bool ForceCombat { get; set; }
 
         [Setting, DefaultValue(true)]
         public bool WildChargeEnabled { get; set; }
