@@ -18,6 +18,8 @@ namespace Paws.Core.Abilities.Feral
             : base(WoWSpell.FromId(SpellBook.HealingTouch))
         {
             base.Category = AbilityCategory.Heal;
+
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
         }
 
         public override void ApplyDefaultSettings()
@@ -26,7 +28,6 @@ namespace Paws.Core.Abilities.Feral
 
             base.Conditions.Add(new BooleanCondition(Settings.HealMyAlliesEnabled));
             base.Conditions.Add(new BooleanCondition(Settings.HealMyAlliesWithHealingTouchEnabled));
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
             base.Conditions.Add(new TargetHealthRangeCondition(TargetType.MyCurrentTarget, 5.0, Settings.HealMyAlliesWithHealingTouchMinHealth));
             if (Settings.HealMyAlliesMyHealthCheckEnabled)
             {

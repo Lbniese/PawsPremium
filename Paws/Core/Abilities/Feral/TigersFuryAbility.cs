@@ -33,7 +33,10 @@ namespace Paws.Core.Abilities.Feral
             base.Conditions.Add(new MyTargetIsWithinMeleeRangeCondition());
             base.Conditions.Add(new ConditionTestSwitchCondition(
                 new BooleanCondition(Settings.TigersFuryUseMaxEnergy),
-                new MyEnergyRangeCondition(0, Settings.TigersFuryMaxEnergy)
+                new ConditionOrList(
+                    new MyEnergyRangeCondition(0, Settings.TigersFuryMaxEnergy),
+                    new TargetHasAuraCondition(TargetType.Me, SpellBook.BloodtalonsProc)
+                )
             ));
 
             if (Settings.TigersFurySyncWithBerserk)

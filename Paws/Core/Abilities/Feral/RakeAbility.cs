@@ -26,7 +26,9 @@ namespace Paws.Core.Abilities.Feral
     {
         public RakeAbility()
             : base(WoWSpell.FromId(SpellBook.Rake), false)
-        { }
+        {
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+        }
 
         private TargetAuraMinTimeLeftCondition GetMinTimeLeftCondition()
         {
@@ -53,6 +55,7 @@ namespace Paws.Core.Abilities.Feral
 
                     if (MyCurrentTarget == rakeTarget.Unit)
                     {
+                        //Log.GUI("Rake.Update() Applied Multiplier: " + rakeTarget.AppliedMultiplier.ToString() + " | Current Multiplier: " + SnapshotManager.CurrentMultiplier.ToString());
                         if (SnapshotManager.CurrentMultiplier > rakeTarget.AppliedMultiplier)
                         {
                             // We need to reapply rake on the unit, this will happen by removing the time restriction on the pandemic conditions list
@@ -96,7 +99,6 @@ namespace Paws.Core.Abilities.Feral
 
             // Shared //
             var rakeIsEnabled = new BooleanCondition(Settings.RakeEnabled);
-            var notProwling = new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl);
             var energy = new ConditionTestSwitchCondition(
                 new TargetHasAuraCondition(TargetType.Me, SpellBook.BerserkDruid),
                 new MyEnergyRangeCondition(35.0 / 2.0),
@@ -105,13 +107,11 @@ namespace Paws.Core.Abilities.Feral
 
             // Normal //
             base.Conditions.Add(rakeIsEnabled);
-            base.Conditions.Add(notProwling);
             base.Conditions.Add(energy);
             base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, SpellBook.RakeBleedDebuff));
 
             // Pandemic //
             base.PandemicConditions.Add(rakeIsEnabled);
-            base.Conditions.Add(notProwling);
             base.PandemicConditions.Add(energy);
             base.PandemicConditions.Add(new BooleanCondition(Settings.RakeAllowClipping));
             base.PandemicConditions.Add(new TargetHasAuraCondition(TargetType.MyCurrentTarget, SpellBook.RakeBleedDebuff));

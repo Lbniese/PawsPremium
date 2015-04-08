@@ -40,6 +40,7 @@ namespace Paws.Core.Abilities
             base.ApplyDefaultSettings();
 
             this.PandemicConditions.Clear();
+            this.PandemicConditions.AddRange(this.RequiredConditions);
         }
     }
 }

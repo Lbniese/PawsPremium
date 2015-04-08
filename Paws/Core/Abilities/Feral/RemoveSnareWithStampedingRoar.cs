@@ -19,6 +19,9 @@ namespace Paws.Core.Abilities.Feral
             : base(WoWSpell.FromId(SpellBook.StampedingRoar), true, true)
         {
             base.Category = AbilityCategory.Defensive;
+
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, base.Spell.Id));
+            base.RequiredConditions.Add(new MeHasRootOrSnareCondition());
         }
 
         public override void ApplyDefaultSettings()
@@ -28,8 +31,6 @@ namespace Paws.Core.Abilities.Feral
             base.Conditions.Add(new BooleanCondition(Settings.RemoveSnareWithStampedingRoar));
             base.Conditions.Add(new MeHasAttackableTargetCondition());
             base.Conditions.Add(new MeIsInCatFormCondition());
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.StampedingRoar));
-            base.Conditions.Add(new MeHasRootOrSnareCondition());
         }
     }
 }

@@ -21,6 +21,8 @@ namespace Paws.Core.Abilities.Feral
             : base(WoWSpell.FromId(SpellBook.Rebirth), true, true)
         {
             base.Category = AbilityCategory.Heal;
+
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
         }
 
         public override void ApplyDefaultSettings()
@@ -31,7 +33,6 @@ namespace Paws.Core.Abilities.Feral
             {
                 base.Conditions.Add(new TargetHasAuraCondition(TargetType.Me, SpellBook.PredatorySwiftnessProc));
             }
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
         }
     }
 }
