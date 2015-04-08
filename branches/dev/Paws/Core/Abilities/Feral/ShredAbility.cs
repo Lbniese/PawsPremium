@@ -82,6 +82,7 @@ namespace Paws.Core.Abilities.Feral
                 new MyEnergyRangeCondition(50.0 / 2.0),
                 new MyEnergyRangeCondition(50.0)
             ));
+            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.BloodtalonsProc));
             base.Conditions.Add(new MyComboPointsCondition(5));
         }
     }

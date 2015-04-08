@@ -27,6 +27,8 @@ namespace Paws.Core.Abilities.Feral
         {
             this.Enabled = false;
             this.Class = WoWClass.None;
+
+            ApplyRequiredConditions();
         }
 
         /// <summary>
@@ -38,7 +40,18 @@ namespace Paws.Core.Abilities.Feral
             this.Enabled = Enabled;
             this.Class = @class;
 
+            ApplyRequiredConditions();
             ApplyDefaultSettings();
+        }
+
+        private void ApplyRequiredConditions()
+        {
+            base.RequiredConditions.Add(new MeHasAttackableTargetCondition());
+            base.RequiredConditions.Add(new MyTargetIsNotPetCondition());
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, SpellBook.FaerieFire));
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, SpellBook.FaerieSwarm));
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+            base.RequiredConditions.Add(new MyTargetDistanceCondition(0, 35.0));
         }
 
         public override void ApplyDefaultSettings()
@@ -47,13 +60,7 @@ namespace Paws.Core.Abilities.Feral
 
             base.Conditions.Add(new BooleanCondition(this.Enabled));
             base.Conditions.Add(new MeIsInCombatCondition());
-            base.Conditions.Add(new MeHasAttackableTargetCondition());
-            base.Conditions.Add(new MyTargetIsNotPetCondition());
             base.Conditions.Add(new MyTargetIsPlayerClassCondition(this.Class));
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, SpellBook.FaerieFire));
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, SpellBook.FaerieSwarm));
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
-            base.Conditions.Add(new MyTargetDistanceCondition(0, 35.0));
         }
     }
 }

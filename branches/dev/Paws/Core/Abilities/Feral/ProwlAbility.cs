@@ -18,6 +18,9 @@ namespace Paws.Core.Abilities.Feral
             : base(WoWSpell.FromId(SpellBook.Prowl), true, true)
         {
             base.Category = AbilityCategory.Buff;
+
+            base.RequiredConditions.Add(new MeNotInCombatCondition());
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
         }
 
         public override void ApplyDefaultSettings()
@@ -25,8 +28,6 @@ namespace Paws.Core.Abilities.Feral
             base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.ProwlEnabled));
-            base.Conditions.Add(new MeNotInCombatCondition());
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
             if (Settings.ProwlOnlyDuringPull)
             {
                 base.Conditions.Add(new MeHasAttackableTargetCondition());

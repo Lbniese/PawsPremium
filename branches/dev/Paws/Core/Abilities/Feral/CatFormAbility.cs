@@ -23,14 +23,15 @@ namespace Paws.Core.Abilities.Feral
             : base(WoWSpell.FromId(SpellBook.CatForm))
         {
             base.Category = AbilityCategory.Buff;
-        }
 
+            base.RequiredConditions.Add(new MeIsNotInCatFormCondition());
+        }
+        
         public override void ApplyDefaultSettings()
         {
             base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.CatFormEnabled));
-            base.Conditions.Add(new MeIsNotInCatFormCondition());
             base.Conditions.Add(
                 new CombatSwitchCondition(
                     new ConditionDependencyList( // If we are in combat

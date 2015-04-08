@@ -143,6 +143,7 @@
     <Compile Include="Core\Conditions\MyRageCondition.cs" />
     <Compile Include="Core\Conditions\MySpqcializationCondition.cs" />
     <Compile Include="Core\Conditions\MyTargetIsEnragedCondition.cs" />
+    <Compile Include="Core\Conditions\TargetDoesNotHaveSpellMechanicCondition.cs" />
     <Compile Include="Core\Conditions\TargetHasAuraMinStacksCondition.cs" />
     <Compile Include="Core\Conditions\TargetHasAuraMaxStacksCondition.cs" />
     <Compile Include="Core\Conditions\TargetHasNamedAuraCondition.cs" />

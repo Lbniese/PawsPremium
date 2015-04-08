@@ -10,7 +10,9 @@ namespace Paws.Core.Abilities.Feral
     {
         public ProwlOpenerAbility()
             : base(WoWSpell.FromId(SpellBook.Rake), false)
-        { }
+        {
+            base.RequiredConditions.Add(new TargetHasAuraCondition(TargetType.Me, SpellBook.Prowl));
+        }
 
         public override void Update()
         {
@@ -27,7 +29,6 @@ namespace Paws.Core.Abilities.Feral
         {
             base.ApplyDefaultSettings();
 
-            base.Conditions.Add(new TargetHasAuraCondition(TargetType.Me, SpellBook.Prowl));
             base.Conditions.Add(new ConditionOrList(
                 new BooleanCondition(Settings.RakeEnabled && Settings.RakeStealthOpener),
                 new BooleanCondition(Settings.ShredEnabled && Settings.ShredStealthOpener)

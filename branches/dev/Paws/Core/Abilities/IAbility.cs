@@ -1,5 +1,7 @@
-﻿using Styx.WoWInternals;
+﻿using Paws.Core.Conditions;
+using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Paws.Core.Abilities
@@ -13,6 +15,16 @@ namespace Paws.Core.Abilities
         /// The category of the ability. Displayed during logging.
         /// </summary>
         AbilityCategory Category { get; set; }
+
+        /// <summary>
+        /// The list of conditions that must be satisfied prior to a casting attempt.
+        /// </summary>
+        List<ICondition> Conditions { get; set; }
+
+        /// <summary>
+        /// A list of conditions that are required for the Ability to function properly.
+        /// </summary>
+        List<ICondition> RequiredConditions { get; set; }
 
         // <summary>
         /// The spell that the ability directly relates to.

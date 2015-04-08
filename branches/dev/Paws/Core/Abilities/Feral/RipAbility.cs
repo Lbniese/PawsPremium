@@ -26,7 +26,9 @@ namespace Paws.Core.Abilities.Feral
     {
         public RipAbility()
             : base(WoWSpell.FromId(SpellBook.Rip), true)
-        { }
+        {
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+        }
 
         private TargetAuraMinTimeLeftCondition GetMinTimeLeftCondition()
         {
@@ -41,54 +43,54 @@ namespace Paws.Core.Abilities.Feral
             return null;
         }
 
-        public override void Update()
-        {
-            if (MyCurrentTarget != null && MyCurrentTarget.IsValid)
-            {
-                int ripUnitIndex = -1;
+        //public override void Update()
+        //{
+        //    if (MyCurrentTarget != null && MyCurrentTarget.IsValid)
+        //    {
+        //        int ripUnitIndex = -1;
 
-                for (var r = 0; r < SnapshotManager.Instance.RippedTargets.Count; r++)
-                {
-                    var ripTarget = SnapshotManager.Instance.RippedTargets[r];
+        //        for (var r = 0; r < SnapshotManager.Instance.RippedTargets.Count; r++)
+        //        {
+        //            var ripTarget = SnapshotManager.Instance.RippedTargets[r];
 
-                    if (MyCurrentTarget == ripTarget.Unit && MyCurrentTarget.HealthPercent > 25.0) // We don't want to queue a Rip if FB can handle a refresh.
-                    {
-                        if (SnapshotManager.CurrentMultiplier > ripTarget.AppliedMultiplier)
-                        {
-                            // We need to reapply rip on the unit, this will happen by removing the time restriction on the pandemic conditions list
-                            var minTimeCondition = GetMinTimeLeftCondition();
+        //            if (MyCurrentTarget == ripTarget.Unit && MyCurrentTarget.HealthPercent > 25.0) // We don't want to queue a Rip if FB can handle a refresh.
+        //            {
+        //                if (SnapshotManager.CurrentMultiplier > ripTarget.AppliedMultiplier)
+        //                {
+        //                    // We need to reapply rip on the unit, this will happen by removing the time restriction on the pandemic conditions list
+        //                    var minTimeCondition = GetMinTimeLeftCondition();
 
-                            if (minTimeCondition != null)
-                            {
-                                // remove the target from the unit list (it will be readded when rip is successfully applied again but with a better multiplier)
-                                ripUnitIndex = r;
+        //                    if (minTimeCondition != null)
+        //                    {
+        //                        // remove the target from the unit list (it will be readded when rip is successfully applied again but with a better multiplier)
+        //                        ripUnitIndex = r;
 
-                                base.PandemicConditions.Remove(minTimeCondition);
-                                Log.AppendLine(string.Format("Queuing Rip with a better multiplier (From {0:0.##}x to {1:0.##}x)", ripTarget.AppliedMultiplier, SnapshotManager.CurrentMultiplier), Colors.Tan);
+        //                        base.PandemicConditions.Remove(minTimeCondition);
+        //                        Log.AppendLine(string.Format("Queuing Rip with a better multiplier (From {0:0.##}x to {1:0.##}x)", ripTarget.AppliedMultiplier, SnapshotManager.CurrentMultiplier), Colors.Tan);
 
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            // the multiplier is already the highest it can currently be, we need to make sure the pandemic time condition is applied.
-                            var minTimeCondition = GetMinTimeLeftCondition();
+        //                        break;
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    // the multiplier is already the highest it can currently be, we need to make sure the pandemic time condition is applied.
+        //                    var minTimeCondition = GetMinTimeLeftCondition();
 
-                            if (minTimeCondition == null)
-                            {
-                                ripUnitIndex = r;
+        //                    if (minTimeCondition == null)
+        //                    {
+        //                        ripUnitIndex = r;
 
-                                base.PandemicConditions.Add(new TargetAuraMinTimeLeftCondition(TargetType.MyCurrentTarget, SpellBook.Rip, TimeSpan.FromSeconds(7)));
+        //                        base.PandemicConditions.Add(new TargetAuraMinTimeLeftCondition(TargetType.MyCurrentTarget, SpellBook.Rip, TimeSpan.FromSeconds(7)));
 
-                                break;
-                            }
-                        }
-                    }
-                }
+        //                        break;
+        //                    }
+        //                }
+        //            }
+        //        }
 
-                if (ripUnitIndex != -1) SnapshotManager.Instance.RippedTargets.RemoveAt(ripUnitIndex);
-            }
-        }
+        //        if (ripUnitIndex != -1) SnapshotManager.Instance.RippedTargets.RemoveAt(ripUnitIndex);
+        //    }
+        //}
 
         public override void ApplyDefaultSettings()
         {

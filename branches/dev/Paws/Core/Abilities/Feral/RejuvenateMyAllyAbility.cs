@@ -18,6 +18,8 @@ namespace Paws.Core.Abilities.Feral
             : base(WoWSpell.FromId(SpellBook.Rejuvenation))
         {
             base.Category = AbilityCategory.Heal;
+
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
         }
 
         public override void ApplyDefaultSettings()
@@ -27,7 +29,6 @@ namespace Paws.Core.Abilities.Feral
             base.Conditions.Add(new BooleanCondition(Settings.HealMyAlliesEnabled));
             base.Conditions.Add(new BooleanCondition(Settings.HealMyAlliesWithRejuvenationEnabled));
             base.Conditions.Add(new MeIsNotInTravelFormCondition());
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
             base.Conditions.Add(new TargetHealthRangeCondition(TargetType.MyCurrentTarget, 5.0, Settings.HealMyAlliesWithRejuvenationMinHealth));
             if (Settings.HealMyAlliesMyHealthCheckEnabled)
             {

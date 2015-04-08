@@ -9,6 +9,7 @@ namespace Paws.Core.Abilities.Feral
             : base(WoWSpell.FromId(SpellBook.BearForm))
         {
             base.Category = AbilityCategory.Buff;
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, base.Spell.Id));
         }
 
         public override void ApplyDefaultSettings()
@@ -16,7 +17,6 @@ namespace Paws.Core.Abilities.Feral
             base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.BearFormPowerShiftEnabled));
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, base.Spell.Id));
         }
     }
 }

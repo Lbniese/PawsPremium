@@ -28,7 +28,12 @@ namespace Paws.Core.Abilities
         /// <summary>
         /// The list of conditions that must be satisfied prior to a casting attempt.
         /// </summary>
-        public List<ICondition> Conditions { get; protected set; }
+        public List<ICondition> Conditions { get; set; }
+
+        /// <summary>
+        /// A list of conditions that are required for the Ability to function properly.
+        /// </summary>
+        public List<ICondition> RequiredConditions { get; set; }
 
         protected static LocalPlayer Me { get { return StyxWoW.Me; } }
         protected static WoWUnit MyCurrentTarget { get { return Me.CurrentTarget; } }
@@ -55,6 +60,7 @@ namespace Paws.Core.Abilities
             _mustWaitForSpellCooldown = mustWaitForSpellCooldown;
 
             this.Conditions = new List<ICondition>();
+            this.RequiredConditions = new List<ICondition>();
         }
 
         /// <summary>
@@ -102,6 +108,8 @@ namespace Paws.Core.Abilities
         public virtual void ApplyDefaultSettings()
         {
             this.Conditions.Clear();
+
+            this.Conditions.AddRange(this.RequiredConditions);
 
             if (_mustWaitForGlobalCooldown) this.Conditions.Add(new IsOffGlobalCooldownCondition());
             if (_mustWaitForSpellCooldown) this.Conditions.Add(new SpellIsNotOnCooldownCondition(this.Spell));

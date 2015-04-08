@@ -21,6 +21,10 @@ namespace Paws.Core.Abilities.Feral
             : base(WoWSpell.FromId(SpellBook.FeralIncarnationForm), true, true)
         {
             base.Category = AbilityCategory.Buff;
+
+            base.RequiredConditions.Add(new MeHasAttackableTargetCondition());
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.FeralIncarnationForm));
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
         }
 
         public override void ApplyDefaultSettings()
@@ -28,9 +32,6 @@ namespace Paws.Core.Abilities.Feral
             base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.IncarnationEnabled));
-            base.Conditions.Add(new MeHasAttackableTargetCondition());
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.FeralIncarnationForm));
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
             base.Conditions.Add(new MyTargetIsWithinMeleeRangeCondition());
             if (Settings.IncarnationEnemyHealthCheck)
             {

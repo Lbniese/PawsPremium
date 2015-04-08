@@ -23,6 +23,12 @@ namespace Paws.Core.Abilities.Feral
             : base(WoWSpell.FromId(SpellBook.BerserkDruid), false, true)
         {
             base.Category = AbilityCategory.Buff;
+
+            base.RequiredConditions.Add(new MeIsInCatFormCondition());
+            base.RequiredConditions.Add(new MeHasAttackableTargetCondition());
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.BerserkDruid));
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+            base.RequiredConditions.Add(new MyTargetIsWithinMeleeRangeCondition());
         }
 
         public override void ApplyDefaultSettings()
@@ -30,11 +36,6 @@ namespace Paws.Core.Abilities.Feral
             base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.BerserkEnabled));
-            base.Conditions.Add(new MeIsInCatFormCondition());
-            base.Conditions.Add(new MeHasAttackableTargetCondition());
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.BerserkDruid));
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
-            base.Conditions.Add(new MyTargetIsWithinMeleeRangeCondition());
             if (Settings.BerserkEnemyHealthCheck)
             {
                 base.Conditions.Add(new MyTargetHealthMultiplierCondition(Settings.BerserkEnemyHealthMultiplier));
