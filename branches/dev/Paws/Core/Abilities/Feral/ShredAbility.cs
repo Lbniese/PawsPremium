@@ -24,19 +24,21 @@ namespace Paws.Core.Abilities.Feral
     {
         public ShredAbility()
             : base(WoWSpell.FromId(SpellBook.Shred), true)
-        { }
+        {
+            base.RequiredConditions.Add(new ConditionTestSwitchCondition(
+                new TargetHasAuraCondition(TargetType.Me, SpellBook.BerserkDruid),
+                new MyEnergyRangeCondition(40.0 / 2.0),
+                new MyEnergyRangeCondition(40.0)
+            ));
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+        }
 
         public override void ApplyDefaultSettings()
         {
             base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.ShredEnabled));
-            base.Conditions.Add(new ConditionTestSwitchCondition(
-                new TargetHasAuraCondition(TargetType.Me, SpellBook.BerserkDruid),
-                new MyEnergyRangeCondition(40.0 / 2.0),
-                new MyEnergyRangeCondition(40.0)
-            ));
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+            
             if (Settings.FerociousBiteEnabled)
             {
                 base.Conditions.Add(new ConditionTestSwitchCondition(
@@ -68,7 +70,14 @@ namespace Paws.Core.Abilities.Feral
     {
         public ShredAtFiveComboPointsAbility()
             : base(WoWSpell.FromId(SpellBook.Shred), true)
-        { }
+        {
+            base.RequiredConditions.Add(new ConditionTestSwitchCondition(
+                new TargetHasAuraCondition(TargetType.Me, SpellBook.BerserkDruid),
+                new MyEnergyRangeCondition(40.0 / 2.0),
+                new MyEnergyRangeCondition(40.0)
+            ));
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+        }
 
         public override void ApplyDefaultSettings()
         {
@@ -77,11 +86,6 @@ namespace Paws.Core.Abilities.Feral
             base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.ShredEnabled));
-            base.Conditions.Add(new ConditionTestSwitchCondition(
-                new TargetHasAuraCondition(TargetType.Me, SpellBook.BerserkDruid),
-                new MyEnergyRangeCondition(50.0 / 2.0),
-                new MyEnergyRangeCondition(50.0)
-            ));
             base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.BloodtalonsProc));
             base.Conditions.Add(new MyComboPointsCondition(5));
         }

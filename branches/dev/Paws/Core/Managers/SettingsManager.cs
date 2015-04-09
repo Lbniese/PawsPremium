@@ -470,8 +470,14 @@ namespace Paws.Core.Managers
         public bool RakeAllowClipping { get; set; }
 
         [Setting, DefaultValue(true)]
+        public bool RakeAllowMultiplierClipping { get; set; }
+
+        [Setting, DefaultValue(true)]
         public bool RakeStealthOpener { get; set; }
 
+        [Setting, DefaultValue(4)]
+        public int RakeMaxEnemies { get; set; }
+        
         [Setting, DefaultValue(true)]
         public bool ShredEnabled { get; set; }
 

@@ -18,6 +18,13 @@ namespace Paws.Core.Abilities.Feral
             : base(WoWSpell.FromId(SpellBook.SurvivalInstincts), true, true)
         {
             base.Category = AbilityCategory.Defensive;
+
+            base.Conditions.Add(new BooleanCondition(Settings.SurvivalInstinctsEnabled));
+            base.Conditions.Add(new MeIsInCatFormCondition());
+            base.Conditions.Add(new MeIsInCombatCondition());
+            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+            base.Conditions.Add(new TargetHealthRangeCondition(TargetType.Me, 0, Settings.SurvivalInstinctsMinHealth));
+            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.SurvivalInstincts));
         }
 
         public override void ApplyDefaultSettings()

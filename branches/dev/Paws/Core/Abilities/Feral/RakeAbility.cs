@@ -45,7 +45,7 @@ namespace Paws.Core.Abilities.Feral
 
         public override void Update()
         {
-            if (MyCurrentTarget != null && MyCurrentTarget.IsValid)
+            if (Settings.RakeAllowMultiplierClipping && MyCurrentTarget != null && MyCurrentTarget.IsValid)
             {
                 int rakeUnitIndex = -1;
 
@@ -64,7 +64,8 @@ namespace Paws.Core.Abilities.Feral
                             if (minTimeCondition != null)
                             {
                                 // remove the target from the unit list (it will be readded when rake is successfully applied again but with a better multiplier)
-                                rakeUnitIndex = r;
+                                //rakeUnitIndex = r;
+                                rakeTarget.Requeue = true;
 
                                 base.PandemicConditions.Remove(minTimeCondition);
                                 Log.AppendLine(string.Format("Queuing Rake with a better multiplier (From {0:0.##}x to {1:0.##}x)", rakeTarget.AppliedMultiplier, SnapshotManager.CurrentMultiplier), Colors.Tan);
@@ -79,8 +80,7 @@ namespace Paws.Core.Abilities.Feral
 
                             if (minTimeCondition == null)
                             {
-                                rakeUnitIndex = r;
-
+                                //rakeUnitIndex = r;
                                 base.PandemicConditions.Add(new TargetAuraMinTimeLeftCondition(TargetType.MyCurrentTarget, SpellBook.RakeBleedDebuff, TimeSpan.FromSeconds(4.5)));
 
                                 break;
@@ -89,7 +89,7 @@ namespace Paws.Core.Abilities.Feral
                     }
                 }
 
-                if (rakeUnitIndex != -1) SnapshotManager.Instance.RakedTargets.RemoveAt(rakeUnitIndex);
+                //if (rakeUnitIndex != -1) SnapshotManager.Instance.RakedTargets.RemoveAt(rakeUnitIndex);
             }
         }
 
@@ -109,6 +109,7 @@ namespace Paws.Core.Abilities.Feral
             base.Conditions.Add(rakeIsEnabled);
             base.Conditions.Add(energy);
             base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, SpellBook.RakeBleedDebuff));
+            base.Conditions.Add(new MyMaxRakedUnitsCondition(Settings.RakeMaxEnemies));
 
             // Pandemic //
             base.PandemicConditions.Add(rakeIsEnabled);

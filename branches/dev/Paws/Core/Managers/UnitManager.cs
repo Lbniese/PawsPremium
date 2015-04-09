@@ -114,30 +114,22 @@ namespace Paws.Core.Managers
         /// </summary>
         private void EnemyUpdate()
         {
-            if (Me.Combat)
+            if (!_enemyScanner.IsRunning) _enemyScanner.Restart();
+            if (_enemyScanner.ElapsedMilliseconds >= _enemyScannerIntervalMs)
             {
-                if (!_enemyScanner.IsRunning) _enemyScanner.Restart();
-                if (_enemyScanner.ElapsedMilliseconds >= _enemyScannerIntervalMs)
-                {
-                    this.LastKnownSurroundingEnemies = ObjectManager.GetObjectsOfTypeFast<WoWUnit>().Where(o =>
-                        o.IsValid &&
-                        o.Distance <= SettingsManager.Instance.AOERange &&
-                        o.Attackable &&
-                        !o.IsDead &&
-                        !o.IsFriendly &&
-                        !o.IsNonCombatPet &&
-                        !o.IsCritter
-                    )
-                    .OrderBy(o => o.Distance)
-                    .ToList();
+                this.LastKnownSurroundingEnemies = ObjectManager.GetObjectsOfTypeFast<WoWUnit>().Where(o =>
+                    o.IsValid &&
+                    o.Distance <= SettingsManager.Instance.AOERange &&
+                    o.Attackable &&
+                    !o.IsDead &&
+                    !o.IsFriendly &&
+                    !o.IsNonCombatPet &&
+                    !o.IsCritter
+                )
+                .OrderBy(o => o.Distance)
+                .ToList();
 
-                    _enemyScanner.Restart();
-                }
-            }
-            else
-            {
-                this.LastKnownSurroundingEnemies.Clear();
-                _enemyScanner.Reset();
+                _enemyScanner.Restart();
             }
         }
 
@@ -158,7 +150,7 @@ namespace Paws.Core.Managers
                 {
                     StringBuilder sb = new StringBuilder(string.Format("Group size changed from {0} to {1}", this.LastKnownGroupMemberSize, Me.GroupInfo.NumRaidMembers));
                     this.LastKnownGroupMemberSize = Me.GroupInfo.NumRaidMembers;
-   
+
                     /* // BEGIN
                     this.LastKnownGroupMemberSize = Me.GroupInfo.NumRaidMembers;
                     foreach (var partyMemeber in Me.GroupInfo.RaidMembers)
@@ -347,7 +339,7 @@ namespace Paws.Core.Managers
         private async Task<bool> ResurrectDeadAlly(WoWPartyMember.GroupRole role)
         {
             var theDead = Styx.StyxWoW.Me.GroupInfo.RaidMembers
-                        .Where(o => 
+                        .Where(o =>
                             o.Role == role &&
                             o.Dead &&
                             o.ToPlayer().Distance <= 30.0
@@ -411,8 +403,8 @@ namespace Paws.Core.Managers
                     {
                         List<WoWPartyMember> possibilities = new List<WoWPartyMember>();
 
-                        var possibleTank = (possibleCandidates.FirstOrDefault(o => 
-                            (Settings.HealMyAlliesAnyAlly || Settings.HealMyAlliesTank) && 
+                        var possibleTank = (possibleCandidates.FirstOrDefault(o =>
+                            (Settings.HealMyAlliesAnyAlly || Settings.HealMyAlliesTank) &&
                             o.Role == WoWPartyMember.GroupRole.Tank));
 
                         var possibleLfrTank = (possibleCandidates.FirstOrDefault(o => (Settings.HealMyAlliesAnyAlly || Settings.HealMyAlliesTank) && ((int)o.Role == 50) || (int)o.Role == 51));
@@ -460,9 +452,9 @@ namespace Paws.Core.Managers
                                 if (await HealMyAlly<HealingTouchMyAllyAbility>(bestCandidate, theMostHurtPartyMember.Role, Settings.HealMyAlliesWithHealingTouchMinHealth)) return true;
 
                                 // Rejuvenation //
-                                LastKnownRejuvenatedAllies.RemoveAll(o => 
-                                    o == null || 
-                                    !o.IsValid || 
+                                LastKnownRejuvenatedAllies.RemoveAll(o =>
+                                    o == null ||
+                                    !o.IsValid ||
                                     !o.HasAura(SpellBook.Rejuvenation)
                                 );
 
