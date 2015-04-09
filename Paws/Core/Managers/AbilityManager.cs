@@ -60,18 +60,6 @@ namespace Paws.Core.Managers
         public const int BLOCK_TIME_MS = 2000;
 
         /// <summary>
-        /// The length of time used to determine if we were just prowling.
-        /// </summary>
-        public const int JUST_PROWLING_TIME_MS = 500;
-
-        /// <summary>
-        /// Prowling flag.
-        /// </summary>
-        private bool _wasJustProwling;
-
-        private DateTime _wasJustProwlingTimestamp = DateTime.Now;
-
-        /// <summary>
         /// Gets the last casted ability.
         /// </summary>
         public IAbility LastCastAbility { get; private set; }
@@ -100,19 +88,7 @@ namespace Paws.Core.Managers
         /// <summary>
         /// Gets a flag that tells if the character was just prowling within the last 0.5 seconds.
         /// </summary>
-        public bool WasJustProwling 
-        { 
-            get
-            {
-                return _wasJustProwling;
-            }
-        }
-
-        public void SetWasJustProwling()
-        {
-            this._wasJustProwling = true;
-            this._wasJustProwlingTimestamp = DateTime.Now;
-        }
+        public bool WasJustProwling { get; set; }
 
         /// <summary>
         /// Updates each loaded ability. This should only be done during the Main.Pulse().
@@ -124,20 +100,7 @@ namespace Paws.Core.Managers
                 ability.Update();
             }
 
-            this._wasJustProwling = StyxWoW.Me.HasAura(SpellBook.Prowl);
-
-            //if (StyxWoW.Me.HasAura(SpellBook.Prowl))
-            //{
-            //    SetWasJustProwling();
-            //}
-            //if (!this._wasJustProwling)
-            //{
-            //    if ((DateTime.Now - this._wasJustProwlingTimestamp).TotalMilliseconds >= JUST_PROWLING_TIME_MS)
-            //    {
-            //        Log.GUI("Just Stopped Prowling!");
-            //        this._wasJustProwling = false;
-            //    }
-            //}
+            this.WasJustProwling = StyxWoW.Me.HasAura(SpellBook.Prowl);
         }
 
         /// <summary>

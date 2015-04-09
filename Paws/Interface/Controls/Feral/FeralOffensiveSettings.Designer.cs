@@ -44,6 +44,8 @@
             this.panel17 = new System.Windows.Forms.Panel();
             this.offensiveThrashEnabledCheckBox = new System.Windows.Forms.CheckBox();
             this.offensiveThrashPanel = new System.Windows.Forms.Panel();
+            this.offensiveThrashClearcastingProcCheckBox = new System.Windows.Forms.CheckBox();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.label17 = new System.Windows.Forms.Label();
             this.offensiveThrashAllowClippingCheckBox = new System.Windows.Forms.CheckBox();
             this.offensiveThrashMinEnemiesTextBox = new System.Windows.Forms.TextBox();
@@ -119,8 +121,10 @@
             this.offensiveSavageRoarAllowClippingCheckBox = new System.Windows.Forms.CheckBox();
             this.offensiveSavageRoarMinComboPointsTextBox = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.offensiveThrashClearcastingProcCheckBox = new System.Windows.Forms.CheckBox();
+            this.offensiveRakeAllowMultiplierClippingCheckBox = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.offensiveRakeMaxEnemiesTextBox = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel32.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).BeginInit();
             this.panel19.SuspendLayout();
@@ -319,6 +323,26 @@
             this.offensiveThrashPanel.Size = new System.Drawing.Size(249, 106);
             this.offensiveThrashPanel.TabIndex = 36;
             // 
+            // offensiveThrashClearcastingProcCheckBox
+            // 
+            this.offensiveThrashClearcastingProcCheckBox.AutoSize = true;
+            this.offensiveThrashClearcastingProcCheckBox.Location = new System.Drawing.Point(9, 77);
+            this.offensiveThrashClearcastingProcCheckBox.Name = "offensiveThrashClearcastingProcCheckBox";
+            this.offensiveThrashClearcastingProcCheckBox.Size = new System.Drawing.Size(211, 19);
+            this.offensiveThrashClearcastingProcCheckBox.TabIndex = 30;
+            this.offensiveThrashClearcastingProcCheckBox.Text = "Clearcasting proc on single target";
+            this.offensiveThrashClearcastingProcCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // panel4
+            // 
+            this.panel4.BackColor = System.Drawing.Color.DarkGray;
+            this.panel4.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panel4.ForeColor = System.Drawing.Color.White;
+            this.panel4.Location = new System.Drawing.Point(12, 67);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(220, 1);
+            this.panel4.TabIndex = 29;
+            // 
             // label17
             // 
             this.label17.AutoSize = true;
@@ -398,7 +422,7 @@
             this.panel15.Controls.Add(this.offensiveFerociousBiteEnabledCheckBox);
             this.panel15.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel15.ForeColor = System.Drawing.Color.White;
-            this.panel15.Location = new System.Drawing.Point(261, 342);
+            this.panel15.Location = new System.Drawing.Point(260, 376);
             this.panel15.Name = "panel15";
             this.panel15.Size = new System.Drawing.Size(249, 26);
             this.panel15.TabIndex = 25;
@@ -421,15 +445,15 @@
             this.offensiveFerociousBitePanel.Controls.Add(this.label27);
             this.offensiveFerociousBitePanel.Controls.Add(this.offensiveFerociousBiteMinEnergy);
             this.offensiveFerociousBitePanel.Controls.Add(this.label28);
-            this.offensiveFerociousBitePanel.Location = new System.Drawing.Point(261, 360);
+            this.offensiveFerociousBitePanel.Location = new System.Drawing.Point(260, 394);
             this.offensiveFerociousBitePanel.Name = "offensiveFerociousBitePanel";
-            this.offensiveFerociousBitePanel.Size = new System.Drawing.Size(249, 56);
+            this.offensiveFerociousBitePanel.Size = new System.Drawing.Size(249, 47);
             this.offensiveFerociousBitePanel.TabIndex = 35;
             // 
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(163, 21);
+            this.label27.Location = new System.Drawing.Point(163, 17);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(58, 15);
             this.label27.TabIndex = 20;
@@ -439,7 +463,7 @@
             // 
             this.offensiveFerociousBiteMinEnergy.BackColor = System.Drawing.Color.Wheat;
             this.offensiveFerociousBiteMinEnergy.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.offensiveFerociousBiteMinEnergy.Location = new System.Drawing.Point(111, 19);
+            this.offensiveFerociousBiteMinEnergy.Location = new System.Drawing.Point(111, 15);
             this.offensiveFerociousBiteMinEnergy.Name = "offensiveFerociousBiteMinEnergy";
             this.offensiveFerociousBiteMinEnergy.Size = new System.Drawing.Size(50, 21);
             this.offensiveFerociousBiteMinEnergy.TabIndex = 19;
@@ -449,7 +473,7 @@
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(8, 21);
+            this.label28.Location = new System.Drawing.Point(8, 17);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(101, 15);
             this.label28.TabIndex = 18;
@@ -462,7 +486,7 @@
             this.panel13.Controls.Add(this.offensiveRipEnabledCheckBox);
             this.panel13.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel13.ForeColor = System.Drawing.Color.White;
-            this.panel13.Location = new System.Drawing.Point(260, 232);
+            this.panel13.Location = new System.Drawing.Point(260, 276);
             this.panel13.Name = "panel13";
             this.panel13.Size = new System.Drawing.Size(249, 26);
             this.panel13.TabIndex = 26;
@@ -487,16 +511,16 @@
             this.offensiveRipPanel.Controls.Add(this.label25);
             this.offensiveRipPanel.Controls.Add(this.label26);
             this.offensiveRipPanel.Controls.Add(this.offensiveRipAllowClippingCheckBox);
-            this.offensiveRipPanel.Location = new System.Drawing.Point(260, 250);
+            this.offensiveRipPanel.Location = new System.Drawing.Point(260, 294);
             this.offensiveRipPanel.Name = "offensiveRipPanel";
-            this.offensiveRipPanel.Size = new System.Drawing.Size(249, 86);
+            this.offensiveRipPanel.Size = new System.Drawing.Size(249, 76);
             this.offensiveRipPanel.TabIndex = 34;
             // 
             // offensiveRipEnemyHealthMultiplierTextBox
             // 
             this.offensiveRipEnemyHealthMultiplierTextBox.BackColor = System.Drawing.Color.Wheat;
             this.offensiveRipEnemyHealthMultiplierTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.offensiveRipEnemyHealthMultiplierTextBox.Location = new System.Drawing.Point(149, 35);
+            this.offensiveRipEnemyHealthMultiplierTextBox.Location = new System.Drawing.Point(149, 33);
             this.offensiveRipEnemyHealthMultiplierTextBox.Name = "offensiveRipEnemyHealthMultiplierTextBox";
             this.offensiveRipEnemyHealthMultiplierTextBox.Size = new System.Drawing.Size(50, 21);
             this.offensiveRipEnemyHealthMultiplierTextBox.TabIndex = 23;
@@ -506,7 +530,7 @@
             // offensiveRipEnemyHealthCheckBox
             // 
             this.offensiveRipEnemyHealthCheckBox.AutoSize = true;
-            this.offensiveRipEnemyHealthCheckBox.Location = new System.Drawing.Point(11, 36);
+            this.offensiveRipEnemyHealthCheckBox.Location = new System.Drawing.Point(11, 34);
             this.offensiveRipEnemyHealthCheckBox.Name = "offensiveRipEnemyHealthCheckBox";
             this.offensiveRipEnemyHealthCheckBox.Size = new System.Drawing.Size(140, 19);
             this.offensiveRipEnemyHealthCheckBox.TabIndex = 24;
@@ -516,7 +540,7 @@
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(41, 55);
+            this.label25.Location = new System.Drawing.Point(41, 53);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(86, 15);
             this.label25.TabIndex = 22;
@@ -525,7 +549,7 @@
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(200, 37);
+            this.label26.Location = new System.Drawing.Point(200, 35);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(38, 15);
             this.label26.TabIndex = 21;
@@ -534,7 +558,7 @@
             // offensiveRipAllowClippingCheckBox
             // 
             this.offensiveRipAllowClippingCheckBox.AutoSize = true;
-            this.offensiveRipAllowClippingCheckBox.Location = new System.Drawing.Point(11, 14);
+            this.offensiveRipAllowClippingCheckBox.Location = new System.Drawing.Point(11, 12);
             this.offensiveRipAllowClippingCheckBox.Name = "offensiveRipAllowClippingCheckBox";
             this.offensiveRipAllowClippingCheckBox.Size = new System.Drawing.Size(163, 19);
             this.offensiveRipAllowClippingCheckBox.TabIndex = 2;
@@ -548,7 +572,7 @@
             this.panel11.Controls.Add(this.offensiveShredEnabledCheckBox);
             this.panel11.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel11.ForeColor = System.Drawing.Color.White;
-            this.panel11.Location = new System.Drawing.Point(260, 167);
+            this.panel11.Location = new System.Drawing.Point(260, 211);
             this.panel11.Name = "panel11";
             this.panel11.Size = new System.Drawing.Size(249, 26);
             this.panel11.TabIndex = 28;
@@ -569,7 +593,7 @@
             this.offensiveShredPanel.BackColor = System.Drawing.Color.Snow;
             this.offensiveShredPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.offensiveShredPanel.Controls.Add(this.offensiveShredStealthOpener);
-            this.offensiveShredPanel.Location = new System.Drawing.Point(260, 185);
+            this.offensiveShredPanel.Location = new System.Drawing.Point(260, 229);
             this.offensiveShredPanel.Name = "offensiveShredPanel";
             this.offensiveShredPanel.Size = new System.Drawing.Size(249, 41);
             this.offensiveShredPanel.TabIndex = 33;
@@ -611,11 +635,15 @@
             // 
             this.offensiveRakePanel.BackColor = System.Drawing.Color.Snow;
             this.offensiveRakePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.offensiveRakePanel.Controls.Add(this.label1);
+            this.offensiveRakePanel.Controls.Add(this.offensiveRakeMaxEnemiesTextBox);
+            this.offensiveRakePanel.Controls.Add(this.label2);
+            this.offensiveRakePanel.Controls.Add(this.offensiveRakeAllowMultiplierClippingCheckBox);
             this.offensiveRakePanel.Controls.Add(this.offensiveRakeAllowClippingCheckBox);
             this.offensiveRakePanel.Controls.Add(this.offensiveRakeStealthOpenerCheckBox);
             this.offensiveRakePanel.Location = new System.Drawing.Point(260, 104);
             this.offensiveRakePanel.Name = "offensiveRakePanel";
-            this.offensiveRakePanel.Size = new System.Drawing.Size(249, 57);
+            this.offensiveRakePanel.Size = new System.Drawing.Size(249, 101);
             this.offensiveRakePanel.TabIndex = 42;
             // 
             // offensiveRakeAllowClippingCheckBox
@@ -631,7 +659,7 @@
             // offensiveRakeStealthOpenerCheckBox
             // 
             this.offensiveRakeStealthOpenerCheckBox.AutoSize = true;
-            this.offensiveRakeStealthOpenerCheckBox.Location = new System.Drawing.Point(11, 31);
+            this.offensiveRakeStealthOpenerCheckBox.Location = new System.Drawing.Point(11, 51);
             this.offensiveRakeStealthOpenerCheckBox.Name = "offensiveRakeStealthOpenerCheckBox";
             this.offensiveRakeStealthOpenerCheckBox.Size = new System.Drawing.Size(108, 19);
             this.offensiveRakeStealthOpenerCheckBox.TabIndex = 2;
@@ -1132,25 +1160,44 @@
             this.label21.TabIndex = 9;
             this.label21.Text = "Requires at least";
             // 
-            // panel4
+            // offensiveRakeAllowMultiplierClippingCheckBox
             // 
-            this.panel4.BackColor = System.Drawing.Color.DarkGray;
-            this.panel4.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel4.ForeColor = System.Drawing.Color.White;
-            this.panel4.Location = new System.Drawing.Point(12, 67);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(220, 1);
-            this.panel4.TabIndex = 29;
+            this.offensiveRakeAllowMultiplierClippingCheckBox.AutoSize = true;
+            this.offensiveRakeAllowMultiplierClippingCheckBox.Location = new System.Drawing.Point(11, 32);
+            this.offensiveRakeAllowMultiplierClippingCheckBox.Name = "offensiveRakeAllowMultiplierClippingCheckBox";
+            this.offensiveRakeAllowMultiplierClippingCheckBox.Size = new System.Drawing.Size(207, 19);
+            this.offensiveRakeAllowMultiplierClippingCheckBox.TabIndex = 4;
+            this.offensiveRakeAllowMultiplierClippingCheckBox.Text = "Allow Damage Multiplier Clipping";
+            this.offensiveRakeAllowMultiplierClippingCheckBox.UseVisualStyleBackColor = true;
             // 
-            // offensiveThrashClearcastingProcCheckBox
+            // label1
             // 
-            this.offensiveThrashClearcastingProcCheckBox.AutoSize = true;
-            this.offensiveThrashClearcastingProcCheckBox.Location = new System.Drawing.Point(9, 77);
-            this.offensiveThrashClearcastingProcCheckBox.Name = "offensiveThrashClearcastingProcCheckBox";
-            this.offensiveThrashClearcastingProcCheckBox.Size = new System.Drawing.Size(211, 19);
-            this.offensiveThrashClearcastingProcCheckBox.TabIndex = 30;
-            this.offensiveThrashClearcastingProcCheckBox.Text = "Clearcasting proc on single target";
-            this.offensiveThrashClearcastingProcCheckBox.UseVisualStyleBackColor = true;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(149, 73);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(95, 15);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Raked enemies";
+            // 
+            // offensiveRakeMaxEnemiesTextBox
+            // 
+            this.offensiveRakeMaxEnemiesTextBox.BackColor = System.Drawing.Color.Wheat;
+            this.offensiveRakeMaxEnemiesTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.offensiveRakeMaxEnemiesTextBox.Location = new System.Drawing.Point(99, 71);
+            this.offensiveRakeMaxEnemiesTextBox.Name = "offensiveRakeMaxEnemiesTextBox";
+            this.offensiveRakeMaxEnemiesTextBox.Size = new System.Drawing.Size(50, 21);
+            this.offensiveRakeMaxEnemiesTextBox.TabIndex = 10;
+            this.offensiveRakeMaxEnemiesTextBox.Text = "4";
+            this.offensiveRakeMaxEnemiesTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(18, 73);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(82, 15);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "No more than";
             // 
             // FeralOffensiveSettings
             // 
@@ -1183,7 +1230,7 @@
             this.Controls.Add(this.offensiveSavageRoarPanel);
             this.Font = new System.Drawing.Font("Arial", 9F);
             this.Name = "FeralOffensiveSettings";
-            this.Size = new System.Drawing.Size(767, 443);
+            this.Size = new System.Drawing.Size(767, 444);
             this.Load += new System.EventHandler(this.FeralMobilitySettings_Load);
             this.panel32.ResumeLayout(false);
             this.panel32.PerformLayout();
@@ -1336,6 +1383,10 @@
         private System.Windows.Forms.CheckBox offensiveMoonfireLunarInspirationOnlyCheckBox;
         private System.Windows.Forms.CheckBox offensiveThrashClearcastingProcCheckBox;
         private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox offensiveRakeMaxEnemiesTextBox;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox offensiveRakeAllowMultiplierClippingCheckBox;
 
 
     }

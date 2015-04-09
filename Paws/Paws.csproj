@@ -133,6 +133,7 @@
     <Compile Include="Core\Abilities\Feral\WildChargeAbility.cs" />
     <Compile Include="Core\Abilities\AbilityChain.cs" />
     <Compile Include="Core\BleedingUnit.cs" />
+    <Compile Include="Core\Conditions\MyMaxRakedUnitsCondition.cs" />
     <Compile Include="Core\Conditions\AttackableTargetsMaxCountCondition.cs" />
     <Compile Include="Core\Conditions\AttackableTargetsMinCountCondition.cs" />
     <Compile Include="Core\Conditions\Attributes\ItemConditionAttribute.cs" />

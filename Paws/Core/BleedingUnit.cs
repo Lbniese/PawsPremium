@@ -6,6 +6,7 @@ namespace Paws.Core
     {
         public WoWUnit Unit { get; set; }
         public float AppliedMultiplier { get; set; }
+        public bool Requeue { get; set; }
 
         public BleedingUnit(WoWUnit unit, float appliedMultiplier)
         {
