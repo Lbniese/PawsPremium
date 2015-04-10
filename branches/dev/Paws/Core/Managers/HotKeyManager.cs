@@ -1,5 +1,6 @@
 ﻿using Paws.Core.Utilities;
 using Styx;
+using Styx.Common;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,6 +14,11 @@ namespace Paws.Core.Managers
 {
     public sealed class HotKeyManager
     {
+        public enum HotKeyFunction
+        {
+            AbilityChain = 0x00
+        }
+
         [DllImport("user32.dll")]
         public static extern short GetAsyncKeyState(Keys keys);
 
@@ -26,6 +32,8 @@ namespace Paws.Core.Managers
         public const int UPDATE_TIMER_INTERVAL_MS = 200;
 
         private Stopwatch UpdateTimer = new Stopwatch();
+
+        public Dictionary<Keys, HotKeyFunction> HotKeyMap { get; set; }
 
         #region Singleton Stuff
 
@@ -43,44 +51,59 @@ namespace Paws.Core.Managers
 
         public HotKeyManager()
         {
-            
+            HotkeysManager.Register(
+                "Burst",
+                Keys.F1,
+                ModifierKeys.Alt, KeyIsPressed);
+
+            //this.HotKeyMap = new Dictionary<Keys, HotKeyFunction>();
+            //this.HotKeyMap.Add(Keys.F1, HotKeyFunction.AbilityChain);
         }
 
-        public bool Update()
+        public void Update()
         {
-            #region Premium Content Only
+            //#region Premium Content Only
 
-            if (Main.Product == Product.Premium)
+            //if (Main.Product == Product.Premium)
+            //{
+            //    if (!this.UpdateTimer.IsRunning) this.UpdateTimer.Start();
+            //    if (this.UpdateTimer.ElapsedMilliseconds >= UPDATE_TIMER_INTERVAL_MS)
+            //    {
+            //        this.UpdateTimer.Restart();
+
+            //        if (GetForegroundWindow() == StyxWoW.Memory.Process.MainWindowHandle)
+            //        {
+            //            if (KeyIsPressed(this.BoundKey) && this.LastPressedKey != this.BoundKey)
+            //            {
+            //                this.LastPressedKey = this.BoundKey;
+
+            //                Log.GUI("F1 Pressed!");
+
+
+            //                return true;
+            //            }
+            //        }
+
+            //        if (!KeyIsPressed(this.BoundKey)) this.LastPressedKey = Keys.None;
+            //    }
+            //}
+
+            //#endregion
+
+            //return false;
+        }
+
+        public void KeyIsPressed(Hotkey hotKey)
+        {
+            //Log.GUI(string.Format("Key pressed: {0}, {1}, {2}, {3}", hotKey.Id, hotKey.Name, hotKey.ModifierKeys, hotKey.Key));
+
+            // Ability Chain Check...
+            var abilityChain = AbilityChainsManager.Instance.AbilityChains.SingleOrDefault(o => o.Trigger == TriggerType.HotKeyButton && o.RegisteredHotKeyName == hotKey.Name);
+            if (abilityChain != null)
             {
-                if (!this.UpdateTimer.IsRunning) this.UpdateTimer.Start();
-                if (this.UpdateTimer.ElapsedMilliseconds >= UPDATE_TIMER_INTERVAL_MS)
-                {
-                    this.UpdateTimer.Restart();
-
-                    if (GetForegroundWindow() == StyxWoW.Memory.Process.MainWindowHandle)
-                    {
-                        if (KeyIsPressed(this.BoundKey) && this.LastPressedKey != this.BoundKey)
-                        {
-                            this.LastPressedKey = this.BoundKey;
-
-                            Log.GUI("F1 Pressed!");
-
-                            return true;
-                        }
-                    }
-
-                    if (!KeyIsPressed(this.BoundKey)) this.LastPressedKey = Keys.None;
-                }
+                // We have a triggered Ability Chain
+                AbilityChainsManager.Instance.Trigger(abilityChain);
             }
-
-            #endregion
-
-            return false;
-        }
-
-        public static bool KeyIsPressed(Keys key)
-        {
-            return GetAsyncKeyState(key) != 0;
         }
     }
 }

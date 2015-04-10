@@ -51,6 +51,8 @@ namespace Paws.Core.Managers
 
         public AbilityChain TriggeredAbilityChain { get; set; }
 
+        public bool TriggerInAction { get; set; }
+
         /// <summary>
         /// Builds the list of abilities on creation.
         /// </summary>
@@ -59,7 +61,7 @@ namespace Paws.Core.Managers
             // Lets get a list of all chainable abilities...
             AllowedAbilityTypes = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(o => o.GetTypes())
-                .Where(o => o.Namespace == "Paws.Core.Abilities" && Attribute.IsDefined(o, typeof(AbilityChainAttribute)))
+                .Where(o => Attribute.IsDefined(o, typeof(AbilityChainAttribute)))
                 .OrderBy(o => o.Name)
                 .ToList();
 
@@ -67,6 +69,8 @@ namespace Paws.Core.Managers
             {
                 Log.GUI(type.Name);
             }
+            Log.GUI("Count: " + AllowedAbilityTypes.Count.ToString());
+
 
             LoadAbilityChains();
         }
@@ -78,7 +82,9 @@ namespace Paws.Core.Managers
             // Here we will load the ability chains from file. For now, we just use test fixtures.
 
             AbilityChain testChain = new AbilityChain();
-            testChain.Trigger = TriggerType.ListOfConditions;
+            testChain.Trigger = TriggerType.HotKeyButton;
+
+            testChain.RegisteredHotKeyName = "Burst";
 
             // Our test chain will make sure we have an attackable target that has 85% health or less.
             testChain.Conditions.Add(new MeHasAttackableTargetCondition());
@@ -118,14 +124,29 @@ namespace Paws.Core.Managers
                 {
                     if (await ability.CastOnTarget(StyxWoW.Me.CurrentTarget))
                     {
-                        // Remove the ability from the queue...
-                        
+                        // Hack. Should build a queue.
+                        if (this.TriggeredAbilityChain.Abilities.Last() == ability)
+                        {
+                            this.TriggerInAction = false;
+                            Log.GUI("Ability Chain Finished. Resuming normal operations.");
+                        }
                         return true;
                     }
                 }
             }
 
             return false;
+        }
+
+        public void Trigger(AbilityChain abilityChain)
+        {
+            if (!this.TriggerInAction)
+            {
+                Log.GUI("Ability Chain Triggered.");
+
+                this.TriggerInAction = true;
+                this.TriggeredAbilityChain = abilityChain;
+            }
         }
     }
 }

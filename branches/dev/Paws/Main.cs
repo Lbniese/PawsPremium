@@ -12,6 +12,7 @@ using Styx.WoWInternals.WoWObjects;
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Linq;
 using R = Paws.Core.Routines;
 
 namespace Paws
@@ -21,7 +22,7 @@ namespace Paws
     /// </summary>
     public class Main : CombatRoutine
     {
-        public static Product Product { get { return Paws.Product.Community; } }
+        public static Product Product { get { return Paws.Product.Premium; } }
 
         private static Version _version = new Version(1, 8, 0);
         private static string _environment = "Development";
@@ -49,6 +50,7 @@ namespace Paws
 
         #endregion
 
+
         #region Implementation
 
         public override void Initialize()
@@ -60,6 +62,7 @@ namespace Paws
                 GlobalSettingsManager.Instance.Init();
                 AbilityManager.ReloadAbilities();
                 ItemManager.LoadDataSet();
+                AbilityChainsManager.Init();
 
                 this.Events = new Events();
 
@@ -69,7 +72,7 @@ namespace Paws
                 Log.Combat(string.Format("Current Specialization: {0}", this.MyCurrentSpec.ToString().Replace("Druid", string.Empty)));
                 Log.Combat(string.Format("Current Profile: {0}", GlobalSettingsManager.Instance.LastUsedProfile));
                 Log.Combat(string.Format("{0} abilities loaded", AbilityManager.Instance.Abilities.Count));
-                Log.Combat(string.Format("{0} conditional use items loaded", ItemManager.Items.Count));
+                Log.Combat(string.Format("{0} conditional use items loaded ({1} enabled)", ItemManager.Items.Count, ItemManager.Items.Count(o => o.Enabled)));
                 Log.Combat("--------------------------------------------------");
 
                 SettingsManager.Instance.LogDump();

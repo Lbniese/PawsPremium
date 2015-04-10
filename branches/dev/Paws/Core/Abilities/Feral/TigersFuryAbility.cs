@@ -19,6 +19,10 @@ namespace Paws.Core.Abilities.Feral
             : base(WoWSpell.FromId(SpellBook.TigersFury), true, true)
         {
             base.Category = AbilityCategory.Buff;
+
+            base.RequiredConditions.Add(new MeIsInCatFormCondition());
+            base.RequiredConditions.Add(new MeHasAttackableTargetCondition());
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
         }
 
         public override void ApplyDefaultSettings()
@@ -26,10 +30,7 @@ namespace Paws.Core.Abilities.Feral
             base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.TigersFuryEnabled));
-            base.Conditions.Add(new MeIsInCatFormCondition());
-            base.Conditions.Add(new MeHasAttackableTargetCondition());
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.TigersFury));
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, base.Spell.Id));
             base.Conditions.Add(new MyTargetIsWithinMeleeRangeCondition());
             base.Conditions.Add(new ConditionTestSwitchCondition(
                 new BooleanCondition(Settings.TigersFuryUseMaxEnergy),
