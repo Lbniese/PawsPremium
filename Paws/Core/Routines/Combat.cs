@@ -28,7 +28,7 @@ namespace Paws.Core.Routines
 
             if (BotManager.Current.IsRoutineBased() && !Me.Combat) return false;
 
-            if (Chains.TriggeredAbilityChain == null)
+            if (!Chains.TriggerInAction)
             {
                 //Chains.Check();
 

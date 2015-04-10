@@ -20,6 +20,11 @@ namespace Paws.Core
         /// </summary>
         public List<ICondition> Conditions { get; set; }
 
+        /// <summary>
+        /// The name of the registered hotkey to trigger the chain.
+        /// </summary>
+        public string RegisteredHotKeyName { get; set;  }
+
         // This is the definition of one ability chain.
         public AbilityChain()
         {
