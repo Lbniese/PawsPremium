@@ -11,6 +11,8 @@ using Feral = Paws.Core.Abilities.Feral;
 using Guardian = Paws.Core.Abilities.Guardian;
 using Paws.Core.Abilities.Attributes;
 using Paws.Core.Conditions;
+using System.Diagnostics;
+using Buddy.Coroutines;
 
 namespace Paws.Core.Managers
 {
@@ -19,6 +21,11 @@ namespace Paws.Core.Managers
     /// </summary>
     public sealed class AbilityChainsManager
     {
+        /// <summary>
+        /// The time between each ability before deciding to kill the ability chain.
+        /// </summary>
+        public int TriggerTimerElapsedMs { get; set; }
+
         #region Singleton Stuff
 
         private static AbilityChainsManager _singletonInstance;
@@ -51,7 +58,11 @@ namespace Paws.Core.Managers
 
         public AbilityChain TriggeredAbilityChain { get; set; }
 
+        // public Queue<IAbility> AbilityQueue { get; set; }
+
         public bool TriggerInAction { get; set; }
+
+        private Stopwatch _triggerTimer = new Stopwatch();
 
         /// <summary>
         /// Builds the list of abilities on creation.
@@ -81,20 +92,40 @@ namespace Paws.Core.Managers
 
             // Here we will load the ability chains from file. For now, we just use test fixtures.
 
-            AbilityChain testChain = new AbilityChain();
+            AbilityChain testChain = new AbilityChain("Burst");
             testChain.Trigger = TriggerType.HotKeyButton;
 
-            testChain.RegisteredHotKeyName = "Burst";
+            testChain.RegisteredHotKeyName = testChain.Name;
 
             // Our test chain will make sure we have an attackable target that has 85% health or less.
             testChain.Conditions.Add(new MeHasAttackableTargetCondition());
             testChain.Conditions.Add(new TargetHealthRangeCondition(TargetType.MyCurrentTarget, 0, 85));
 
-            testChain.Abilities.Add(new Shared.MightyBashAbility());
-            testChain.Abilities.Add(new Feral.BerserkAbility());
-            testChain.Abilities.Add(new Feral.IncarnationAbility());
+            var berserk = new Feral.BerserkAbility();
+            berserk.Conditions.Add(new TargetHasAuraCondition(TargetType.Me, SpellBook.FeralIncarnationForm));
+
+            testChain.ChainedAbilities.Add(new ChainedAbility(new Shared.MightyBashAbility(), TargetType.MyCurrentTarget, false));
+            testChain.ChainedAbilities.Add(new ChainedAbility(new Feral.IncarnationAbility(), TargetType.Me, true));
+            testChain.ChainedAbilities.Add(new ChainedAbility(berserk, TargetType.Me, true));
 
             this.AbilityChains.Add(testChain);
+        }
+
+        public void Update()
+        {
+            if (this.TriggeredAbilityChain != null)
+            {
+                if (!_triggerTimer.IsRunning) _triggerTimer.Start();
+                if (_triggerTimer.ElapsedMilliseconds > this.TriggerTimerElapsedMs)
+                {
+                    _triggerTimer.Reset();
+
+                    Log.GUI(string.Format("The {0} ability chain canceled due to exeeding the alotted chain timer of {1} ms.", this.TriggeredAbilityChain.Name, this.TriggerTimerElapsedMs));
+
+                    this.TriggerInAction = false;
+                    this.TriggeredAbilityChain = null;
+                }
+            }
         }
 
         public void Check()
@@ -120,16 +151,23 @@ namespace Paws.Core.Managers
         {
             if (this.TriggeredAbilityChain != null)
             {
-                foreach (var ability in this.TriggeredAbilityChain.Abilities)
+                foreach (var link in this.TriggeredAbilityChain.ChainedAbilities)
                 {
-                    if (await ability.CastOnTarget(StyxWoW.Me.CurrentTarget))
+                    if (await link.Ability.CastOnTarget(UnitManager.TargetTypeConverter(link.TargetType)))
                     {
-                        // Hack. Should build a queue.
-                        if (this.TriggeredAbilityChain.Abilities.Last() == ability)
+                        if (this.TriggeredAbilityChain != null)
                         {
-                            this.TriggerInAction = false;
-                            Log.GUI("Ability Chain Finished. Resuming normal operations.");
+                            if (link == this.TriggeredAbilityChain.ChainedAbilities.Last())
+                            {
+                                Log.GUI("The " + this.TriggeredAbilityChain.Name + " ability chain finished.");
+
+                                this.TriggerInAction = false;
+                                this.TriggeredAbilityChain = null;
+
+                                _triggerTimer.Reset();
+                            }
                         }
+
                         return true;
                     }
                 }
@@ -142,10 +180,26 @@ namespace Paws.Core.Managers
         {
             if (!this.TriggerInAction)
             {
-                Log.GUI("Ability Chain Triggered.");
+                foreach (var link in abilityChain.ChainedAbilities)
+                {
+                    if (link.IsRequired)
+                    {
+                        if (link.Ability.Spell.IsOnCooldown())
+                        {
+                            Log.GUI("The " + abilityChain.Name + " ability chain has been canceled. The ability " + link.Ability.Spell.Name + " is still on cooldown.");
+                            return;
+                        }
+                    }
+                }
+
+                Log.GUI("The " + abilityChain.Name + " ability chain has been triggered.");
 
                 this.TriggerInAction = true;
                 this.TriggeredAbilityChain = abilityChain;
+
+                this.TriggerTimerElapsedMs = abilityChain.ChainedAbilities.Count * 2000;
+
+                _triggerTimer.Restart();
             }
         }
     }

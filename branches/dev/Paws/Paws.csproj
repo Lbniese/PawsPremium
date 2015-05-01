@@ -64,6 +64,7 @@
     <Compile Include="Core\Abilities\Attributes\AbilityChainAttribute.cs" />
     <Compile Include="Core\Abilities\BlockedAbility.cs" />
     <Compile Include="Core\Abilities\BlockedAbilityList.cs" />
+    <Compile Include="Core\Abilities\ChainedAbility.cs" />
     <Compile Include="Core\Abilities\Feral\BerserkingAbility.cs" />
     <Compile Include="Core\Abilities\Feral\CatFormPowerShiftAbility.cs" />
     <Compile Include="Core\Abilities\Feral\RejuvenateMyAllyAbility.cs" />
@@ -218,6 +219,12 @@
     <Compile Include="Core\Utilities\Events.cs" />
     <Compile Include="Core\Utilities\Log.cs" />
     <Compile Include="Core\Utilities\Diagnostics.cs" />
+    <Compile Include="Interface\Controls\AbilityChainsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interface\Controls\AbilityChainsControl.Designer.cs">
+      <DependentUpon>AbilityChainsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interface\Controls\Feral\FeralHealingSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -272,6 +279,12 @@
     </Compile>
     <Compile Include="Interface\Forms\AddItemMyBagsForm.Designer.cs">
       <DependentUpon>AddItemMyBagsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Forms\AddNewAbilityChainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\Forms\AddNewAbilityChainForm.Designer.cs">
+      <DependentUpon>AddNewAbilityChainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Interface\Forms\AddNewConditionForm.cs">
       <SubType>Form</SubType>
@@ -333,6 +346,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Interface\Controls\AbilityChainsControl.resx">
+      <DependentUpon>AbilityChainsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Forms\AddNewAbilityChainForm.resx">
+      <DependentUpon>AddNewAbilityChainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\release-notes.rtf" />
     <EmbeddedResource Include="Resources\release.resx">
       <Generator>ResXFileCodeGenerator</Generator>

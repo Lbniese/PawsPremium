@@ -1,5 +1,6 @@
 ﻿using Paws.Core.Managers;
 using Paws.Core.Utilities;
+using Styx;
 using Styx.CommonBot;
 using Styx.Patchables;
 using Styx.WoWInternals;
@@ -96,7 +97,7 @@ namespace Paws.Core
         public static bool CanActuallyInterruptCurrentTargetSpellCast(this LocalPlayer thisPlayer, int milliseconds)
         {
             if (!thisPlayer.HasAttackableTarget()) return false;
-            if (thisPlayer.CurrentTarget.IsChanneling && thisPlayer.ChanneledSpell != null)
+            if (thisPlayer.CurrentTarget.IsChanneling && thisPlayer.CurrentTarget.ChanneledSpell != null)
             {
                 return (thisPlayer.CurrentTarget.CurrentChannelTimeLeft.TotalMilliseconds > milliseconds) &&
                     (thisPlayer.CurrentTarget.CanInterruptCurrentSpellCast);
@@ -114,27 +115,28 @@ namespace Paws.Core
         /// Determines if the player currently has lost control.
         public static bool HasLossOfControl(this LocalPlayer thisPlayer)
         {
-            foreach (var aura in thisPlayer.GetAllAuras())
-            {
-                if (!aura.IsHarmful)
-                    continue;
+            //foreach (var aura in thisPlayer.GetAllAuras())
+            //{
+            //    if (!aura.IsHarmful)
+            //        continue;
 
-                if (aura.Spell == null)
-                    continue;
+            //    if (aura.Spell == null)
+            //        continue;
 
-                if (aura.Spell.Mechanic == WoWSpellMechanic.Asleep ||
-                    aura.Spell.Mechanic == WoWSpellMechanic.Charmed ||
-                    aura.Spell.Mechanic == WoWSpellMechanic.Disoriented ||
-                    aura.Spell.Mechanic == WoWSpellMechanic.Fleeing ||
-                    aura.Spell.Mechanic == WoWSpellMechanic.Horrified ||
-                    aura.Spell.Mechanic == WoWSpellMechanic.Incapacitated ||
-                    aura.Spell.Mechanic == WoWSpellMechanic.Sapped ||
-                    aura.Spell.Mechanic == WoWSpellMechanic.Stunned)
-                {
-                    Log.Equipment(string.Format("Loss of control detected on me: {0} ({1})", aura.Spell.Name, aura.Spell.Mechanic));
-                    return true;
-                }
-            }
+            //    if (aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Asleep) ||
+            //        aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Charmed) ||
+            //        aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Disoriented) ||
+            //        aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Fleeing) ||
+            //        aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Horrified) ||
+            //        aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Incapacitated) ||
+            //        aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Sapped) ||
+            //        aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Stunned) ||
+            //        aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Polymorphed))
+            //    {
+            //        Log.Equipment(string.Format("Loss of control detected on me: {0} ({1})", aura.Spell.Name, aura.Spell.Mechanic));
+            //        return true;
+            //    }
+            //}
 
             return false;
         }
@@ -143,24 +145,23 @@ namespace Paws.Core
         /// Determines if the player currently has total loss of control (cannot clear).
         public static bool HasTotalLossOfControl(this LocalPlayer thisPlayer)
         {
-            if (thisPlayer.HasLossOfControl()) return true;
+            //if (thisPlayer.HasLossOfControl()) return true;
 
-            foreach (var aura in thisPlayer.GetAllAuras())
-            {
-                if (!aura.IsHarmful)
-                    continue;
+            //foreach (var aura in thisPlayer.GetAllAuras())
+            //{
+            //    if (!aura.IsHarmful)
+            //        continue;
 
-                if (aura.Spell == null)
-                    continue;
+            //    if (aura.Spell == null)
+            //        continue;
 
-                if (aura.Spell.Mechanic == WoWSpellMechanic.Banished ||
-                    aura.Spell.Mechanic == WoWSpellMechanic.Frozen ||
-                    aura.Spell.Mechanic == WoWSpellMechanic.Polymorphed)
-                {
-                    Log.Equipment(string.Format("Total Loss of control detected on me: {0} ({1})", aura.Spell.Name, aura.Spell.Mechanic));
-                    return true;
-                }
-            }
+            //    if (aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Banished) ||
+            //        aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Frozen))
+            //    {
+            //        Log.Equipment(string.Format("Total Loss of control detected on me: {0} ({1})", aura.Spell.Name, aura.Spell.Mechanic));
+            //        return true;
+            //    }
+            //}
 
             return false;
         }
@@ -173,8 +174,8 @@ namespace Paws.Core
         {
             foreach (var aura in thisPlayer.GetAllAuras())
             {
-                if (aura.Spell.Mechanic == WoWSpellMechanic.Rooted ||
-                    aura.Spell.Mechanic == WoWSpellMechanic.Snared)
+                if (aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Rooted) ||
+                    aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Snared))
                 {
                     // Log.Equipment(string.Format("Snare or Root detected on me: {0} ({1})", aura.Spell.Name, aura.Spell.Mechanic));
                     return true;
@@ -198,9 +199,17 @@ namespace Paws.Core
             SpellFindResults spellFindResults;
             if (SpellManager.FindSpell(thisSpell.Id, out spellFindResults))
             {
-                return spellFindResults.Override != null
-                    ? spellFindResults.Override.Cooldown
-                    : spellFindResults.Original.Cooldown;
+                WoWSpell theSpell = spellFindResults.Override != null
+                    ? spellFindResults.Override
+                    : spellFindResults.Original;
+
+                var timeLeft = SpellManager.GlobalCooldown 
+                    ? (theSpell.CooldownTimeLeft.TotalMilliseconds - 1500) 
+                    : theSpell.CooldownTimeLeft.TotalMilliseconds;
+
+                // Log.GUI(string.Format("Spell {0} Base CD: {1}, CD: {2}, GCD: {3}", theSpell.Name, theSpell.BaseCooldown, theSpell.CooldownTimeLeft.TotalMilliseconds, SpellManager.GlobalCooldownLeft.TotalMilliseconds));
+
+                return timeLeft <= 0;
             }
 
             return false;

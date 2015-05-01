@@ -2,6 +2,7 @@
 using Paws.Core.Abilities.Feral;
 using Paws.Core.Abilities.Guardian;
 using Paws.Core.Abilities.Shared;
+using Paws.Core.Conditions;
 using Paws.Core.Utilities;
 using Styx.CommonBot.Coroutines;
 using Styx.CommonBot.POI;
@@ -531,6 +532,29 @@ namespace Paws.Core.Managers
         public static string GuidToUnitID(string wowGuid)
         {
             return string.IsNullOrEmpty(wowGuid) ? string.Empty : wowGuid.Substring(wowGuid.Length - 4, 4);
+        }
+
+        /// <summary>
+        /// Convert the TargetType enum to a WoWUnit.
+        /// </summary>
+        public static WoWUnit TargetTypeConverter(TargetType targetType)
+        {
+            switch (targetType)
+            {
+                case TargetType.Me:
+                    {
+                        return Me;
+                    }
+                case TargetType.MyCurrentTarget:
+                    {
+                        return Me.CurrentTarget;
+                    }
+                case TargetType.MyCurrentFocus:
+                    {
+                        return Me.FocusedUnit;
+                    }
+                default: return null;
+            }
         }
 
         private static Func<WoWPartyMember, bool> AllyNeedsHealingWhereClause = new Func<WoWPartyMember, bool>(o =>

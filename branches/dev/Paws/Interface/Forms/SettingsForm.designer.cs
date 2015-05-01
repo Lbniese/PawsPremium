@@ -38,6 +38,8 @@
             this.generalInterruptTimingMinMSTextBox = new System.Windows.Forms.TextBox();
             this.generalInterruptTimingSuccessRateTextBox = new System.Windows.Forms.TextBox();
             this.generalInterruptTimingMaxMSTextBox = new System.Windows.Forms.TextBox();
+            this.mobilityForceCombatCheckBox = new System.Windows.Forms.CheckBox();
+            this.mobilityAutoTargetCheckBox = new System.Windows.Forms.CheckBox();
             this.itemsListViewContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.enabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -67,6 +69,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.panel31 = new System.Windows.Forms.Panel();
             this.generalReleaseSpiritOnDeathEnabledCheckBox = new System.Windows.Forms.CheckBox();
             this.generalReleaseSpiritOnDeathPanel = new System.Windows.Forms.Panel();
@@ -162,9 +165,6 @@
             this.enabledColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.stateColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.itemUseConditionsColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.mobilityForceCombatCheckBox = new System.Windows.Forms.CheckBox();
-            this.mobilityAutoTargetCheckBox = new System.Windows.Forms.CheckBox();
-            this.panel4 = new System.Windows.Forms.Panel();
             this.itemsListViewContextMenu.SuspendLayout();
             this.vt.SuspendLayout();
             this.aboutTab.SuspendLayout();
@@ -354,6 +354,28 @@
             this.generalInterruptTimingMaxMSTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.tooltipHandler.SetToolTip(this.generalInterruptTimingMaxMSTextBox, "A random number will be picked between these two numbers each time the bot wants " +
         "to interrupt.\r\nAbility interrupt settings are on the Defensive tab.");
+            // 
+            // mobilityForceCombatCheckBox
+            // 
+            this.mobilityForceCombatCheckBox.AutoSize = true;
+            this.mobilityForceCombatCheckBox.Location = new System.Drawing.Point(8, 88);
+            this.mobilityForceCombatCheckBox.Name = "mobilityForceCombatCheckBox";
+            this.mobilityForceCombatCheckBox.Size = new System.Drawing.Size(104, 19);
+            this.mobilityForceCombatCheckBox.TabIndex = 1;
+            this.mobilityForceCombatCheckBox.Text = "Force Combat";
+            this.tooltipHandler.SetToolTip(this.mobilityForceCombatCheckBox, "Turn this off if you would like to control your character yourself.");
+            this.mobilityForceCombatCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mobilityAutoTargetCheckBox
+            // 
+            this.mobilityAutoTargetCheckBox.AutoSize = true;
+            this.mobilityAutoTargetCheckBox.Location = new System.Drawing.Point(8, 69);
+            this.mobilityAutoTargetCheckBox.Name = "mobilityAutoTargetCheckBox";
+            this.mobilityAutoTargetCheckBox.Size = new System.Drawing.Size(88, 19);
+            this.mobilityAutoTargetCheckBox.TabIndex = 0;
+            this.mobilityAutoTargetCheckBox.Text = "Auto-Target";
+            this.tooltipHandler.SetToolTip(this.mobilityAutoTargetCheckBox, "Turn this off if you would like to control your character yourself.");
+            this.mobilityAutoTargetCheckBox.UseVisualStyleBackColor = true;
             // 
             // itemsListViewContextMenu
             // 
@@ -687,6 +709,16 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(249, 116);
             this.panel2.TabIndex = 33;
+            // 
+            // panel4
+            // 
+            this.panel4.BackColor = System.Drawing.Color.DarkGray;
+            this.panel4.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panel4.ForeColor = System.Drawing.Color.White;
+            this.panel4.Location = new System.Drawing.Point(13, 60);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(220, 1);
+            this.panel4.TabIndex = 20;
             // 
             // panel31
             // 
@@ -1714,38 +1746,6 @@
             // 
             this.itemUseConditionsColumnHeader.Text = "Use Conditions";
             this.itemUseConditionsColumnHeader.Width = 325;
-            // 
-            // mobilityForceCombatCheckBox
-            // 
-            this.mobilityForceCombatCheckBox.AutoSize = true;
-            this.mobilityForceCombatCheckBox.Location = new System.Drawing.Point(8, 88);
-            this.mobilityForceCombatCheckBox.Name = "mobilityForceCombatCheckBox";
-            this.mobilityForceCombatCheckBox.Size = new System.Drawing.Size(104, 19);
-            this.mobilityForceCombatCheckBox.TabIndex = 1;
-            this.mobilityForceCombatCheckBox.Text = "Force Combat";
-            this.tooltipHandler.SetToolTip(this.mobilityForceCombatCheckBox, "Turn this off if you would like to control your character yourself.");
-            this.mobilityForceCombatCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // mobilityAutoTargetCheckBox
-            // 
-            this.mobilityAutoTargetCheckBox.AutoSize = true;
-            this.mobilityAutoTargetCheckBox.Location = new System.Drawing.Point(8, 69);
-            this.mobilityAutoTargetCheckBox.Name = "mobilityAutoTargetCheckBox";
-            this.mobilityAutoTargetCheckBox.Size = new System.Drawing.Size(88, 19);
-            this.mobilityAutoTargetCheckBox.TabIndex = 0;
-            this.mobilityAutoTargetCheckBox.Text = "Auto-Target";
-            this.tooltipHandler.SetToolTip(this.mobilityAutoTargetCheckBox, "Turn this off if you would like to control your character yourself.");
-            this.mobilityAutoTargetCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // panel4
-            // 
-            this.panel4.BackColor = System.Drawing.Color.DarkGray;
-            this.panel4.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel4.ForeColor = System.Drawing.Color.White;
-            this.panel4.Location = new System.Drawing.Point(13, 60);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(220, 1);
-            this.panel4.TabIndex = 20;
             // 
             // SettingsForm
             // 

@@ -10,9 +10,17 @@ namespace Paws.Core
 {
     public class AbilityChain
     {
-        public List<IAbility> Abilities { get; set; }
+        public List<ChainedAbility> ChainedAbilities { get; set; }
         public TriggerType Trigger { get; set; }
 
+        /// <summary>
+        /// The name 
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Flag that indicates if the ability chain has been triggered. (Likely remove this)
+        /// </summary>
         public bool Triggered { get; set; }
 
         /// <summary>
@@ -26,9 +34,10 @@ namespace Paws.Core
         public string RegisteredHotKeyName { get; set;  }
 
         // This is the definition of one ability chain.
-        public AbilityChain()
+        public AbilityChain(string name)
         {
-            this.Abilities = new List<IAbility>();
+            this.Name = name;
+            this.ChainedAbilities = new List<ChainedAbility>();
             this.Conditions = new List<ICondition>();
         }
 
