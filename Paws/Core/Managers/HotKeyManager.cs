@@ -51,46 +51,15 @@ namespace Paws.Core.Managers
 
         public HotKeyManager()
         {
-            HotkeysManager.Register(
-                "Burst",
-                Keys.F1,
-                ModifierKeys.Alt, KeyIsPressed);
-
-            //this.HotKeyMap = new Dictionary<Keys, HotKeyFunction>();
-            //this.HotKeyMap.Add(Keys.F1, HotKeyFunction.AbilityChain);
+            if (Main.Product == Product.Premium)
+            {
+                HotkeysManager.Register("Burst", Keys.F1, ModifierKeys.Alt, KeyIsPressed);
+            }
         }
 
         public void Update()
         {
-            //#region Premium Content Only
-
-            //if (Main.Product == Product.Premium)
-            //{
-            //    if (!this.UpdateTimer.IsRunning) this.UpdateTimer.Start();
-            //    if (this.UpdateTimer.ElapsedMilliseconds >= UPDATE_TIMER_INTERVAL_MS)
-            //    {
-            //        this.UpdateTimer.Restart();
-
-            //        if (GetForegroundWindow() == StyxWoW.Memory.Process.MainWindowHandle)
-            //        {
-            //            if (KeyIsPressed(this.BoundKey) && this.LastPressedKey != this.BoundKey)
-            //            {
-            //                this.LastPressedKey = this.BoundKey;
-
-            //                Log.GUI("F1 Pressed!");
-
-
-            //                return true;
-            //            }
-            //        }
-
-            //        if (!KeyIsPressed(this.BoundKey)) this.LastPressedKey = Keys.None;
-            //    }
-            //}
-
-            //#endregion
-
-            //return false;
+            // need to determine if we even need to do anything here...
         }
 
         public void KeyIsPressed(Hotkey hotKey)

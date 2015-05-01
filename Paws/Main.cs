@@ -111,8 +111,9 @@ namespace Paws
             UnitManager.Instance.Update();
             SnapshotManager.Instance.Update();
             HotKeyManager.Instance.Update();
+            AbilityChainsManager.Instance.Update();
             UnitManager.Instance.TargetNearestEnemey();
-
+            
             base.Pulse();
         }
 

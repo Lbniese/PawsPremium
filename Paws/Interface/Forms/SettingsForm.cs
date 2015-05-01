@@ -62,6 +62,8 @@ namespace Paws.Interface
         /// </summary>
         private void InitSettingsMode()
         {
+            AddPremiumContent();
+
             this.mobilityTab.Controls.Clear();
             this.offensiveTab.Controls.Clear();
             this.defensiveTab.Controls.Clear();
@@ -87,6 +89,20 @@ namespace Paws.Interface
                         this.healingTab.Controls.Add(new FeralHealingSettings(this));
                         break;
                     }
+            }
+        }
+
+        /// <summary>
+        /// Method responsibile for setting up the visibility of the premium content.
+        /// </summary>
+        private void AddPremiumContent()
+        {
+            if (Main.Product == Product.Premium)
+            {
+                var tabPage = new TabPage("Ability Chains");
+                tabPage.Controls.Add(new AbilityChainsControl());
+
+                this.vt.TabPages.Add(tabPage);
             }
         }
 
