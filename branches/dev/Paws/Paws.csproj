@@ -133,6 +133,7 @@
     <Compile Include="Core\Abilities\Feral\CatFormAbility.cs" />
     <Compile Include="Core\Abilities\Feral\WildChargeAbility.cs" />
     <Compile Include="Core\Abilities\AbilityChain.cs" />
+    <Compile Include="Core\AllowedAbility.cs" />
     <Compile Include="Core\BleedingUnit.cs" />
     <Compile Include="Core\Conditions\MyMaxRakedUnitsCondition.cs" />
     <Compile Include="Core\Conditions\AttackableTargetsMaxCountCondition.cs" />
@@ -286,6 +287,12 @@
     <Compile Include="Interface\Forms\AddNewAbilityChainForm.Designer.cs">
       <DependentUpon>AddNewAbilityChainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interface\Forms\AddNewAbilityForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\Forms\AddNewAbilityForm.Designer.cs">
+      <DependentUpon>AddNewAbilityForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interface\Forms\AddNewConditionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -351,6 +358,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Interface\Forms\AddNewAbilityChainForm.resx">
       <DependentUpon>AddNewAbilityChainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Forms\AddNewAbilityForm.resx">
+      <DependentUpon>AddNewAbilityForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\release-notes.rtf" />
     <EmbeddedResource Include="Resources\release.resx">

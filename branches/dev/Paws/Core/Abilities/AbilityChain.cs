@@ -1,10 +1,12 @@
 ﻿using Paws.Core.Abilities;
 using Paws.Core.Conditions;
+using Styx.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Paws.Core
 {
@@ -29,9 +31,18 @@ namespace Paws.Core
         public List<ICondition> Conditions { get; set; }
 
         /// <summary>
-        /// The name of the registered hotkey to trigger the chain.
+        /// The Key associated with this ability chain that must be pressed in combination with the ModifierKey (if present).
         /// </summary>
-        public string RegisteredHotKeyName { get; set;  }
+        public Keys HotKey { get; set; }
+
+        /// <summary>
+        /// The Modifier Key associated with this ability chain that must be pressed in combination with the HotKey.
+        /// </summary>
+        public ModifierKeys ModiferKey { get; set; }
+
+        public AbilityChain()
+            : this("Not Named")
+        { }
 
         // This is the definition of one ability chain.
         public AbilityChain(string name)
@@ -39,6 +50,8 @@ namespace Paws.Core
             this.Name = name;
             this.ChainedAbilities = new List<ChainedAbility>();
             this.Conditions = new List<ICondition>();
+            this.HotKey = Keys.None;
+            this.ModiferKey = ModifierKeys.Alt;
         }
 
         /// <summary>

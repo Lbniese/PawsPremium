@@ -34,8 +34,8 @@
             this.abilityChainsListView = new System.Windows.Forms.ListView();
             this.nameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.enabledColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.targetColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.itemUseConditionsColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.hotkeyColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.abilitiesColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel46.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -78,8 +78,8 @@
             this.abilityChainsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.nameColumnHeader,
             this.enabledColumnHeader,
-            this.targetColumnHeader,
-            this.itemUseConditionsColumnHeader});
+            this.hotkeyColumnHeader,
+            this.abilitiesColumnHeader});
             this.abilityChainsListView.FullRowSelect = true;
             this.abilityChainsListView.GridLines = true;
             this.abilityChainsListView.Location = new System.Drawing.Point(3, 64);
@@ -101,15 +101,15 @@
             this.enabledColumnHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.enabledColumnHeader.Width = 75;
             // 
-            // targetColumnHeader
+            // hotkeyColumnHeader
             // 
-            this.targetColumnHeader.Text = "Target";
-            this.targetColumnHeader.Width = 125;
+            this.hotkeyColumnHeader.Text = "Hot Key Trigger";
+            this.hotkeyColumnHeader.Width = 200;
             // 
-            // itemUseConditionsColumnHeader
+            // abilitiesColumnHeader
             // 
-            this.itemUseConditionsColumnHeader.Text = "Use Conditions";
-            this.itemUseConditionsColumnHeader.Width = 325;
+            this.abilitiesColumnHeader.Text = "Abilities";
+            this.abilitiesColumnHeader.Width = 260;
             // 
             // AbilityChainsControl
             // 
@@ -136,8 +136,8 @@
         private System.Windows.Forms.ListView abilityChainsListView;
         private System.Windows.Forms.ColumnHeader nameColumnHeader;
         private System.Windows.Forms.ColumnHeader enabledColumnHeader;
-        private System.Windows.Forms.ColumnHeader targetColumnHeader;
-        private System.Windows.Forms.ColumnHeader itemUseConditionsColumnHeader;
+        private System.Windows.Forms.ColumnHeader hotkeyColumnHeader;
+        private System.Windows.Forms.ColumnHeader abilitiesColumnHeader;
 
     }
 }
