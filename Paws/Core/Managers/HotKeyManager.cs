@@ -67,7 +67,7 @@ namespace Paws.Core.Managers
             //Log.GUI(string.Format("Key pressed: {0}, {1}, {2}, {3}", hotKey.Id, hotKey.Name, hotKey.ModifierKeys, hotKey.Key));
 
             // Ability Chain Check...
-            var abilityChain = AbilityChainsManager.Instance.AbilityChains.SingleOrDefault(o => o.Trigger == TriggerType.HotKeyButton && o.RegisteredHotKeyName == hotKey.Name);
+            var abilityChain = AbilityChainsManager.Instance.AbilityChains.SingleOrDefault(o => o.Trigger == TriggerType.HotKeyButton && o.Name == hotKey.Name);
             if (abilityChain != null)
             {
                 // We have a triggered Ability Chain

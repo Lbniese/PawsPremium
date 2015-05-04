@@ -95,8 +95,6 @@ namespace Paws.Core.Managers
             AbilityChain testChain = new AbilityChain("Burst");
             testChain.Trigger = TriggerType.HotKeyButton;
 
-            testChain.RegisteredHotKeyName = testChain.Name;
-
             // Our test chain will make sure we have an attackable target that has 85% health or less.
             testChain.Conditions.Add(new MeHasAttackableTargetCondition());
             testChain.Conditions.Add(new TargetHealthRangeCondition(TargetType.MyCurrentTarget, 0, 85));
@@ -120,7 +118,7 @@ namespace Paws.Core.Managers
                 {
                     _triggerTimer.Reset();
 
-                    Log.GUI(string.Format("The {0} ability chain canceled due to exeeding the alotted chain timer of {1} ms.", this.TriggeredAbilityChain.Name, this.TriggerTimerElapsedMs));
+                    Log.GUI(string.Format("NOTICE: The {0} ability chain was canceled due to exeeding the alotted chain timer of {1} ms.", this.TriggeredAbilityChain.Name, this.TriggerTimerElapsedMs));
 
                     this.TriggerInAction = false;
                     this.TriggeredAbilityChain = null;
@@ -184,9 +182,9 @@ namespace Paws.Core.Managers
                 {
                     if (link.IsRequired)
                     {
-                        if (link.Ability.Spell.IsOnCooldown())
+                        if (link.Ability.Spell.CooldownTimeLeft.TotalMilliseconds > 2000) // allow the chain to que up if less than 2 seconds on the cooldown clock
                         {
-                            Log.GUI("The " + abilityChain.Name + " ability chain has been canceled. The ability " + link.Ability.Spell.Name + " is still on cooldown.");
+                            Log.GUI(string.Format("NOTICE: The {0} ability chain has been canceled. {1} is still on cooldown (Time left: {2})", abilityChain.Name, link.Ability.Spell.Name, link.Ability.Spell.CooldownTimeLeft));
                             return;
                         }
                     }
@@ -201,6 +199,21 @@ namespace Paws.Core.Managers
 
                 _triggerTimer.Restart();
             }
+        }
+
+        /// <summary>
+        /// Retrieves a new list of allowed abilities based on the list of allowed types.
+        /// </summary>
+        public static List<AllowedAbility> GetAllowedAbilities()
+        {
+            List<AllowedAbility> allowedAbilities = new List<AllowedAbility>();
+
+            //foreach (Type conditionType in AllowedItemConditionTypes)
+            //{
+            //    itemConditions.Add(new ItemCondition(conditionType));
+            //}
+
+            return allowedAbilities;
         }
     }
 }
