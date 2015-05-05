@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 using System;
 
@@ -15,6 +16,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>Does 20% additional damage against bleeding targets.</para>
     /// <para>http://www.wowhead.com/spell=106785/swipe</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Swipe")]
     public class SwipeAbility : AbilityBase
     {
         public SwipeAbility()

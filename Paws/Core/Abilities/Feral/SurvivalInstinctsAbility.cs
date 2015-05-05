@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Feral
@@ -12,6 +13,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>Reduces all damage taken by 50% for 6 sec. Max 2 charges.</para>
     /// <para>http://www.wowhead.com/spell=61336/survival-instincts</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Survival Instincts")]
     public class SurvivalInstinctsAbility : AbilityBase
     {
         public SurvivalInstinctsAbility()

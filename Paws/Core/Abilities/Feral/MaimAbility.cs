@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Feral
@@ -19,6 +20,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>5 points: 110% damage, 5 sec</para>
     /// <para>http://www.wowhead.com/spell=22570/maim</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Maim (Stun)")]
     public class MaimAbility : MeleeFeralAbilityBase
     {
         public MaimAbility()
@@ -27,6 +29,7 @@ namespace Paws.Core.Abilities.Feral
             base.RequiredConditions.Add(new SpellIsNotOnCooldownCondition(this.Spell));
             base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
             base.RequiredConditions.Add(new MyEnergyRangeCondition(35.0));
+            base.Conditions.Add(new MyComboPointsCondition(1));
         }
 
         public override void ApplyDefaultSettings()

@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Feral
@@ -14,6 +15,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>If target is in your party or raid, all party and raid members will be affected.</para>
     /// <para>http://www.wowhead.com/spell=1126/mark-of-the-wild</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Mark of the Wild")]
     public class MarkOfTheWildAbility : AbilityBase
     {
         public MarkOfTheWildAbility()

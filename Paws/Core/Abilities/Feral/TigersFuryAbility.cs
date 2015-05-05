@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 using System;
 
@@ -13,6 +14,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>60 Energy.</para>
     /// <para>http://www.wowhead.com/spell=5217/tigers-fury</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Tiger's Fury")]
     public class TigersFuryAbility : AbilityBase
     {
         public TigersFuryAbility()

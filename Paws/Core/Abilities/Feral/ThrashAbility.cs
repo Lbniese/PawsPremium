@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 using System;
 
@@ -15,6 +16,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>additional (112.5% of Attack power) damage over 15 seconds.</para>
     /// <para>http://www.wowhead.com/spell=106830/thrash</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Thrash")]
     public class ThrashAbility : PandemicAbilityBase
     {
         public ThrashAbility()

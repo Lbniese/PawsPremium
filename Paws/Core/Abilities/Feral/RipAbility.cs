@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Paws.Core.Managers;
 using Paws.Core.Utilities;
 using Styx.WoWInternals;
@@ -22,6 +23,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>5 points: [floor(5 * (0.086 * Attack power * 1)) * 8] damage</para>
     /// <para>http://www.wowhead.com/spell=1079/rip</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Rip")]
     public class RipAbility : MeleeFeralPandemicAbilityBase
     {
         public RipAbility()

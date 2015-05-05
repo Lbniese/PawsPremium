@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Feral
@@ -12,6 +13,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>movement speed by 30%. Lasts until cancelled.</para>
     /// <para>http://www.wowhead.com/spell=5215/prowl</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Prowl (Stealth)")]
     public class ProwlAbility : AbilityBase
     {
         public ProwlAbility()

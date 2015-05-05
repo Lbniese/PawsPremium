@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Shared
@@ -11,6 +12,7 @@ namespace Paws.Core.Abilities.Shared
     /// <para>Instantly heals the Druid for 22% of maximum health. Usable in all shapeshift forms.</para>
     /// <para>http://www.wowhead.com/spell=108238/renewal</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Renewal")]
     public class RenewalAbility : AbilityBase
     {
         public RenewalAbility()

@@ -46,6 +46,8 @@
             this.newAbilityButton = new System.Windows.Forms.Button();
             this.abilitiesListView = new System.Windows.Forms.ListView();
             this.nameColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.targetColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.mustBeReadyColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel65.SuspendLayout();
             this.panel66.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -238,6 +240,7 @@
             this.newAbilityButton.TabIndex = 3;
             this.newAbilityButton.Text = "+ Add Ability...";
             this.newAbilityButton.UseVisualStyleBackColor = false;
+            this.newAbilityButton.Click += new System.EventHandler(this.newAbilityButton_Click);
             // 
             // abilitiesListView
             // 
@@ -246,7 +249,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.abilitiesListView.CheckBoxes = true;
             this.abilitiesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.nameColumn});
+            this.nameColumn,
+            this.targetColumn,
+            this.mustBeReadyColumn});
             this.abilitiesListView.FullRowSelect = true;
             this.abilitiesListView.GridLines = true;
             this.abilitiesListView.Location = new System.Drawing.Point(12, 200);
@@ -260,7 +265,17 @@
             // nameColumn
             // 
             this.nameColumn.Text = "Name";
-            this.nameColumn.Width = 500;
+            this.nameColumn.Width = 254;
+            // 
+            // targetColumn
+            // 
+            this.targetColumn.Text = "Target";
+            this.targetColumn.Width = 120;
+            // 
+            // mustBeReadyColumn
+            // 
+            this.mustBeReadyColumn.Text = "Must be ready?";
+            this.mustBeReadyColumn.Width = 120;
             // 
             // AddNewAbilityChainForm
             // 
@@ -275,6 +290,7 @@
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.saveButton);
             this.Name = "AddNewAbilityChainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Ability Chain";
             this.Load += new System.EventHandler(this.AddNewAbilityChainForm_Load);
             this.panel65.ResumeLayout(false);
@@ -309,5 +325,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox modifierKeyComboBox;
+        private System.Windows.Forms.ColumnHeader targetColumn;
+        private System.Windows.Forms.ColumnHeader mustBeReadyColumn;
     }
 }

@@ -1,8 +1,10 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Shared
 {
+    [AbilityChain(FriendlyName = "Soothe")]
     public class SootheAbility : AbilityBase
     {
         public SootheAbility()
