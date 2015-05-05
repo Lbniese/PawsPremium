@@ -1,8 +1,10 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Feral
 {
+    [AbilityChain(FriendlyName = "Bear Form")]
     public class BearFormPowerShiftAbility : AbilityBase
     {
         public BearFormPowerShiftAbility()

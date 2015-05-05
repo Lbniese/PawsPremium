@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Shared
@@ -12,6 +13,7 @@ namespace Paws.Core.Abilities.Shared
     /// <para>for 15 seconds.</para>
     /// <para>http://www.wowhead.com/spell=1850/dash</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Dash")]
     public class DashAbility : AbilityBase
     {
         public DashAbility()

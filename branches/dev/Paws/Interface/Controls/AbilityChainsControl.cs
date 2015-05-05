@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
+﻿using Paws.Core;
+using Paws.Core.Managers;
 using Paws.Interface.Forms;
-using Paws.Core;
+using System;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Paws.Interface.Controls
 {
@@ -33,13 +27,23 @@ namespace Paws.Interface.Controls
                 abilityChain.Name = newForm.abilityChainNameTextBox.Text;
                 abilityChain.HotKey = newForm.HotKey;
                 abilityChain.ModiferKey = newForm.ModifierKey;
+                abilityChain.ChainedAbilities = newForm.ChainedAbilities;
+                abilityChain.Trigger = TriggerType.HotKeyButton;
+
+                string abilitiesStr = string.Empty;
+                foreach (var ability in abilityChain.ChainedAbilities)
+                {
+                    abilitiesStr += abilityChain.ChainedAbilities.Last() == ability ? ability.FriendlyName : ability.FriendlyName + "; ";
+                }
 
                 ListViewItem lvItem = new ListViewItem(abilityChain.Name);
-                lvItem.SubItems.Add("Enabled");
+                lvItem.SubItems.Add("Feral");
                 lvItem.SubItems.Add(string.Format("{0} + {1}", abilityChain.ModiferKey, abilityChain.HotKey));
-                lvItem.SubItems.Add("Not Set");
+                lvItem.SubItems.Add(abilitiesStr);
 
                 this.abilityChainsListView.Items.Add(lvItem);
+
+                AbilityChainsManager.Instance.RegisterAbilityChain(abilityChain);
             }
         }
     }

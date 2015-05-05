@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 using System;
 
@@ -20,6 +21,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>targets.</para>
     /// <para>http://www.wowhead.com/spell=5221/shred</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Shred")]
     public class ShredAbility : MeleeFeralAbilityBase
     {
         public ShredAbility()

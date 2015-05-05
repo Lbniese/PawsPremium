@@ -33,13 +33,13 @@
             this.panel65 = new System.Windows.Forms.Panel();
             this.label74 = new System.Windows.Forms.Label();
             this.panel66 = new System.Windows.Forms.Panel();
+            this.targetCurrentTargetRadioButton = new System.Windows.Forms.RadioButton();
+            this.targetMeRadioButton = new System.Windows.Forms.RadioButton();
+            this.label1 = new System.Windows.Forms.Label();
+            this.isRequiredCheckBox = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.abilitiesComboBox = new System.Windows.Forms.ComboBox();
-            this.isRequiredCheckBox = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.targetMeRadioButton = new System.Windows.Forms.RadioButton();
-            this.targetCurrentTargetRadioButton = new System.Windows.Forms.RadioButton();
             this.panel65.SuspendLayout();
             this.panel66.SuspendLayout();
             this.SuspendLayout();
@@ -109,6 +109,46 @@
             this.panel66.Size = new System.Drawing.Size(470, 111);
             this.panel66.TabIndex = 39;
             // 
+            // targetCurrentTargetRadioButton
+            // 
+            this.targetCurrentTargetRadioButton.AutoSize = true;
+            this.targetCurrentTargetRadioButton.Location = new System.Drawing.Point(193, 51);
+            this.targetCurrentTargetRadioButton.Name = "targetCurrentTargetRadioButton";
+            this.targetCurrentTargetRadioButton.Size = new System.Drawing.Size(93, 17);
+            this.targetCurrentTargetRadioButton.TabIndex = 37;
+            this.targetCurrentTargetRadioButton.TabStop = true;
+            this.targetCurrentTargetRadioButton.Text = "Current Target";
+            this.targetCurrentTargetRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // targetMeRadioButton
+            // 
+            this.targetMeRadioButton.AutoSize = true;
+            this.targetMeRadioButton.Location = new System.Drawing.Point(121, 51);
+            this.targetMeRadioButton.Name = "targetMeRadioButton";
+            this.targetMeRadioButton.Size = new System.Drawing.Size(40, 17);
+            this.targetMeRadioButton.TabIndex = 36;
+            this.targetMeRadioButton.TabStop = true;
+            this.targetMeRadioButton.Text = "Me";
+            this.targetMeRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(20, 53);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.TabIndex = 35;
+            this.label1.Text = "Target:";
+            // 
+            // isRequiredCheckBox
+            // 
+            this.isRequiredCheckBox.AutoSize = true;
+            this.isRequiredCheckBox.Location = new System.Drawing.Point(121, 79);
+            this.isRequiredCheckBox.Name = "isRequiredCheckBox";
+            this.isRequiredCheckBox.Size = new System.Drawing.Size(15, 14);
+            this.isRequiredCheckBox.TabIndex = 34;
+            this.isRequiredCheckBox.UseVisualStyleBackColor = true;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -138,46 +178,6 @@
             this.abilitiesComboBox.Size = new System.Drawing.Size(325, 21);
             this.abilitiesComboBox.TabIndex = 31;
             // 
-            // isRequiredCheckBox
-            // 
-            this.isRequiredCheckBox.AutoSize = true;
-            this.isRequiredCheckBox.Location = new System.Drawing.Point(121, 79);
-            this.isRequiredCheckBox.Name = "isRequiredCheckBox";
-            this.isRequiredCheckBox.Size = new System.Drawing.Size(15, 14);
-            this.isRequiredCheckBox.TabIndex = 34;
-            this.isRequiredCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(20, 53);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 13);
-            this.label1.TabIndex = 35;
-            this.label1.Text = "Target:";
-            // 
-            // targetMeRadioButton
-            // 
-            this.targetMeRadioButton.AutoSize = true;
-            this.targetMeRadioButton.Location = new System.Drawing.Point(121, 51);
-            this.targetMeRadioButton.Name = "targetMeRadioButton";
-            this.targetMeRadioButton.Size = new System.Drawing.Size(40, 17);
-            this.targetMeRadioButton.TabIndex = 36;
-            this.targetMeRadioButton.TabStop = true;
-            this.targetMeRadioButton.Text = "Me";
-            this.targetMeRadioButton.UseVisualStyleBackColor = true;
-            // 
-            // targetCurrentTargetRadioButton
-            // 
-            this.targetCurrentTargetRadioButton.AutoSize = true;
-            this.targetCurrentTargetRadioButton.Location = new System.Drawing.Point(193, 51);
-            this.targetCurrentTargetRadioButton.Name = "targetCurrentTargetRadioButton";
-            this.targetCurrentTargetRadioButton.Size = new System.Drawing.Size(93, 17);
-            this.targetCurrentTargetRadioButton.TabIndex = 37;
-            this.targetCurrentTargetRadioButton.TabStop = true;
-            this.targetCurrentTargetRadioButton.Text = "Current Target";
-            this.targetCurrentTargetRadioButton.UseVisualStyleBackColor = true;
-            // 
             // AddNewAbilityForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -189,6 +189,7 @@
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.saveButton);
             this.Name = "AddNewAbilityForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Ability";
             this.Load += new System.EventHandler(this.AddNewAbilityForm_Load);
             this.panel65.ResumeLayout(false);

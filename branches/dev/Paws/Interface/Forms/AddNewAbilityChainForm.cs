@@ -1,12 +1,9 @@
-﻿using Styx.Common;
+﻿using Paws.Core;
+using Paws.Core.Conditions;
+using Styx.Common;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Paws.Interface.Forms
@@ -15,6 +12,7 @@ namespace Paws.Interface.Forms
     {
         public Keys HotKey { get; set; }
         public ModifierKeys ModifierKey { get; set; }
+        public List<ChainedAbility> ChainedAbilities { get; set; }
 
         private bool _pressHotKeyNowMode = false;
         bool _keyIsDown = false;
@@ -24,6 +22,7 @@ namespace Paws.Interface.Forms
             InitializeComponent();
 
             this.HotKey = Keys.None;
+            this.ChainedAbilities = new List<ChainedAbility>();
         }
 
         private void AddNewAbilityChainForm_Load(object sender, EventArgs e)
@@ -88,6 +87,22 @@ namespace Paws.Interface.Forms
             }
         }
 
+        private void newAbilityButton_Click(object sender, EventArgs e)
+        {
+            AddNewAbilityForm newForm = new AddNewAbilityForm();
+
+            if (newForm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var abilityItem = new ListViewItem(newForm.AllowedAbility.ToString());
+                abilityItem.SubItems.Add(newForm.AllowedAbility.TargetType == TargetType.Me ? "Me" : "My Current Target");
+                abilityItem.SubItems.Add(newForm.AllowedAbility.MustBeReady ? "Yes" : "No");
+
+                abilityItem.Tag = newForm.AllowedAbility;
+
+                this.abilitiesListView.Items.Add(abilityItem);
+            }
+        }
+
         private void saveButton_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(this.abilityChainNameTextBox.Text))
@@ -102,7 +117,18 @@ namespace Paws.Interface.Forms
                 return;
             }
 
+            if (this.abilitiesListView.Items.Count < 1)
+            {
+                MessageBox.Show("There must be at least one ability.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             this.ModifierKey = ConvertComboBoxIndexToModifierKey(this.modifierKeyComboBox.SelectedIndex);
+            
+            foreach (ListViewItem listViewItem in this.abilitiesListView.Items)
+            {
+                this.ChainedAbilities.Add(listViewItem.Tag as ChainedAbility);
+            }
 
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
         }

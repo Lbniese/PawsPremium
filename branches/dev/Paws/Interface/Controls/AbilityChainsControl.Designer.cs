@@ -99,17 +99,17 @@
             // 
             this.enabledColumnHeader.Text = "Enabled";
             this.enabledColumnHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.enabledColumnHeader.Width = 75;
+            this.enabledColumnHeader.Width = 87;
             // 
             // hotkeyColumnHeader
             // 
             this.hotkeyColumnHeader.Text = "Hot Key Trigger";
-            this.hotkeyColumnHeader.Width = 200;
+            this.hotkeyColumnHeader.Width = 124;
             // 
             // abilitiesColumnHeader
             // 
             this.abilitiesColumnHeader.Text = "Abilities";
-            this.abilitiesColumnHeader.Width = 260;
+            this.abilitiesColumnHeader.Width = 318;
             // 
             // AbilityChainsControl
             // 

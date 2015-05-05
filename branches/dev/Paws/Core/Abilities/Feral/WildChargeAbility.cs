@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Feral
@@ -13,6 +14,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>Leap behind an enemy, dazing them for 3 sec.</para>
     /// <para>http://www.wowhead.com/spell=49376/wild-charge</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Wild Charge")]
     public class WildChargeAbility : AbilityBase
     {
         public WildChargeAbility()

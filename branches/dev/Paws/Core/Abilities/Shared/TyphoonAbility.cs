@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Shared
@@ -13,6 +14,7 @@ namespace Paws.Core.Abilities.Shared
     /// <para>knowcking them back and dazing them for 6 sec. Usable in all shapeshift forms.</para>
     /// <para>http://www.wowhead.com/spell=132469/typhoon</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Typhoon")]
     public class TyphoonAbility : AbilityBase
     {
         public TyphoonAbility()

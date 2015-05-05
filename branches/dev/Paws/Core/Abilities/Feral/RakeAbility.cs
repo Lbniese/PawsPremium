@@ -4,6 +4,7 @@ using Paws.Core.Utilities;
 using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
 using System;
+using Paws.Core.Abilities.Attributes;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -22,12 +23,12 @@ namespace Paws.Core.Abilities.Feral
     /// <para>If used while stealthed, the taret will be stunned for 4 seconds.</para>
     /// <para>http://www.wowhead.com/spell=1822/rake</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Rake")]
     public class RakeAbility : MeleeFeralPandemicAbilityBase
     {
         public RakeAbility()
             : base(WoWSpell.FromId(SpellBook.Rake), false)
         {
-            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
         }
 
         private TargetAuraMinTimeLeftCondition GetMinTimeLeftCondition()
@@ -47,8 +48,6 @@ namespace Paws.Core.Abilities.Feral
         {
             if (Settings.RakeAllowMultiplierClipping && MyCurrentTarget != null && MyCurrentTarget.IsValid)
             {
-                int rakeUnitIndex = -1;
-
                 for (var r = 0; r < SnapshotManager.Instance.RakedTargets.Count; r++)
                 {
                     var rakeTarget = SnapshotManager.Instance.RakedTargets[r];
@@ -80,7 +79,6 @@ namespace Paws.Core.Abilities.Feral
 
                             if (minTimeCondition == null)
                             {
-                                //rakeUnitIndex = r;
                                 base.PandemicConditions.Add(new TargetAuraMinTimeLeftCondition(TargetType.MyCurrentTarget, SpellBook.RakeBleedDebuff, TimeSpan.FromSeconds(4.5)));
 
                                 break;
@@ -88,8 +86,6 @@ namespace Paws.Core.Abilities.Feral
                         }
                     }
                 }
-
-                //if (rakeUnitIndex != -1) SnapshotManager.Instance.RakedTargets.RemoveAt(rakeUnitIndex);
             }
         }
 
@@ -99,6 +95,7 @@ namespace Paws.Core.Abilities.Feral
 
             // Shared //
             var rakeIsEnabled = new BooleanCondition(Settings.RakeEnabled);
+            var meIsNotProwling = new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl);
             var energy = new ConditionTestSwitchCondition(
                 new TargetHasAuraCondition(TargetType.Me, SpellBook.BerserkDruid),
                 new MyEnergyRangeCondition(35.0 / 2.0),
@@ -107,12 +104,14 @@ namespace Paws.Core.Abilities.Feral
 
             // Normal //
             base.Conditions.Add(rakeIsEnabled);
+            base.Conditions.Add(meIsNotProwling);
             base.Conditions.Add(energy);
             base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, SpellBook.RakeBleedDebuff));
             base.Conditions.Add(new MyMaxRakedUnitsCondition(Settings.RakeMaxEnemies));
 
             // Pandemic //
             base.PandemicConditions.Add(rakeIsEnabled);
+            base.PandemicConditions.Add(meIsNotProwling);
             base.PandemicConditions.Add(energy);
             base.PandemicConditions.Add(new BooleanCondition(Settings.RakeAllowClipping));
             base.PandemicConditions.Add(new TargetHasAuraCondition(TargetType.MyCurrentTarget, SpellBook.RakeBleedDebuff));

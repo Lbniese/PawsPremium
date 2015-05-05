@@ -1,5 +1,6 @@
 ﻿using Paws.Core.Abilities;
 using Paws.Core.Abilities.Attributes;
+using Paws.Core.Conditions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Xml.Serialization;
 
 namespace Paws.Core
 {
-    public class AllowedAbility : IXmlSerializable
+    public class ChainedAbility : IXmlSerializable
     {
         private string _friendlyName;
 
@@ -19,15 +20,34 @@ namespace Paws.Core
         public Type ClassType { get; set; }
 
         /// <summary>
+        /// The ability must be off of any cooldowns if this flag is set.
+        /// </summary>
+        public bool MustBeReady { get; set; }
+
+        /// <summary>
+        /// Determines who the target is that this ability will cast on.
+        /// </summary>
+        public TargetType TargetType { get; set; }
+
+        /// <summary>
         /// Gets or sets the ICondition instance associated with this item condition.
         /// When this Instance is set, the condition is available for serialization.
         /// </summary>
         public IAbility Instance { get; set; }
 
-        public AllowedAbility()
+        public ChainedAbility()
         { }
 
-        public AllowedAbility(Type typeOfAbility)
+        public ChainedAbility(IAbility ability, TargetType targetType, bool mustBeReady)
+        {
+            this.Instance = ability;
+            this.TargetType = targetType;
+            this.MustBeReady = mustBeReady;
+
+            this.ClassType = this.Instance.GetType();
+        }
+
+        public ChainedAbility(Type typeOfAbility)
         {
             this.ClassType = typeOfAbility;
         }
@@ -61,6 +81,11 @@ namespace Paws.Core
         public void CreateInstance()
         {
             this.Instance = (IAbility)Activator.CreateInstance(this.ClassType);
+        }
+
+        public override string ToString()
+        {
+            return FriendlyName;
         }
 
         #region IXmlSerializable

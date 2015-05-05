@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 using System;
 
@@ -13,6 +14,7 @@ namespace Paws.Core.Abilities.Shared
     /// <para>Invokes the spirit of Ursol to roar, incapacitating all enemeis within 10 yards for 3 sec.</para>
     /// <para>Any damage caused will remove the effect. Usable in all shapeshift forms.</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Incapacitating Roar")]
     public class IncapacitatingRoarAbility : AbilityBase
     {
         public IncapacitatingRoarAbility()

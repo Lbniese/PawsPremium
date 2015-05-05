@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Shared
@@ -14,6 +15,7 @@ namespace Paws.Core.Abilities.Shared
     /// <para>in that school from being cast for 4 sec.</para>
     /// <para>http://www.wowhead.com/spell=106839/skull-bash</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Skull Bash")]
     public class SkullBashAbility : AbilityBase
     {
         public SkullBashAbility()

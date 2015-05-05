@@ -13,6 +13,7 @@ using Paws.Core.Abilities.Attributes;
 using Paws.Core.Conditions;
 using System.Diagnostics;
 using Buddy.Coroutines;
+using Styx.Common;
 
 namespace Paws.Core.Managers
 {
@@ -21,6 +22,8 @@ namespace Paws.Core.Managers
     /// </summary>
     public sealed class AbilityChainsManager
     {
+        public static List<Type> AllowedAbilityTypes { get; private set; }
+
         /// <summary>
         /// The time between each ability before deciding to kill the ability chain.
         /// </summary>
@@ -53,7 +56,6 @@ namespace Paws.Core.Managers
 
         #endregion
 
-        public List<Type> AllowedAbilityTypes { get; set; }
         public List<AbilityChain> AbilityChains { get; set; }
 
         public AbilityChain TriggeredAbilityChain { get; set; }
@@ -76,13 +78,6 @@ namespace Paws.Core.Managers
                 .OrderBy(o => o.Name)
                 .ToList();
 
-            foreach (var type in AllowedAbilityTypes)
-            {
-                Log.GUI(type.Name);
-            }
-            Log.GUI("Count: " + AllowedAbilityTypes.Count.ToString());
-
-
             LoadAbilityChains();
         }
 
@@ -92,21 +87,39 @@ namespace Paws.Core.Managers
 
             // Here we will load the ability chains from file. For now, we just use test fixtures.
 
-            AbilityChain testChain = new AbilityChain("Burst");
-            testChain.Trigger = TriggerType.HotKeyButton;
+            //AbilityChain testChain = new AbilityChain("Burst");
+            //testChain.Trigger = TriggerType.HotKeyButton;
 
-            // Our test chain will make sure we have an attackable target that has 85% health or less.
-            testChain.Conditions.Add(new MeHasAttackableTargetCondition());
-            testChain.Conditions.Add(new TargetHealthRangeCondition(TargetType.MyCurrentTarget, 0, 85));
+            //// Our test chain will make sure we have an attackable target that has 85% health or less.
+            //testChain.Conditions.Add(new MeHasAttackableTargetCondition());
+            //testChain.Conditions.Add(new TargetHealthRangeCondition(TargetType.MyCurrentTarget, 0, 85));
 
-            var berserk = new Feral.BerserkAbility();
-            berserk.Conditions.Add(new TargetHasAuraCondition(TargetType.Me, SpellBook.FeralIncarnationForm));
+            //var berserk = new Feral.BerserkAbility();
+            //berserk.Conditions.Add(new TargetHasAuraCondition(TargetType.Me, SpellBook.FeralIncarnationForm));
 
-            testChain.ChainedAbilities.Add(new ChainedAbility(new Shared.MightyBashAbility(), TargetType.MyCurrentTarget, false));
-            testChain.ChainedAbilities.Add(new ChainedAbility(new Feral.IncarnationAbility(), TargetType.Me, true));
-            testChain.ChainedAbilities.Add(new ChainedAbility(berserk, TargetType.Me, true));
+            //testChain.ChainedAbilities.Add(new ChainedAbility(new Shared.MightyBashAbility(), TargetType.MyCurrentTarget, false));
+            //testChain.ChainedAbilities.Add(new ChainedAbility(new Feral.IncarnationAbility(), TargetType.Me, true));
+            //testChain.ChainedAbilities.Add(new ChainedAbility(berserk, TargetType.Me, true));
 
-            this.AbilityChains.Add(testChain);
+            //this.AbilityChains.Add(testChain);
+        }
+
+        public void RegisterAbilityChain(AbilityChain abilityChain)
+        {
+            if (Main.Product == Product.Premium)
+            {
+                this.AbilityChains.Add(abilityChain);
+
+                var hotKey = HotkeysManager.Hotkeys.FirstOrDefault(o => o.Name == abilityChain.Name);
+                if (hotKey != null)
+                {
+                    HotkeysManager.Unregister(hotKey);
+                }
+
+                var registeredHotKey = HotkeysManager.Register(abilityChain.Name, abilityChain.HotKey, abilityChain.ModiferKey, KeyIsPressed);
+
+                Log.GUI(string.Format("Ability chain successfully registered ({0}: {1} + {2}).", registeredHotKey.Name, registeredHotKey.ModifierKeys, registeredHotKey.Key));
+            }
         }
 
         public void Update()
@@ -151,7 +164,7 @@ namespace Paws.Core.Managers
             {
                 foreach (var link in this.TriggeredAbilityChain.ChainedAbilities)
                 {
-                    if (await link.Ability.CastOnTarget(UnitManager.TargetTypeConverter(link.TargetType)))
+                    if (await link.Instance.CastOnTarget(UnitManager.TargetTypeConverter(link.TargetType)))
                     {
                         if (this.TriggeredAbilityChain != null)
                         {
@@ -180,11 +193,11 @@ namespace Paws.Core.Managers
             {
                 foreach (var link in abilityChain.ChainedAbilities)
                 {
-                    if (link.IsRequired)
+                    if (link.MustBeReady)
                     {
-                        if (link.Ability.Spell.CooldownTimeLeft.TotalMilliseconds > 2000) // allow the chain to que up if less than 2 seconds on the cooldown clock
+                        if (link.Instance.Spell.CooldownTimeLeft.TotalMilliseconds > 2000) // allow the chain to que up if less than 2 seconds on the cooldown clock
                         {
-                            Log.GUI(string.Format("NOTICE: The {0} ability chain has been canceled. {1} is still on cooldown (Time left: {2})", abilityChain.Name, link.Ability.Spell.Name, link.Ability.Spell.CooldownTimeLeft));
+                            Log.GUI(string.Format("NOTICE: The {0} ability chain has been canceled. {1} is still on cooldown (Time left: {2})", abilityChain.Name, link.Instance.Spell.Name, link.Instance.Spell.CooldownTimeLeft));
                             return;
                         }
                     }
@@ -201,17 +214,30 @@ namespace Paws.Core.Managers
             }
         }
 
+        public void KeyIsPressed(Hotkey hotKey)
+        {
+            //Log.GUI(string.Format("Key pressed: {0}, {1}, {2}, {3}", hotKey.Id, hotKey.Name, hotKey.ModifierKeys, hotKey.Key));
+
+            // Ability Chain Check...
+            var abilityChain = this.AbilityChains.SingleOrDefault(o => o.Trigger == TriggerType.HotKeyButton && o.Name == hotKey.Name);
+            if (abilityChain != null)
+            {
+                // We have a triggered Ability Chain
+                Trigger(abilityChain);
+            }
+        }
+
         /// <summary>
         /// Retrieves a new list of allowed abilities based on the list of allowed types.
         /// </summary>
-        public static List<AllowedAbility> GetAllowedAbilities()
+        public static List<ChainedAbility> GetAllowedAbilities()
         {
-            List<AllowedAbility> allowedAbilities = new List<AllowedAbility>();
+            List<ChainedAbility> allowedAbilities = new List<ChainedAbility>();
 
-            //foreach (Type conditionType in AllowedItemConditionTypes)
-            //{
-            //    itemConditions.Add(new ItemCondition(conditionType));
-            //}
+            foreach (Type abilityType in AllowedAbilityTypes)
+            {
+                allowedAbilities.Add(new ChainedAbility(abilityType));
+            }
 
             return allowedAbilities;
         }

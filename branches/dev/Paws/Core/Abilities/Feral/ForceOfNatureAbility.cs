@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Feral
@@ -15,6 +16,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>Maximum 3 charges.</para>
     /// <para>http://www.wowhead.com/spell=102703/force-of-nature</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Force of Nature")]
     public class ForceOfNatureAbility : AbilityBase
     {
         public ForceOfNatureAbility()
