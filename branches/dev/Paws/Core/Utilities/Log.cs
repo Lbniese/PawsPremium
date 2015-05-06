@@ -28,6 +28,14 @@ namespace Paws.Core.Utilities
             Logging.WriteDiagnostic(Colors.Firebrick, string.Format("[Paws]: {0}", message));
         }
 
+        public static void AbilityChain(string message)
+        {
+            if (string.IsNullOrEmpty(message))
+                return;
+
+            Logging.Write(Colors.LightSteelBlue, string.Format("[Paws]: [Ability Chain] {0}", message));
+        }
+
         public static void Combat(string message)
         {
             AppendLine(message, Colors.Orange);

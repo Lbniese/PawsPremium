@@ -131,7 +131,7 @@
     <Compile Include="Core\Abilities\Feral\SavageRoarAbility.cs" />
     <Compile Include="Core\Abilities\Feral\CatFormAbility.cs" />
     <Compile Include="Core\Abilities\Feral\WildChargeAbility.cs" />
-    <Compile Include="Core\Abilities\AbilityChain.cs" />
+    <Compile Include="Core\AbilityChain.cs" />
     <Compile Include="Core\ChainedAbility.cs" />
     <Compile Include="Core\BleedingUnit.cs" />
     <Compile Include="Core\Conditions\MyMaxRakedUnitsCondition.cs" />

@@ -61,9 +61,9 @@ namespace Paws
 
                 GlobalSettingsManager.Instance.Init();
                 AbilityManager.ReloadAbilities();
-                ItemManager.LoadDataSet();
                 AbilityChainsManager.Init();
-
+                ItemManager.LoadDataSet();
+                
                 this.Events = new Events();
 
                 Log.Combat("--------------------------------------------------");
@@ -75,6 +75,8 @@ namespace Paws
                 Log.Combat(string.Format("{0} conditional use items loaded ({1} enabled)", ItemManager.Items.Count, ItemManager.Items.Count(o => o.Enabled)));
                 Log.Combat("--------------------------------------------------");
 
+                AbilityChainsManager.LoadDataSet();
+                
                 SettingsManager.Instance.LogDump();
             }
             catch (Exception ex)
@@ -93,6 +95,9 @@ namespace Paws
                 AbilityManager.ReloadAbilities();
                 ItemManager.LoadDataSet();
 
+                AbilityChainsManager.Init();
+                AbilityChainsManager.LoadDataSet();
+
                 SettingsManager.Instance.LogDump();
 
                 Log.GUI(string.Format("Profile [{0}] saved and loaded.", GlobalSettingsManager.Instance.LastUsedProfile));
@@ -110,7 +115,6 @@ namespace Paws
             AbilityManager.Instance.Update();
             UnitManager.Instance.Update();
             SnapshotManager.Instance.Update();
-            AbilityChainsManager.Instance.Update();
             UnitManager.Instance.TargetNearestEnemey();
             
             base.Pulse();

@@ -1,11 +1,15 @@
 ﻿using Paws.Core.Abilities;
 using Paws.Core.Abilities.Attributes;
 using Paws.Core.Conditions;
+using Paws.Core.Managers;
+using Paws.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace Paws.Core
@@ -76,7 +80,7 @@ namespace Paws.Core
         }
 
         /// <summary>
-        /// Creates an IConditon instance of the class type.
+        /// Creates an IAbility instance of the class type.
         /// </summary>
         public void CreateInstance()
         {
@@ -90,19 +94,39 @@ namespace Paws.Core
 
         #region IXmlSerializable
 
-        public System.Xml.Schema.XmlSchema GetSchema()
+        public XmlSchema GetSchema()
         {
             throw new NotImplementedException();
         }
 
-        public void ReadXml(System.Xml.XmlReader reader)
+        public void ReadXml(XmlReader reader)
         {
-            throw new NotImplementedException();
+            var type = reader.GetAttribute("Type");
+            var mustBeReady = reader.GetAttribute("MustBeReady");
+            var targetType = reader.GetAttribute("TargetType");
+
+            TargetType outTargetType = Conditions.TargetType.Me;
+            Enum.TryParse<TargetType>(targetType, out outTargetType);
+            this.TargetType = outTargetType;
+
+            this.MustBeReady = Boolean.Parse(mustBeReady);
+
+            this.ClassType = Type.GetType(type);
+            this.CreateInstance();
+
+            reader.Read();
         }
 
-        public void WriteXml(System.Xml.XmlWriter writer)
+        public void WriteXml(XmlWriter writer)
         {
-            throw new NotImplementedException();
+            if (this.Instance == null)
+                return;
+
+            Type abilityType = this.Instance.GetType();
+            
+            writer.WriteAttributeString("Type", abilityType.FullName);
+            writer.WriteAttributeString("TargetType", this.TargetType.ToString());
+            writer.WriteAttributeString("MustBeReady", this.MustBeReady.ToString());
         }
 
         #endregion

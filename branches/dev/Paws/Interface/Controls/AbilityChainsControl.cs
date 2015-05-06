@@ -20,15 +20,13 @@ namespace Paws.Interface.Controls
 
             if (newForm.ShowDialog() == DialogResult.OK)
             {
-                // HotkeysManager.Register("Burst", Keys.F1, ModifierKeys.Alt, KeyIsPressed);
-
                 AbilityChain abilityChain = new AbilityChain();
 
                 abilityChain.Name = newForm.abilityChainNameTextBox.Text;
+                abilityChain.Specialization = Styx.WoWSpec.DruidFeral;
                 abilityChain.HotKey = newForm.HotKey;
                 abilityChain.ModiferKey = newForm.ModifierKey;
                 abilityChain.ChainedAbilities = newForm.ChainedAbilities;
-                abilityChain.Trigger = TriggerType.HotKeyButton;
 
                 string abilitiesStr = string.Empty;
                 foreach (var ability in abilityChain.ChainedAbilities)
