@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddNewAbilityChainForm));
             this.cancelButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
             this.panel65 = new System.Windows.Forms.Panel();
@@ -48,6 +50,9 @@
             this.nameColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.targetColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.mustBeReadyColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.moveSelectedItemUpButton = new System.Windows.Forms.Button();
+            this.moveSelectedItemDownButton = new System.Windows.Forms.Button();
+            this.toolTipProvider = new System.Windows.Forms.ToolTip(this.components);
             this.panel65.SuspendLayout();
             this.panel66.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -196,6 +201,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.DimGray;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.moveSelectedItemDownButton);
+            this.panel1.Controls.Add(this.moveSelectedItemUpButton);
             this.panel1.Controls.Add(this.removeSelectedAbilitiesButton);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.newAbilityButton);
@@ -212,7 +219,7 @@
             this.removeSelectedAbilitiesButton.BackColor = System.Drawing.Color.Gainsboro;
             this.removeSelectedAbilitiesButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.removeSelectedAbilitiesButton.ForeColor = System.Drawing.Color.Red;
-            this.removeSelectedAbilitiesButton.Location = new System.Drawing.Point(403, 1);
+            this.removeSelectedAbilitiesButton.Location = new System.Drawing.Point(339, 1);
             this.removeSelectedAbilitiesButton.Name = "removeSelectedAbilitiesButton";
             this.removeSelectedAbilitiesButton.Size = new System.Drawing.Size(122, 23);
             this.removeSelectedAbilitiesButton.TabIndex = 30;
@@ -235,7 +242,7 @@
             this.newAbilityButton.BackColor = System.Drawing.Color.Gainsboro;
             this.newAbilityButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.newAbilityButton.ForeColor = System.Drawing.Color.Black;
-            this.newAbilityButton.Location = new System.Drawing.Point(280, 1);
+            this.newAbilityButton.Location = new System.Drawing.Point(216, 1);
             this.newAbilityButton.Name = "newAbilityButton";
             this.newAbilityButton.Size = new System.Drawing.Size(122, 23);
             this.newAbilityButton.TabIndex = 3;
@@ -255,6 +262,7 @@
             this.mustBeReadyColumn});
             this.abilitiesListView.FullRowSelect = true;
             this.abilitiesListView.GridLines = true;
+            this.abilitiesListView.HideSelection = false;
             this.abilitiesListView.Location = new System.Drawing.Point(12, 200);
             this.abilitiesListView.MultiSelect = false;
             this.abilitiesListView.Name = "abilitiesListView";
@@ -277,6 +285,36 @@
             // 
             this.mustBeReadyColumn.Text = "Must be ready?";
             this.mustBeReadyColumn.Width = 120;
+            // 
+            // moveSelectedItemUpButton
+            // 
+            this.moveSelectedItemUpButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.moveSelectedItemUpButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.moveSelectedItemUpButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.moveSelectedItemUpButton.ForeColor = System.Drawing.Color.Black;
+            this.moveSelectedItemUpButton.Image = ((System.Drawing.Image)(resources.GetObject("moveSelectedItemUpButton.Image")));
+            this.moveSelectedItemUpButton.Location = new System.Drawing.Point(462, 1);
+            this.moveSelectedItemUpButton.Name = "moveSelectedItemUpButton";
+            this.moveSelectedItemUpButton.Size = new System.Drawing.Size(31, 23);
+            this.moveSelectedItemUpButton.TabIndex = 31;
+            this.toolTipProvider.SetToolTip(this.moveSelectedItemUpButton, "Move selected item up in the list.");
+            this.moveSelectedItemUpButton.UseVisualStyleBackColor = false;
+            this.moveSelectedItemUpButton.Click += new System.EventHandler(this.moveSelectedItemUpButton_Click);
+            // 
+            // moveSelectedItemDownButton
+            // 
+            this.moveSelectedItemDownButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.moveSelectedItemDownButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.moveSelectedItemDownButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.moveSelectedItemDownButton.ForeColor = System.Drawing.Color.Black;
+            this.moveSelectedItemDownButton.Image = ((System.Drawing.Image)(resources.GetObject("moveSelectedItemDownButton.Image")));
+            this.moveSelectedItemDownButton.Location = new System.Drawing.Point(494, 1);
+            this.moveSelectedItemDownButton.Name = "moveSelectedItemDownButton";
+            this.moveSelectedItemDownButton.Size = new System.Drawing.Size(31, 23);
+            this.moveSelectedItemDownButton.TabIndex = 32;
+            this.toolTipProvider.SetToolTip(this.moveSelectedItemDownButton, "Move selected item down in the list.");
+            this.moveSelectedItemDownButton.UseVisualStyleBackColor = false;
+            this.moveSelectedItemDownButton.Click += new System.EventHandler(this.moveSelectedItemDownButton_Click);
             // 
             // AddNewAbilityChainForm
             // 
@@ -328,5 +366,8 @@
         private System.Windows.Forms.ComboBox modifierKeyComboBox;
         private System.Windows.Forms.ColumnHeader targetColumn;
         private System.Windows.Forms.ColumnHeader mustBeReadyColumn;
+        private System.Windows.Forms.Button moveSelectedItemUpButton;
+        private System.Windows.Forms.Button moveSelectedItemDownButton;
+        private System.Windows.Forms.ToolTip toolTipProvider;
     }
 }

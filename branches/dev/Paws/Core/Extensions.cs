@@ -115,28 +115,27 @@ namespace Paws.Core
         /// Determines if the player currently has lost control.
         public static bool HasLossOfControl(this LocalPlayer thisPlayer)
         {
-            //foreach (var aura in thisPlayer.GetAllAuras())
-            //{
-            //    if (!aura.IsHarmful)
-            //        continue;
+            foreach (var aura in thisPlayer.GetAllAuras())
+            {
+                if (!aura.IsHarmful)
+                    continue;
 
-            //    if (aura.Spell == null)
-            //        continue;
+                if (aura.Spell == null)
+                    continue;
 
-            //    if (aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Asleep) ||
-            //        aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Charmed) ||
-            //        aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Disoriented) ||
-            //        aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Fleeing) ||
-            //        aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Horrified) ||
-            //        aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Incapacitated) ||
-            //        aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Sapped) ||
-            //        aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Stunned) ||
-            //        aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Polymorphed))
-            //    {
-            //        Log.Equipment(string.Format("Loss of control detected on me: {0} ({1})", aura.Spell.Name, aura.Spell.Mechanic));
-            //        return true;
-            //    }
-            //}
+                if (aura.Spell.Mechanic == WoWSpellMechanic.Asleep ||
+                    aura.Spell.Mechanic == WoWSpellMechanic.Charmed ||
+                    aura.Spell.Mechanic == WoWSpellMechanic.Disoriented ||
+                    aura.Spell.Mechanic == WoWSpellMechanic.Fleeing ||
+                    aura.Spell.Mechanic == WoWSpellMechanic.Horrified ||
+                    aura.Spell.Mechanic == WoWSpellMechanic.Incapacitated ||
+                    aura.Spell.Mechanic == WoWSpellMechanic.Sapped ||
+                    aura.Spell.Mechanic == WoWSpellMechanic.Stunned)
+                {
+                    Log.Equipment(string.Format("Loss of control detected on me: {0} ({1})", aura.Spell.Name, aura.Spell.Mechanic));
+                    return true;
+                }
+            }
 
             return false;
         }
@@ -145,23 +144,24 @@ namespace Paws.Core
         /// Determines if the player currently has total loss of control (cannot clear).
         public static bool HasTotalLossOfControl(this LocalPlayer thisPlayer)
         {
-            //if (thisPlayer.HasLossOfControl()) return true;
+            if (thisPlayer.HasLossOfControl()) return true;
 
-            //foreach (var aura in thisPlayer.GetAllAuras())
-            //{
-            //    if (!aura.IsHarmful)
-            //        continue;
+            foreach (var aura in thisPlayer.GetAllAuras())
+            {
+                if (!aura.IsHarmful)
+                    continue;
 
-            //    if (aura.Spell == null)
-            //        continue;
+                if (aura.Spell == null)
+                    continue;
 
-            //    if (aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Banished) ||
-            //        aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Frozen))
-            //    {
-            //        Log.Equipment(string.Format("Total Loss of control detected on me: {0} ({1})", aura.Spell.Name, aura.Spell.Mechanic));
-            //        return true;
-            //    }
-            //}
+                if (aura.Spell.Mechanic == WoWSpellMechanic.Banished ||
+                    aura.Spell.Mechanic == WoWSpellMechanic.Frozen ||
+                    aura.Spell.Mechanic == WoWSpellMechanic.Polymorphed)
+                {
+                    Log.Equipment(string.Format("Total Loss of control detected on me: {0} ({1})", aura.Spell.Name, aura.Spell.Mechanic));
+                    return true;
+                }
+            }
 
             return false;
         }

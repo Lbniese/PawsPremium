@@ -120,4 +120,7 @@
   <metadata name="abilityChainsListViewContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="richTextBox1.Text" xml:space="preserve">
+    <value>Ability Chains are a premium feature that allow you to customize chainable abilities and bind those chains to hotkeys. This gives you, the user, ultimate control of what you consider would be important to bind - whether that be burst damage, defensive mitigation, or crowd control. Simply add a new chain, assign a hotkey, and add abilities in the order that you would like them to execute. The "Must be ready" option ensures that the ability you select is available before the chain is triggered. Right click on a list item to edit.</value>
+  </data>
 </root>

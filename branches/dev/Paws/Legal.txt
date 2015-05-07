@@ -70,3 +70,17 @@ Original Author: Ocal
 Date Obtained: 2/19/2015
 obtained from: http://www.clker.com/clipart-warning-icon.html
 License: Public Domain Dedication, http://creativecommons.org/publicdomain/zero/1.0/
+
+Item: Arrow Up Icon
+Name: arrow_up_icon
+Original Author: Designerz Base
+Date Obtained: 5/7/2015
+Obtained from: https://www.iconfinder.com/icons/186407/arrow_up_icon#size=20
+License: Free for commercial use, as indicated on webpage.
+
+Item: Arrow Down Icon
+Name: arrow_down_icon
+Original Author: Designerz Base
+Date Obtained: 5/7/2015
+Obtained from: https://www.iconfinder.com/icons/186411/arrow_down_icon#size=20
+License: Free for commercial use, as indicated on webpage.

@@ -276,6 +276,8 @@ namespace Paws.Core.Managers
             this.Abilities.Add(Create<Shared.StampedingRoarAbility>());
             this.Abilities.Add(Create<Shared.DisplacerBeastAbility>());
             this.Abilities.Add(Create<Shared.SootheAbility>());
+            this.Abilities.Add(Create<Shared.CycloneAbility>());
+            this.Abilities.Add(Create<Shared.EntanglingRootsAbility>());
         }
 
         /// <summary>
