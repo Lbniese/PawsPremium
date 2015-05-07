@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel46 = new System.Windows.Forms.Panel();
             this.label95 = new System.Windows.Forms.Label();
             this.abilityChainsAddNewAbilityChainButton = new System.Windows.Forms.Button();
@@ -36,7 +37,12 @@
             this.enabledColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.hotkeyColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.abilitiesColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.removeSelectedItemsButton = new System.Windows.Forms.Button();
+            this.abilityChainsListViewContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel46.SuspendLayout();
+            this.abilityChainsListViewContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel46
@@ -80,6 +86,7 @@
             this.enabledColumnHeader,
             this.hotkeyColumnHeader,
             this.abilitiesColumnHeader});
+            this.abilityChainsListView.ContextMenuStrip = this.abilityChainsListViewContextMenu;
             this.abilityChainsListView.FullRowSelect = true;
             this.abilityChainsListView.GridLines = true;
             this.abilityChainsListView.Location = new System.Drawing.Point(3, 64);
@@ -97,7 +104,7 @@
             // 
             // enabledColumnHeader
             // 
-            this.enabledColumnHeader.Text = "Enabled";
+            this.enabledColumnHeader.Text = "Spec";
             this.enabledColumnHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.enabledColumnHeader.Width = 87;
             // 
@@ -111,10 +118,45 @@
             this.abilitiesColumnHeader.Text = "Abilities";
             this.abilitiesColumnHeader.Width = 318;
             // 
+            // removeSelectedItemsButton
+            // 
+            this.removeSelectedItemsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.removeSelectedItemsButton.ForeColor = System.Drawing.Color.Red;
+            this.removeSelectedItemsButton.Location = new System.Drawing.Point(583, 35);
+            this.removeSelectedItemsButton.Name = "removeSelectedItemsButton";
+            this.removeSelectedItemsButton.Size = new System.Drawing.Size(184, 23);
+            this.removeSelectedItemsButton.TabIndex = 31;
+            this.removeSelectedItemsButton.Text = "Remove Checked Items";
+            this.removeSelectedItemsButton.UseVisualStyleBackColor = true;
+            this.removeSelectedItemsButton.Click += new System.EventHandler(this.removeSelectedItemsButton_Click);
+            // 
+            // abilityChainsListViewContextMenu
+            // 
+            this.abilityChainsListViewContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editItemToolStripMenuItem,
+            this.removeItemToolStripMenuItem});
+            this.abilityChainsListViewContextMenu.Name = "itemsListViewContextMenu";
+            this.abilityChainsListViewContextMenu.Size = new System.Drawing.Size(198, 70);
+            // 
+            // editItemToolStripMenuItem
+            // 
+            this.editItemToolStripMenuItem.Name = "editItemToolStripMenuItem";
+            this.editItemToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.editItemToolStripMenuItem.Text = "Edit Ability Chain...";
+            this.editItemToolStripMenuItem.Click += new System.EventHandler(this.editItemToolStripMenuItem_Click);
+            // 
+            // removeItemToolStripMenuItem
+            // 
+            this.removeItemToolStripMenuItem.Name = "removeItemToolStripMenuItem";
+            this.removeItemToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.removeItemToolStripMenuItem.Text = "Remove Ability Chain...";
+            this.removeItemToolStripMenuItem.Click += new System.EventHandler(this.removeItemToolStripMenuItem_Click);
+            // 
             // AbilityChainsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.removeSelectedItemsButton);
             this.Controls.Add(this.panel46);
             this.Controls.Add(this.abilityChainsAddNewAbilityChainButton);
             this.Controls.Add(this.abilityChainsListView);
@@ -122,8 +164,10 @@
             this.Name = "AbilityChainsControl";
             this.Padding = new System.Windows.Forms.Padding(3);
             this.Size = new System.Drawing.Size(771, 445);
+            this.Load += new System.EventHandler(this.AbilityChainsControl_Load);
             this.panel46.ResumeLayout(false);
             this.panel46.PerformLayout();
+            this.abilityChainsListViewContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -138,6 +182,10 @@
         private System.Windows.Forms.ColumnHeader enabledColumnHeader;
         private System.Windows.Forms.ColumnHeader hotkeyColumnHeader;
         private System.Windows.Forms.ColumnHeader abilitiesColumnHeader;
+        private System.Windows.Forms.Button removeSelectedItemsButton;
+        private System.Windows.Forms.ContextMenuStrip abilityChainsListViewContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem editItemToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeItemToolStripMenuItem;
 
     }
 }

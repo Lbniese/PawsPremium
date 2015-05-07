@@ -17,12 +17,34 @@ namespace Paws.Interface.Forms
         private bool _pressHotKeyNowMode = false;
         bool _keyIsDown = false;
 
-        public AddNewAbilityChainForm()
+        public AddNewAbilityChainForm(AbilityChain abilityChain)
         {
             InitializeComponent();
 
             this.HotKey = Keys.None;
             this.ChainedAbilities = new List<ChainedAbility>();
+
+            if (abilityChain != null)
+            {
+                this.abilityChainNameTextBox.Text = abilityChain.Name;
+
+                this.HotKey = abilityChain.HotKey;
+                this.hotKeyTriggerSetKeyButton.Text = this.HotKey.ToString();
+                this.hotKeyTriggerSetKeyButton.ForeColor = Color.Green;
+
+                this.modifierKeyComboBox.SelectedIndex = ConvertModifierKeyToComboBoxIndex(abilityChain.ModiferKey);
+
+                foreach (var chainedAbility in abilityChain.ChainedAbilities)
+                {
+                    var abilityItem = new ListViewItem(chainedAbility.ToString());
+                    abilityItem.SubItems.Add(chainedAbility.TargetType == TargetType.Me ? "Me" : "My Current Target");
+                    abilityItem.SubItems.Add(chainedAbility.MustBeReady ? "Yes" : "No");
+
+                    abilityItem.Tag = chainedAbility;
+
+                    this.abilitiesListView.Items.Add(abilityItem);
+                }
+            }
         }
 
         private void AddNewAbilityChainForm_Load(object sender, EventArgs e)
@@ -131,6 +153,26 @@ namespace Paws.Interface.Forms
             }
 
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
+        }
+
+        private void removeSelectedAbilitiesButton_Click(object sender, EventArgs e)
+        {
+            if (this.abilitiesListView.CheckedItems.Count > 0)
+            {
+                var result = MessageBox.Show(string.Format("You are about to remove {0} {1}. Would you like to proceed?",
+                    this.abilitiesListView.CheckedItems.Count, this.abilitiesListView.CheckedItems.Count == 1 ? "ability" : "abilities"),
+                    "Warning",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes)
+                {
+                    foreach (ListViewItem item in this.abilitiesListView.CheckedItems)
+                    {
+                        item.Remove();
+                    }
+                }
+            }
         }
 
         private int ConvertModifierKeyToComboBoxIndex(ModifierKeys key)

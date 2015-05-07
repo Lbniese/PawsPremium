@@ -40,3 +40,33 @@ Original Author: SnowCrash
 Date Obtained: 2/19/2015
 Obtained from: self, the artwork is original
 License: Original artwork requires no explicit license for use in my own products.
+
+Item: Paws Store Icon
+Name: paws-store-icon.png
+Original Author: SnowCrash
+Date Obtained: 4/2/2015
+Obtained from: self, the artwork is original
+License: Original artwork requires no explicit license for use in my own products.
+
+Non-Original Work
+--------------------------------------------------------
+Item: 4K Resolution, and Skinned form Plugin sample (Modified)
+Name: SettingsForm.cs
+Original Author: hackersrage
+Date Obtained: 2/19/2015
+Obtained from: https://www.thebuddyforum.com/honorbuddy-forum/community-developer-forum/201626-4k-resolution-skinned-form-plugin-sample.html
+License: Royalty-Free, http://en.wikipedia.org/wiki/Royalty-free
+
+Item: Paw Print (modified)
+Name: paw-print.png
+Original Author: Ocal
+Date Obtained: 2/19/2015
+Obtained from: http://www.clker.com/clipart-paw-print.html
+License: Public Domain Dedication, http://creativecommons.org/publicdomain/zero/1.0/
+
+Item: Warning Icon
+Name: warning-icon.png
+Original Author: Ocal
+Date Obtained: 2/19/2015
+obtained from: http://www.clker.com/clipart-warning-icon.html
+License: Public Domain Dedication, http://creativecommons.org/publicdomain/zero/1.0/

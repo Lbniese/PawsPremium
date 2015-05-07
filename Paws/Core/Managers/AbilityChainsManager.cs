@@ -284,7 +284,6 @@ namespace Paws.Core.Managers
 
             foreach(var chain in listOfAbilityChains)
             {
-                Log.GUI("Reading Chain: " + chain.Name);
                 AbilityChainsManager.Instance.RegisterAbilityChain(chain);
             }
         }
