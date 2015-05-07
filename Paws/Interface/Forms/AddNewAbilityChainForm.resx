@@ -117,4 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="moveSelectedItemUpButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7O
+        HOkAAAAEZ0FNQQAAsY8L/GEFAAAACXBIWXMAAAsSAAALEgHS3X78AAAAw0lEQVQ4T2MYBbQHrq6u3AEB
+        Aev8/f0fA+l4qDB5AGrYvsDAwP8wDDQ4GSpNGsBmGNmG4jMMCadAleMHOAz7CsSb0MT+A9WlQrVhB7gM
+        A3rRob6+ngkoNxtNDrehoaGhzECNe5EVA/nfQIZBlTDgMjQoKCgWqgQB/Pz81JEVgQwDKnSESsMBNkOB
+        /INQaQQAKQQash1mGJB2gkphADRD/wEtDodKoQIPDw92oIIIoGu1oEI4AdRQf6Bac6jQKBghgIEBAJMj
+        nsSl+FtkAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="moveSelectedItemDownButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7O
+        HOkAAAAEZ0FNQQAAsY8L/GEFAAAACXBIWXMAAAsSAAALEgHS3X78AAAA00lEQVQ4T+2TOwrCQBRFI1hY
+        aik2bsJS0gpT5EPAMo2Lch/iZwE2mhW4CRErbdQzOo/8hvjDQsiByzDz7jtFIE7NH+C6bpOj8bhV87Qb
+        BMHE87wzWSulOubZCt0ROZId/b55TomiqMfwQq46vu8nFNtmnIO5lp2kS2ZmlKKXGewzJauU96JM96Zm
+        nIfhAMEhW+a+FSl3m2wVx3HrLrBBqSQlmzAMx5w5Gb1lpUygbJMWs3hJJrBQJX1PJrBYkvLN5h/JhKz0
+        a5mArIt0aP6Mmp/iODfHk5zDyjDRsgAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <metadata name="toolTipProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>

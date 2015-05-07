@@ -153,7 +153,7 @@ namespace Paws.Interface
         private void BindUISettings()
         {
             // Form Title //
-            this.FormHeader.Text = string.Format("Paws [{0}] Settings: {1}", this.SettingsMode.ToString().Replace("Druid", string.Empty), this.aboutProfilesPesetsComboBox.SelectedItem);
+            this.FormHeader.Text = string.Format("Paws {0} [{1}] Settings: {2}", Main.Product == Product.Community ? "Community" : "Premium", this.SettingsMode.ToString().Replace("Druid", string.Empty), this.aboutProfilesPesetsComboBox.SelectedItem);
 
             // General Tab //
             this.generalMarkOfTheWildEnabledCheckBox.Checked = SettingsManager.Instance.MarkOfTheWildEnabled;

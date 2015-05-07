@@ -1,5 +1,6 @@
 ﻿using Paws.Core;
 using Paws.Core.Conditions;
+using Paws.Core.Utilities;
 using Styx.Common;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace Paws.Interface.Forms
 
             this.HotKey = Keys.None;
             this.ChainedAbilities = new List<ChainedAbility>();
+            this.modifierKeyComboBox.SelectedIndex = 0;
 
             if (abilityChain != null)
             {
@@ -31,6 +33,8 @@ namespace Paws.Interface.Forms
                 this.HotKey = abilityChain.HotKey;
                 this.hotKeyTriggerSetKeyButton.Text = this.HotKey.ToString();
                 this.hotKeyTriggerSetKeyButton.ForeColor = Color.Green;
+
+                this.ModifierKey = abilityChain.ModiferKey;
 
                 this.modifierKeyComboBox.SelectedIndex = ConvertModifierKeyToComboBoxIndex(abilityChain.ModiferKey);
 
@@ -49,7 +53,7 @@ namespace Paws.Interface.Forms
 
         private void AddNewAbilityChainForm_Load(object sender, EventArgs e)
         {
-            this.modifierKeyComboBox.SelectedIndex = 0;
+            
         }
 
         private void hotKeyTriggerSetKeyButton_Click(object sender, EventArgs e)
@@ -200,6 +204,44 @@ namespace Paws.Interface.Forms
                 case 0:
                 default:
                     return Styx.Common.ModifierKeys.Alt;
+            }
+        }
+
+        private void moveSelectedItemUpButton_Click(object sender, EventArgs e)
+        {
+            if (this.abilitiesListView.SelectedItems.Count > 0)
+            {
+                var listViewItem = this.abilitiesListView.SelectedItems[0];
+                var index = listViewItem.Index;
+
+                if (index > 0) // Can't move up any further if it is already at the top
+                {
+                    // when the item is remove, it needs to be reinserted at index - 1 position within the list.
+                    this.abilitiesListView.Items.Remove(listViewItem);
+                    this.abilitiesListView.Items.Insert(index - 1, listViewItem);
+
+                    listViewItem.Selected = true;
+                    this.abilitiesListView.Focus();
+                }
+            }
+        }
+
+        private void moveSelectedItemDownButton_Click(object sender, EventArgs e)
+        {
+            if (this.abilitiesListView.SelectedItems.Count > 0)
+            {
+                var listViewItem = this.abilitiesListView.SelectedItems[0];
+                var index = listViewItem.Index;
+
+                if (index < this.abilitiesListView.Items.Count - 1) // Can't move down any further if it is already at the top
+                {
+                    // when the item is remove, it needs to be reinserted at index + 1 position within the list.
+                    this.abilitiesListView.Items.Remove(listViewItem);
+                    this.abilitiesListView.Items.Insert(index + 1, listViewItem);
+
+                    listViewItem.Selected = true;
+                    this.abilitiesListView.Focus();
+                }
             }
         }
     }

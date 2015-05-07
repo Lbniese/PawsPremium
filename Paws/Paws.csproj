@@ -75,6 +75,7 @@
     <Compile Include="Core\Abilities\Guardian\IncarnationAbility.cs" />
     <Compile Include="Core\Abilities\Guardian\BristlingFurAbility.cs" />
     <Compile Include="Core\Abilities\Guardian\WildChargeAbility.cs" />
+    <Compile Include="Core\Abilities\Shared\EntanglingRootsAbility.cs" />
     <Compile Include="Core\Abilities\Shared\MassEntanglementAbility.cs" />
     <Compile Include="Core\Abilities\Shared\IncapacitatingRoarAbility.cs" />
     <Compile Include="Core\Abilities\Feral\RemoveSnareWithDashAbility.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Core\Abilities\Shared\CenarionWardAbility.cs" />
     <Compile Include="Core\Abilities\Feral\MoonfireHeightIssueAbility.cs" />
     <Compile Include="Core\Abilities\Shared\SootheAbility.cs" />
+    <Compile Include="Core\Abilities\Shared\CycloneAbility.cs" />
     <Compile Include="Core\Abilities\Shared\TyphoonAbility.cs" />
     <Compile Include="Core\Abilities\Shared\MightyBashAbility.cs" />
     <Compile Include="Core\Abilities\Guardian\FrenziedRegenerationAbility.cs" />

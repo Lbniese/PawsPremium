@@ -53,6 +53,16 @@ namespace Paws.Core.Managers
         public static void Init()
         {
             _singletonInstance = new AbilityChainsManager();
+
+            var pawsHotKeys = HotkeysManager.Hotkeys.Where(o => o.Name.StartsWith("Paws_"));
+
+            for (int i = 0; i < pawsHotKeys.Count(); i++)
+            {
+                var hotKey = pawsHotKeys.ElementAt(i);
+                HotkeysManager.Unregister(hotKey);
+
+                Log.Diagnostics(string.Format("Unregistered Hotkey {0}", hotKey.Name));
+            }
         }
 
         private static SettingsManager Settings { get { return SettingsManager.Instance; } }
@@ -88,6 +98,9 @@ namespace Paws.Core.Managers
         {
             if (Main.Product == Product.Premium)
             {
+                if (HotkeysManager.Hotkeys.Any(o => o.Name == "Paws_" + abilityChain.Name))
+                    return;
+
                 this.AbilityChains.Add(abilityChain);
 
                 var hotKey = HotkeysManager.Hotkeys.FirstOrDefault(o => o.Name == abilityChain.Name);
@@ -96,7 +109,7 @@ namespace Paws.Core.Managers
                     HotkeysManager.Unregister(hotKey);
                 }
 
-                var registeredHotKey = HotkeysManager.Register(abilityChain.Name, abilityChain.HotKey, abilityChain.ModiferKey, KeyIsPressed);
+                var registeredHotKey = HotkeysManager.Register("Paws_" + abilityChain.Name, abilityChain.HotKey, abilityChain.ModiferKey, KeyIsPressed);
 
                 Log.AbilityChain(string.Format("Ability chain successfully registered ({0}: {1} + {2}).", registeredHotKey.Name, registeredHotKey.ModifierKeys, registeredHotKey.Key));
             }
@@ -199,7 +212,7 @@ namespace Paws.Core.Managers
             else
             {
                 // Ability Chain Check...
-                var abilityChain = this.AbilityChains.SingleOrDefault(o => o.Name == hotKey.Name);
+                var abilityChain = this.AbilityChains.SingleOrDefault(o => "Paws_" + o.Name == hotKey.Name);
                 if (abilityChain != null)
                 {
                     if (StyxWoW.Me.Specialization == abilityChain.Specialization)
@@ -259,16 +272,48 @@ namespace Paws.Core.Managers
                 List<AbilityChain> defaultChains = new List<AbilityChain>();
 
                 // Ability chain sample: Burst Damage
-                AbilityChain sampleChain = new AbilityChain("Burst Damage");
+                AbilityChain sampleBurstChain = new AbilityChain("Burst Damage");
 
-                sampleChain.Specialization = WoWSpec.DruidFeral;
-                sampleChain.HotKey = System.Windows.Forms.Keys.F;
-                sampleChain.ModiferKey = ModifierKeys.Control;
-                sampleChain.ChainedAbilities.Add(new ChainedAbility(new Shared.MightyBashAbility(), TargetType.MyCurrentTarget, false));
-                sampleChain.ChainedAbilities.Add(new ChainedAbility(new Feral.IncarnationAbility(), TargetType.Me, true));
-                sampleChain.ChainedAbilities.Add(new ChainedAbility(new Feral.BerserkAbility(), TargetType.Me, true));
+                sampleBurstChain.Specialization = WoWSpec.DruidFeral;
+                sampleBurstChain.HotKey = System.Windows.Forms.Keys.F;
+                sampleBurstChain.ModiferKey = ModifierKeys.Control;
+                sampleBurstChain.ChainedAbilities.Add(new ChainedAbility(new Feral.IncarnationAbility(), TargetType.Me, true));
+                sampleBurstChain.ChainedAbilities.Add(new ChainedAbility(new Feral.BerserkAbility(), TargetType.Me, true));
 
-                defaultChains.Add(sampleChain);
+                defaultChains.Add(sampleBurstChain);
+
+                // Ability chain sample: Burst Damage
+                AbilityChain sampleDefenseChain = new AbilityChain("HotW Defense");
+
+                sampleDefenseChain.Specialization = WoWSpec.DruidFeral;
+                sampleDefenseChain.HotKey = System.Windows.Forms.Keys.D;
+                sampleDefenseChain.ModiferKey = ModifierKeys.Control;
+                sampleDefenseChain.ChainedAbilities.Add(new ChainedAbility(new Feral.BearFormPowerShiftAbility(), TargetType.Me, false));
+                sampleDefenseChain.ChainedAbilities.Add(new ChainedAbility(new Feral.HeartOfTheWildAbility(), TargetType.Me, true));
+                sampleDefenseChain.ChainedAbilities.Add(new ChainedAbility(new Shared.CenarionWardAbility(), TargetType.Me, false));
+                sampleDefenseChain.ChainedAbilities.Add(new ChainedAbility(new Feral.SurvivalInstinctsAbility(), TargetType.Me, false));
+
+                defaultChains.Add(sampleDefenseChain);
+
+                // Ability chain sample: Cyclone
+                AbilityChain sampleCycloneChain = new AbilityChain("Cyclone");
+
+                sampleCycloneChain.Specialization = WoWSpec.DruidFeral;
+                sampleCycloneChain.HotKey = System.Windows.Forms.Keys.C;
+                sampleCycloneChain.ModiferKey = ModifierKeys.Control;
+                sampleCycloneChain.ChainedAbilities.Add(new ChainedAbility(new Shared.CycloneAbility(), TargetType.MyCurrentTarget, false));
+
+                defaultChains.Add(sampleCycloneChain);
+
+                // Ability chain sample: Entangling Roots
+                AbilityChain sampleEntanglingRootsChain = new AbilityChain("Entangling Roots");
+
+                sampleEntanglingRootsChain.Specialization = WoWSpec.DruidFeral;
+                sampleEntanglingRootsChain.HotKey = System.Windows.Forms.Keys.R;
+                sampleEntanglingRootsChain.ModiferKey = ModifierKeys.Shift;
+                sampleEntanglingRootsChain.ChainedAbilities.Add(new ChainedAbility(new Shared.EntanglingRootsAbility(), TargetType.MyCurrentTarget, false));
+
+                defaultChains.Add(sampleEntanglingRootsChain);
 
                 SaveDataSet(defaultChains);
                 LoadDataSet();
