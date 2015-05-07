@@ -13,6 +13,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using System.Linq;
 
 
 namespace Paws.Interface
@@ -22,6 +23,8 @@ namespace Paws.Interface
         public WoWSpec SettingsMode { get; set; }
 
         private static LocalPlayer Me { get { return StyxWoW.Me; } }
+
+        private AbilityChainsControl _abilityChainsControl;
 
         #region Load Events
 
@@ -100,7 +103,10 @@ namespace Paws.Interface
             if (Main.Product == Product.Premium)
             {
                 var tabPage = new TabPage("Ability Chains");
-                tabPage.Controls.Add(new AbilityChainsControl());
+
+                this._abilityChainsControl = new AbilityChainsControl();
+
+                tabPage.Controls.Add(this._abilityChainsControl);
 
                 this.vt.TabPages.Add(tabPage);
             }
@@ -365,6 +371,17 @@ namespace Paws.Interface
             ItemManager.SaveDataSet(items);
         }
 
+        private void SavePremiumContentData()
+        {
+            if (Main.Product == Product.Premium)
+            {
+                if (this._abilityChainsControl != null)
+                {
+                    this._abilityChainsControl.SaveData();   
+                }
+            }
+        }
+
         #endregion
 
         #region UI Events: Profiles
@@ -594,6 +611,8 @@ namespace Paws.Interface
             GlobalSettingsManager.Instance.Save();
 
             SaveItemsData();
+
+            SavePremiumContentData();
 
             this.DialogResult = DialogResult.OK;
         }

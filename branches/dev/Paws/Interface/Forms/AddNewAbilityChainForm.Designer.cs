@@ -218,6 +218,7 @@
             this.removeSelectedAbilitiesButton.TabIndex = 30;
             this.removeSelectedAbilitiesButton.Text = "Remove Checked";
             this.removeSelectedAbilitiesButton.UseVisualStyleBackColor = false;
+            this.removeSelectedAbilitiesButton.Click += new System.EventHandler(this.removeSelectedAbilitiesButton_Click);
             // 
             // label1
             // 
