@@ -11,10 +11,6 @@ namespace Paws.Core.Routines
 {
     public static class Heal
     {
-        private static LocalPlayer Me { get { return StyxWoW.Me; } }
-        private static WoWUnit MyCurrentTarget { get { return Me.CurrentTarget; } }
-        private static AbilityManager Abilities { get { return AbilityManager.Instance; } }
-
         public static async Task<bool> Rotation()
         {
             if (Main.DeathTimer.IsRunning) Main.DeathTimer.Reset();
@@ -22,23 +18,32 @@ namespace Paws.Core.Routines
             if (!StyxWoW.IsInGame || !StyxWoW.IsInWorld)
                 return false;
 
-            if (Me.IsDead || Me.IsGhost || Me.IsCasting || Me.IsChanneling || Me.IsFlying || Me.OnTaxi || Me.Mounted || Me.IsInTravelForm())
+            if (Main.Me.IsDead || Main.Me.IsGhost || Main.Me.IsCasting || Main.Me.IsChanneling || Main.Me.IsFlying || Main.Me.OnTaxi || Main.Me.Mounted || Main.Me.IsInTravelForm())
                 return false;
 
-            if (Me.HasTotalLossOfControl()) 
+            if (Main.Me.HasTotalLossOfControl()) 
                 return false;
 
-            if (Me.Specialization == WoWSpec.DruidGuardian) return await GuardianHealRotation();
-            else return await FeralHealRotation();
+            if (!Main.Chains.TriggerInAction)
+            {
+                if (Main.Me.Specialization == WoWSpec.DruidGuardian) 
+                    return await GuardianHealRotation();
+                
+                else return await FeralHealRotation();
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private static async Task<bool> GuardianHealRotation()
         {
             if (await ItemManager.UseHealthstone()) return true;
             if (await ItemManager.UseEligibleItems(MyState.CombatHealing)) return true;
-            if (await Abilities.Cast<Shared.HealingTouchAbility>(Me)) return true;
-            if (await Abilities.Cast<Shared.NaturesVigilAbility>(Me)) return true;
-            if (await Abilities.Cast<Shared.RenewalAbility>(Me)) return true;
+            if (await Main.Abilities.Cast<Shared.HealingTouchAbility>(Main.Me)) return true;
+            if (await Main.Abilities.Cast<Shared.NaturesVigilAbility>(Main.Me)) return true;
+            if (await Main.Abilities.Cast<Shared.RenewalAbility>(Main.Me)) return true;
 
             return false;
         }
@@ -47,11 +52,11 @@ namespace Paws.Core.Routines
         {
             if (await ItemManager.UseHealthstone()) return true;
             if (await ItemManager.UseEligibleItems(MyState.CombatHealing)) return true;
-            if (await Abilities.Cast<Shared.NaturesVigilAbility>(Me)) return true;
-            if (await Abilities.Cast<Shared.RenewalAbility>(Me)) return true;
-            if (await Abilities.Cast<Shared.HealingTouchAbility>(Me)) return true;
-            if (await Abilities.Cast<Shared.RejuvenationAbility>(Me)) return true;
-            if (await Abilities.Cast<CatFormAbility>(Me)) return true;
+            if (await Main.Abilities.Cast<Shared.NaturesVigilAbility>(Main.Me)) return true;
+            if (await Main.Abilities.Cast<Shared.RenewalAbility>(Main.Me)) return true;
+            if (await Main.Abilities.Cast<Shared.HealingTouchAbility>(Main.Me)) return true;
+            if (await Main.Abilities.Cast<Shared.RejuvenationAbility>(Main.Me)) return true;
+            if (await Main.Abilities.Cast<CatFormAbility>(Main.Me)) return true;
 
             return false;
         }

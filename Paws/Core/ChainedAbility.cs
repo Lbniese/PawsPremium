@@ -14,6 +14,10 @@ using System.Xml.Serialization;
 
 namespace Paws.Core
 {
+    /// <summary>
+    /// A chained ability is single link within an ability chain. Mostly a wrapper class around 
+    /// an IAbility that also defines some attributes required to be part of an ability chain.
+    /// </summary>
     public class ChainedAbility : IXmlSerializable
     {
         private string _friendlyName;

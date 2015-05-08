@@ -10,10 +10,6 @@ namespace Paws.Core.Routines
 {
     public static class PreCombat
     {
-        private static LocalPlayer Me { get { return StyxWoW.Me; } }
-        private static WoWUnit MyCurrentTarget { get { return Me.CurrentTarget; } }
-        private static AbilityManager Abilities { get { return AbilityManager.Instance; } }
-
         /// <summary>
         /// Buff after a 5 second pulse timer so we don't appear like an automated program that zones in and immediately buffs.
         /// </summary>
@@ -27,41 +23,46 @@ namespace Paws.Core.Routines
         {
             if (Main.DeathTimer.IsRunning) Main.DeathTimer.Reset();
 
-            if (Me.IsDead || Me.IsGhost || Me.IsCasting || Me.IsChanneling || Me.IsFlying || Me.OnTaxi || Me.Mounted || Me.IsInTravelForm())
+            if (Main.Me.IsDead || Main.Me.IsGhost || Main.Me.IsCasting || Main.Me.IsChanneling || Main.Me.IsFlying || Main.Me.OnTaxi || Main.Me.Mounted || Main.Me.IsInTravelForm())
                 return false;
 
             if (!BuffTimer.IsRunning) BuffTimer.Start();
 
-            // Checking if auras are greater than 0 helps with the bot to stop rebuffing immediately after zoning in
-            // because the bot has a very small window after loading the character when it's loaded but does not know about
-            // the character auras yet (aura count is 0). // Even if we don't have any visible buffs up, the character likely has over 10 "invisible" auras
-            if ((BuffTimer.ElapsedMilliseconds >= BUFF_TIMER_INTERVAL_MS) && Me.Auras.Count > 0)
+            if (!Main.Chains.TriggerInAction)
             {
-                BuffTimer.Restart();
-
-                if (Me.Specialization == WoWSpec.DruidGuardian) return await GuardianPreCombatRotation();
-                else return await FeralPreCombatRotation();
-            }
-
-            if (!InitTimer.IsRunning) InitTimer.Start();
-            if (InitTimer.ElapsedMilliseconds >= INIT_TIMER_MS)
-            {
-                if (Me.Specialization == WoWSpec.DruidFeral)
+                // Checking if auras are greater than 0 helps with the bot to stop rebuffing immediately after zoning in
+                // because the bot has a very small window after loading the character when it's loaded but does not know about
+                // the character auras yet (aura count is 0). // Even if we don't have any visible buffs up, the character likely has over 10 "invisible" auras
+                if ((BuffTimer.ElapsedMilliseconds >= BUFF_TIMER_INTERVAL_MS) && Main.Me.Auras.Count > 0)
                 {
-                    if (await Abilities.Cast<ProwlAbility>(Me)) return true;
+                    BuffTimer.Restart();
+
+                    if (Main.Me.Specialization == WoWSpec.DruidGuardian) return await GuardianPreCombatRotation();
+                    else return await FeralPreCombatRotation();
                 }
+
+                if (!InitTimer.IsRunning) InitTimer.Start();
+                if (InitTimer.ElapsedMilliseconds >= INIT_TIMER_MS)
+                {
+                    if (Main.Me.Specialization == WoWSpec.DruidFeral)
+                    {
+                        if (await Main.Abilities.Cast<ProwlAbility>(Main.Me)) return true;
+                    }
+                }
+
+                return await Main.Units.ForceCombat();
             }
-
-            if (await UnitManager.Instance.ForceCombat()) return true;
-
-            return false;
+            else
+            {
+                return await Main.Chains.TriggeredRotation();
+            }
         }
 
         private static async Task<bool> GuardianPreCombatRotation()
         {
             if (await ItemManager.UseEligibleItems(MyState.NotInCombat)) return true;
-            if (await Abilities.Cast<MarkOfTheWildAbility>(Me)) return true;
-            if (await Abilities.Cast<Guardian.BearFormAbility>(Me)) return true;
+            if (await Main.Abilities.Cast<MarkOfTheWildAbility>(Main.Me)) return true;
+            if (await Main.Abilities.Cast<Guardian.BearFormAbility>(Main.Me)) return true;
 
             return false;
         }
@@ -69,8 +70,8 @@ namespace Paws.Core.Routines
         private static async Task<bool> FeralPreCombatRotation()
         {
             if (await ItemManager.UseEligibleItems(MyState.NotInCombat)) return true;
-            if (await Abilities.Cast<MarkOfTheWildAbility>(Me)) return true;
-            if (await Abilities.Cast<CatFormAbility>(Me)) return true;
+            if (await Main.Abilities.Cast<MarkOfTheWildAbility>(Main.Me)) return true;
+            if (await Main.Abilities.Cast<CatFormAbility>(Main.Me)) return true;
 
             return false;
         }
