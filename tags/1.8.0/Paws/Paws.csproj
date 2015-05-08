@@ -1,0 +1,451 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{60FBBED0-7676-4043-A53E-C6BBA6692FEF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Paws</RootNamespace>
+    <AssemblyName>Paws</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GreyMagic">
+      <HintPath>..\..\..\GreyMagic.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Honorbuddy">
+      <HintPath>..\..\..\Honorbuddy.exe</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Tripper.Tools">
+      <HintPath>..\..\..\Tripper.Tools.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\Abilities\AbilityBase.cs" />
+    <Compile Include="Core\Abilities\AbilityCategory.cs" />
+    <Compile Include="Core\Abilities\AbilityException.cs" />
+    <Compile Include="Core\Abilities\Attributes\AbilityChainAttribute.cs" />
+    <Compile Include="Core\Abilities\BlockedAbility.cs" />
+    <Compile Include="Core\Abilities\BlockedAbilityList.cs" />
+    <Compile Include="Core\Abilities\Feral\BerserkingAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\CatFormPowerShiftAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\RejuvenateMyAllyAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\HealingTouchMyAllyAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\HealingTouchSnapshotAbility.cs" />
+    <Compile Include="Core\Abilities\Guardian\BearFormAbility.cs" />
+    <Compile Include="Core\Abilities\Guardian\GrowlAbility.cs" />
+    <Compile Include="Core\Abilities\Guardian\FaerieFireAbility.cs" />
+    <Compile Include="Core\Abilities\Guardian\IncarnationAbility.cs" />
+    <Compile Include="Core\Abilities\Guardian\BristlingFurAbility.cs" />
+    <Compile Include="Core\Abilities\Guardian\WildChargeAbility.cs" />
+    <Compile Include="Core\Abilities\Shared\EntanglingRootsAbility.cs" />
+    <Compile Include="Core\Abilities\Shared\MassEntanglementAbility.cs" />
+    <Compile Include="Core\Abilities\Shared\IncapacitatingRoarAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\RemoveSnareWithDashAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\RemoveSnareWithStampedingRoar.cs" />
+    <Compile Include="Core\Abilities\Feral\WarStompAbility.cs" />
+    <Compile Include="Core\Abilities\Shared\StampedingRoarAbility.cs" />
+    <Compile Include="Core\Abilities\Shared\HealingTouchAbility.cs" />
+    <Compile Include="Core\Abilities\Shared\RenewalAbility.cs" />
+    <Compile Include="Core\Abilities\Shared\RejuvenationAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\HeartOfTheWildAbility.cs" />
+    <Compile Include="Core\Abilities\Shared\NaturesVigilAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\SwipeAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\ThrashAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\MaimAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\RebirthAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\ForceOfNatureAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\BearFormPowerShiftAbility.cs" />
+    <Compile Include="Core\Abilities\Guardian\BerserkAbility.cs" />
+    <Compile Include="Core\Abilities\Shared\SkullBashAbility.cs" />
+    <Compile Include="Core\Abilities\Shared\CenarionWardAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\MoonfireHeightIssueAbility.cs" />
+    <Compile Include="Core\Abilities\Shared\SootheAbility.cs" />
+    <Compile Include="Core\Abilities\Shared\CycloneAbility.cs" />
+    <Compile Include="Core\Abilities\Shared\TyphoonAbility.cs" />
+    <Compile Include="Core\Abilities\Shared\MightyBashAbility.cs" />
+    <Compile Include="Core\Abilities\Guardian\FrenziedRegenerationAbility.cs" />
+    <Compile Include="Core\Abilities\Guardian\SavageDefenseAbility.cs" />
+    <Compile Include="Core\Abilities\Guardian\MaulAbility.cs" />
+    <Compile Include="Core\Abilities\Guardian\PulverizeAbility.cs" />
+    <Compile Include="Core\Abilities\Guardian\LacerateAbility.cs" />
+    <Compile Include="Core\Abilities\Guardian\MangleAbility.cs" />
+    <Compile Include="Core\Abilities\Guardian\BarksinAbility.cs" />
+    <Compile Include="Core\Abilities\Guardian\SurvivalInstinctsAbility.cs" />
+    <Compile Include="Core\Abilities\Guardian\ThrashAbility.cs" />
+    <Compile Include="Core\Abilities\MeleeCatPandemicAbilityBase.cs" />
+    <Compile Include="Core\Abilities\Feral\ShredAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\FerociousBiteAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\IncarnationAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\ProwlOpenerAbility.cs" />
+    <Compile Include="Core\Abilities\MeleeCatAbilityBase.cs" />
+    <Compile Include="Core\Abilities\Feral\WrathAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\MarkOfTheWildAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\MoonfireAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\RipAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\SurvivalInstinctsAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\ProwlAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\RakeAbility.cs" />
+    <Compile Include="Core\Abilities\Shared\DisplacerBeastAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\FaerieFireAbility.cs" />
+    <Compile Include="Core\Abilities\IAbility.cs" />
+    <Compile Include="Core\Abilities\PandemicAbilityBase.cs" />
+    <Compile Include="Core\Abilities\Shared\DashAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\BerserkAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\TigersFuryAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\SavageRoarAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\CatFormAbility.cs" />
+    <Compile Include="Core\Abilities\Feral\WildChargeAbility.cs" />
+    <Compile Include="Core\AbilityChain.cs" />
+    <Compile Include="Core\ChainedAbility.cs" />
+    <Compile Include="Core\BleedingUnit.cs" />
+    <Compile Include="Core\Conditions\MyMaxRakedUnitsCondition.cs" />
+    <Compile Include="Core\Conditions\AttackableTargetsMaxCountCondition.cs" />
+    <Compile Include="Core\Conditions\AttackableTargetsMinCountCondition.cs" />
+    <Compile Include="Core\Conditions\Attributes\ItemConditionAttribute.cs" />
+    <Compile Include="Core\Conditions\Attributes\ItemConditionParameterAttribute.cs" />
+    <Compile Include="Core\Conditions\Attributes\ItemConditionParameterOption.cs" />
+    <Compile Include="Core\Conditions\MeIsInBearFormCondition.cs" />
+    <Compile Include="Core\Conditions\MeIsNotInBearFormCondition.cs" />
+    <Compile Include="Core\Conditions\MyRageCondition.cs" />
+    <Compile Include="Core\Conditions\MySpqcializationCondition.cs" />
+    <Compile Include="Core\Conditions\MyTargetIsEnragedCondition.cs" />
+    <Compile Include="Core\Conditions\TargetDoesNotHaveSpellMechanicCondition.cs" />
+    <Compile Include="Core\Conditions\TargetHasAuraMinStacksCondition.cs" />
+    <Compile Include="Core\Conditions\TargetHasAuraMaxStacksCondition.cs" />
+    <Compile Include="Core\Conditions\TargetHasNamedAuraCondition.cs" />
+    <Compile Include="Core\Conditions\MeHasRootOrSnareCondition.cs" />
+    <Compile Include="Core\Conditions\MyTargetIsWithinMeleeRangeCondition.cs" />
+    <Compile Include="Core\Conditions\MyTargetIsNotWithinMeleeRangeCondition.cs" />
+    <Compile Include="Core\Conditions\MyTargetHealthMultiplierCondition.cs" />
+    <Compile Include="Core\Conditions\CombatSwitchCondition.cs" />
+    <Compile Include="Core\Conditions\ConditionDependencyList.cs" />
+    <Compile Include="Core\Conditions\ConditionTestSwitchCondition.cs" />
+    <Compile Include="Core\Conditions\ConditionOrCondition.cs" />
+    <Compile Include="Core\Conditions\MeDoesNotKnowSpellCondition.cs" />
+    <Compile Include="Core\Conditions\MeDoesNotHaveStatsBuffCondition.cs" />
+    <Compile Include="Core\Conditions\MeIsInCombatCondition.cs" />
+    <Compile Include="Core\Conditions\MeNotInCombatCondition.cs" />
+    <Compile Include="Core\Conditions\MeIsIMovingCondition.cs" />
+    <Compile Include="Core\Conditions\MeIsINotMovingCondition.cs" />
+    <Compile Include="Core\Conditions\MeKnowsSpellCondition.cs" />
+    <Compile Include="Core\Conditions\MeIsNotFlying.cs" />
+    <Compile Include="Core\Conditions\MeIsNotInTravelFormCondition.cs" />
+    <Compile Include="Core\Conditions\MySpellCooldownTimeLeft.cs" />
+    <Compile Include="Core\Conditions\MyTargetIsPlayerClassCondition.cs" />
+    <Compile Include="Core\Conditions\MyTargetIsNotPetCondition.cs" />
+    <Compile Include="Core\Conditions\MyTargetIsTooHighCondition.cs" />
+    <Compile Include="Core\Conditions\SpellIsOnCooldownCondition.cs" />
+    <Compile Include="Core\Conditions\TargetAuraMaxTimeLeftCondition.cs" />
+    <Compile Include="Core\Conditions\TargetAuraMinTimeLeftCondition.cs" />
+    <Compile Include="Core\Conditions\BooleanCondition.cs" />
+    <Compile Include="Core\Conditions\MyComboPointsCondition.cs" />
+    <Compile Include="Core\Conditions\ConditionException.cs" />
+    <Compile Include="Core\Conditions\MyTargetDistanceCondition.cs" />
+    <Compile Include="Core\Conditions\TargetDoesNotHaveNamedAuraCondition.cs" />
+    <Compile Include="Core\Conditions\TargetDoesNotHaveAuraCondition.cs" />
+    <Compile Include="Core\Conditions\MeHasAttackableTargetCondition.cs" />
+    <Compile Include="Core\Conditions\TargetHasAuraCondition.cs" />
+    <Compile Include="Core\Conditions\MyEnergyRangeCondition.cs" />
+    <Compile Include="Core\Conditions\TargetHealthRangeCondition.cs" />
+    <Compile Include="Core\Conditions\MyTargetInLineOfSightCondition.cs" />
+    <Compile Include="Core\Conditions\MeIsInTravelFormCondition.cs" />
+    <Compile Include="Core\Conditions\MeIsFacingTargetCondition.cs" />
+    <Compile Include="Core\Conditions\MeIsInCatFormCondition.cs" />
+    <Compile Include="Core\Conditions\MeIsNotInCatFormCondition.cs" />
+    <Compile Include="Core\Conditions\IsOffGlobalCooldownCondition.cs" />
+    <Compile Include="Core\Conditions\MySavageRoarAuraCondition.cs" />
+    <Compile Include="Core\Conditions\SpellIsNotOnCooldownCondition.cs" />
+    <Compile Include="Core\Conditions\TargetType.cs" />
+    <Compile Include="Core\Conditions\ICondition.cs" />
+    <Compile Include="Core\ItemCondition.cs" />
+    <Compile Include="Core\Managers\AbilityChainsManager.cs" />
+    <Compile Include="Core\MyState.cs" />
+    <Compile Include="Core\PawsItem.cs" />
+    <Compile Include="Core\Managers\GlobalSettingsManager.cs" />
+    <Compile Include="Core\Managers\SnapshotManager.cs" />
+    <Compile Include="Core\Managers\SnareManager.cs" />
+    <Compile Include="Core\Managers\ItemManager.cs" />
+    <Compile Include="Core\Managers\AbilityManager.cs" />
+    <Compile Include="Core\Managers\InterruptManager.cs" />
+    <Compile Include="Core\Managers\SettingsManager.cs" />
+    <Compile Include="Core\Managers\UnitManager.cs" />
+    <Compile Include="Core\MovementHelper.cs" />
+    <Compile Include="Core\Routines\Pull.cs" />
+    <Compile Include="Core\Routines\Combat.cs" />
+    <Compile Include="Core\Routines\Rest.cs" />
+    <Compile Include="Core\Routines\Heal.cs" />
+    <Compile Include="Core\Routines\PreCombat.cs" />
+    <Compile Include="Core\Managers\CastManager.cs" />
+    <Compile Include="Core\SpellBook.cs" />
+    <Compile Include="Core\Extensions.cs" />
+    <Compile Include="Core\Utilities\CombatLogEvent.cs" />
+    <Compile Include="Core\Utilities\Events.cs" />
+    <Compile Include="Core\Utilities\Log.cs" />
+    <Compile Include="Core\Utilities\Diagnostics.cs" />
+    <Compile Include="Interface\Controls\AbilityChainsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interface\Controls\AbilityChainsControl.Designer.cs">
+      <DependentUpon>AbilityChainsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Controls\Feral\FeralHealingSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interface\Controls\Feral\FeralHealingSettings.Designer.cs">
+      <DependentUpon>FeralHealingSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Controls\Guardian\GuardianMobilitySettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interface\Controls\Guardian\GuardianMobilitySettings.Designer.cs">
+      <DependentUpon>GuardianMobilitySettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Controls\Feral\FeralOffensiveSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interface\Controls\Feral\FeralOffensiveSettings.Designer.cs">
+      <DependentUpon>FeralOffensiveSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Controls\Feral\FeralDefensiveSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interface\Controls\Feral\FeralDefensiveSettings.Designer.cs">
+      <DependentUpon>FeralDefensiveSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Controls\Feral\FeralMobilitySettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interface\Controls\Feral\FeralMobilitySettings.Designer.cs">
+      <DependentUpon>FeralMobilitySettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Controls\Guardian\GuardianHealingSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interface\Controls\Guardian\GuardianHealingSettings.Designer.cs">
+      <DependentUpon>GuardianHealingSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Controls\Guardian\GuardianDefensiveSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interface\Controls\Guardian\GuardianDefensiveSettings.Designer.cs">
+      <DependentUpon>GuardianDefensiveSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Controls\Guardian\GuardianOffensiveSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interface\Controls\Guardian\GuardianOffensiveSettings.Designer.cs">
+      <DependentUpon>GuardianOffensiveSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Controls\ISettingsControl.cs" />
+    <Compile Include="Interface\Forms\AddItemMyBagsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\Forms\AddItemMyBagsForm.Designer.cs">
+      <DependentUpon>AddItemMyBagsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Forms\AddNewAbilityChainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\Forms\AddNewAbilityChainForm.Designer.cs">
+      <DependentUpon>AddNewAbilityChainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Forms\AddNewAbilityForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\Forms\AddNewAbilityForm.Designer.cs">
+      <DependentUpon>AddNewAbilityForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Forms\AddNewConditionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\Forms\AddNewConditionForm.Designer.cs">
+      <DependentUpon>AddNewConditionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Forms\AddNewItemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\Forms\AddNewItemForm.Designer.cs">
+      <DependentUpon>AddNewItemForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Controls\LongTextBoxValueControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interface\Controls\LongTextBoxValueControl.Designer.cs">
+      <DependentUpon>LongTextBoxValueControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Controls\NumberTextBoxValueControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interface\Controls\NumberTextBoxValueControl.Designer.cs">
+      <DependentUpon>NumberTextBoxValueControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Forms\SaveProfileAsNameForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\Forms\SaveProfileAsNameForm.Designer.cs">
+      <DependentUpon>SaveProfileAsNameForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Forms\SettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\Forms\SettingsForm.designer.cs">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Controls\TwoRadioOptionsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interface\Controls\TwoRadioOptionsControl.Designer.cs">
+      <DependentUpon>TwoRadioOptionsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Controls\VerticalTabs.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Interface\IItemConditionParameterControl.cs" />
+    <Compile Include="Main.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\release.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>release.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Interface\Controls\AbilityChainsControl.resx">
+      <DependentUpon>AbilityChainsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Forms\AddNewAbilityChainForm.resx">
+      <DependentUpon>AddNewAbilityChainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Forms\AddNewAbilityForm.resx">
+      <DependentUpon>AddNewAbilityForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\release-notes.rtf" />
+    <EmbeddedResource Include="Resources\release.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>release.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Interface\Controls\Feral\FeralHealingSettings.resx">
+      <DependentUpon>FeralHealingSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Controls\Guardian\GuardianMobilitySettings.resx">
+      <DependentUpon>GuardianMobilitySettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Controls\Feral\FeralOffensiveSettings.resx">
+      <DependentUpon>FeralOffensiveSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Controls\Feral\FeralDefensiveSettings.resx">
+      <DependentUpon>FeralDefensiveSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Controls\Feral\FeralMobilitySettings.resx">
+      <DependentUpon>FeralMobilitySettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Controls\Guardian\GuardianHealingSettings.resx">
+      <DependentUpon>GuardianHealingSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Controls\Guardian\GuardianDefensiveSettings.resx">
+      <DependentUpon>GuardianDefensiveSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Controls\Guardian\GuardianOffensiveSettings.resx">
+      <DependentUpon>GuardianOffensiveSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Forms\AddItemMyBagsForm.resx">
+      <DependentUpon>AddItemMyBagsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Forms\AddNewConditionForm.resx">
+      <DependentUpon>AddNewConditionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Forms\AddNewItemForm.resx">
+      <DependentUpon>AddNewItemForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Controls\LongTextBoxValueControl.resx">
+      <DependentUpon>LongTextBoxValueControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Controls\NumberTextBoxValueControl.resx">
+      <DependentUpon>NumberTextBoxValueControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Forms\SaveProfileAsNameForm.resx">
+      <DependentUpon>SaveProfileAsNameForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Forms\SettingsForm.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Controls\TwoRadioOptionsControl.resx">
+      <DependentUpon>TwoRadioOptionsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Legal.txt" />
+    <EmbeddedResource Include="Presets\Automated Battlegrounds.xml" />
+    <EmbeddedResource Include="Presets\Automated Dungeons.xml" />
+    <EmbeddedResource Include="Presets\Automated Questing.xml" />
+    <EmbeddedResource Include="Presets\Manual Arena.xml" />
+    <EmbeddedResource Include="Presets\Manual Battlegrounds.xml" />
+    <EmbeddedResource Include="Presets\Manual Dungeons.xml" />
+    <EmbeddedResource Include="Presets\Manual Questing.xml" />
+    <EmbeddedResource Include="Presets\Manual Raiding.xml" />
+    <EmbeddedResource Include="Presets\Minimalist.xml" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' == ''" />
+  <PropertyGroup>
+    <SsdtUnitTestVersion>2.0</SsdtUnitTestVersion>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
