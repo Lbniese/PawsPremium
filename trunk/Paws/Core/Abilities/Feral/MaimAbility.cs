@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Feral
@@ -19,17 +20,26 @@ namespace Paws.Core.Abilities.Feral
     /// <para>5 points: 110% damage, 5 sec</para>
     /// <para>http://www.wowhead.com/spell=22570/maim</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Maim (Stun)")]
     public class MaimAbility : MeleeFeralAbilityBase
     {
         public MaimAbility()
             : base(WoWSpell.FromId(SpellBook.Maim), false)
         {
+            base.RequiredConditions.Add(new SpellIsNotOnCooldownCondition(this.Spell));
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+            base.RequiredConditions.Add(new MyEnergyRangeCondition(35.0));
+            base.Conditions.Add(new MyComboPointsCondition(1));
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.MaimEnabled));
-            base.Conditions.Add(new SpellIsNotOnCooldownCondition(this.Spell));
-            base.Conditions.Add(new MyComboPointsCondition(Settings.MaimMinComboPoints, 5));
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+            base.Conditions.Add(new MyComboPointsCondition(Settings.MaimMinComboPoints));
             base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, this.Spell.Id));
-            base.Conditions.Add(new MyEnergyRangeCondition(35.0));
+            base.Conditions.Add(new TargetDoesNotHaveSpellMechanicCondition(TargetType.MyCurrentTarget, WoWSpellMechanic.Stunned));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 using System;
 
@@ -13,6 +14,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>60 Energy.</para>
     /// <para>http://www.wowhead.com/spell=5217/tigers-fury</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Tiger's Fury")]
     public class TigersFuryAbility : AbilityBase
     {
         public TigersFuryAbility()
@@ -20,15 +22,24 @@ namespace Paws.Core.Abilities.Feral
         {
             base.Category = AbilityCategory.Buff;
 
+            base.RequiredConditions.Add(new MeIsInCatFormCondition());
+            base.RequiredConditions.Add(new MeHasAttackableTargetCondition());
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.TigersFuryEnabled));
-            base.Conditions.Add(new MeIsInCatFormCondition());
-            base.Conditions.Add(new MeHasAttackableTargetCondition());
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.TigersFury));
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, base.Spell.Id));
             base.Conditions.Add(new MyTargetIsWithinMeleeRangeCondition());
             base.Conditions.Add(new ConditionTestSwitchCondition(
                 new BooleanCondition(Settings.TigersFuryUseMaxEnergy),
-                new MyEnergyRangeCondition(0, Settings.TigersFuryMaxEnergy)
+                new ConditionOrList(
+                    new MyEnergyRangeCondition(0, Settings.TigersFuryMaxEnergy),
+                    new TargetHasAuraCondition(TargetType.Me, SpellBook.BloodtalonsProc)
+                )
             ));
 
             if (Settings.TigersFurySyncWithBerserk)

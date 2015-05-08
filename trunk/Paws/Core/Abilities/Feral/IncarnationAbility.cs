@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Feral
@@ -13,6 +14,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>You may shapeshift in and out of this improved Cat Form for its duration.</para>
     /// <para>http://www.wowhead.com/spell=102543/incarnation-king-of-the-jungle#comments</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Incarnation: King of the Jungle")]
     public class IncarnationAbility : AbilityBase
     {
         public IncarnationAbility()
@@ -20,10 +22,16 @@ namespace Paws.Core.Abilities.Feral
         {
             base.Category = AbilityCategory.Buff;
 
+            base.RequiredConditions.Add(new MeHasAttackableTargetCondition());
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.FeralIncarnationForm));
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.IncarnationEnabled));
-            base.Conditions.Add(new MeHasAttackableTargetCondition());
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.FeralIncarnationForm));
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
             base.Conditions.Add(new MyTargetIsWithinMeleeRangeCondition());
             if (Settings.IncarnationEnemyHealthCheck)
             {

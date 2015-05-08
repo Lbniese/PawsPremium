@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Shared
@@ -13,11 +14,19 @@ namespace Paws.Core.Abilities.Shared
     /// <para>knowcking them back and dazing them for 6 sec. Usable in all shapeshift forms.</para>
     /// <para>http://www.wowhead.com/spell=132469/typhoon</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Typhoon")]
     public class TyphoonAbility : AbilityBase
     {
         public TyphoonAbility()
             : base(WoWSpell.FromId(SpellBook.Typhoon), true, true)
         {
+            
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new ConditionOrList(
                 new ConditionTestSwitchCondition(
                     new MyExpectedSpecializationCondition(Styx.WoWSpec.DruidFeral),

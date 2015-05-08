@@ -19,9 +19,15 @@ namespace Paws.Core.Abilities.Feral
         {
             base.Category = AbilityCategory.Bloodtalons;
 
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+            base.RequiredConditions.Add(new TargetHasAuraCondition(TargetType.Me, SpellBook.PredatorySwiftnessProc));
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.BloodtalonsEnabled));
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
-            base.Conditions.Add(new TargetHasAuraCondition(TargetType.Me, SpellBook.PredatorySwiftnessProc));
         }
     }
 }

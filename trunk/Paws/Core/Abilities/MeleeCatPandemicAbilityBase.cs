@@ -8,14 +8,23 @@ namespace Paws.Core.Abilities
     /// </summary>
     public abstract class MeleeFeralPandemicAbilityBase : PandemicAbilityBase 
     {
+        bool SavageRoarCheck { get; set; }
+
         public MeleeFeralPandemicAbilityBase(WoWSpell spell, bool savageRoarCheck)
             : base(spell)
         {
+            this.SavageRoarCheck = savageRoarCheck;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new MeHasAttackableTargetCondition());
             base.Conditions.Add(new MeIsFacingTargetCondition());
             base.Conditions.Add(new MeIsInCatFormCondition());
             base.Conditions.Add(new MyTargetIsWithinMeleeRangeCondition());
-            if (savageRoarCheck && Settings.SavageRoarEnabled)
+            if (this.SavageRoarCheck && Settings.SavageRoarEnabled)
             {
                 base.Conditions.Add(new ConditionTestSwitchCondition(
                     new MeKnowsSpellCondition(SpellBook.SavageRoar),
@@ -27,7 +36,7 @@ namespace Paws.Core.Abilities
             base.PandemicConditions.Add(new MeIsFacingTargetCondition());
             base.PandemicConditions.Add(new MeIsInCatFormCondition());
             base.Conditions.Add(new MyTargetIsWithinMeleeRangeCondition());
-            if (savageRoarCheck && Settings.SavageRoarEnabled)
+            if (this.SavageRoarCheck && Settings.SavageRoarEnabled)
             {
                 base.PandemicConditions.Add(new ConditionTestSwitchCondition(
                     new MeKnowsSpellCondition(SpellBook.SavageRoar),

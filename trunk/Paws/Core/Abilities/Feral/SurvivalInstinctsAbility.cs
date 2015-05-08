@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Feral
@@ -12,15 +13,24 @@ namespace Paws.Core.Abilities.Feral
     /// <para>Reduces all damage taken by 50% for 6 sec. Max 2 charges.</para>
     /// <para>http://www.wowhead.com/spell=61336/survival-instincts</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Survival Instincts")]
     public class SurvivalInstinctsAbility : AbilityBase
     {
         public SurvivalInstinctsAbility()
             : base(WoWSpell.FromId(SpellBook.SurvivalInstincts), true, true)
         {
+            base.Category = AbilityCategory.Defensive;
+
+            base.RequiredConditions.Add(new MeIsInCatFormCondition());
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.SurvivalInstinctsEnabled));
-            base.Conditions.Add(new MeIsInCatFormCondition());
             base.Conditions.Add(new MeIsInCombatCondition());
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
             base.Conditions.Add(new TargetHealthRangeCondition(TargetType.Me, 0, Settings.SurvivalInstinctsMinHealth));
             base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.SurvivalInstincts));
         }

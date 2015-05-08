@@ -14,12 +14,18 @@ namespace Paws.Core.Abilities.Feral
         public WarStompAbility()
             : base(WoWSpell.FromId(SpellBook.TaurenRacialWarStomp), true, true)
         {
+            base.RequiredConditions.Add(new MeHasAttackableTargetCondition());
+            base.RequiredConditions.Add(new MeIsFacingTargetCondition());
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.TaurenWarStompEnabled));
             base.Conditions.Add(new AttackableTargetsMinCountCondition(Settings.TaurenWarStompMinEnemies));
-            base.Conditions.Add(new MeHasAttackableTargetCondition());
-            base.Conditions.Add(new MeIsFacingTargetCondition());
             base.Conditions.Add(new MeIsInCatFormCondition());
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
             base.Conditions.Add(new MyTargetDistanceCondition(0, Settings.AOERange));
         }
     }

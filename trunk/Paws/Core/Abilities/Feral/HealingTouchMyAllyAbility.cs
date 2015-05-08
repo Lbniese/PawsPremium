@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Feral
@@ -12,6 +13,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>Heals a friendsly target for (360% of Spell power).</para>
     /// <para>http://www.wowhead.com/spell=5185/healing-touch</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Healing Touch")]
     public class HealingTouchMyAllyAbility : AbilityBase
     {
         public HealingTouchMyAllyAbility()
@@ -19,9 +21,15 @@ namespace Paws.Core.Abilities.Feral
         {
             base.Category = AbilityCategory.Heal;
 
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.HealMyAlliesEnabled));
             base.Conditions.Add(new BooleanCondition(Settings.HealMyAlliesWithHealingTouchEnabled));
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
             base.Conditions.Add(new TargetHealthRangeCondition(TargetType.MyCurrentTarget, 5.0, Settings.HealMyAlliesWithHealingTouchMinHealth));
             if (Settings.HealMyAlliesMyHealthCheckEnabled)
             {

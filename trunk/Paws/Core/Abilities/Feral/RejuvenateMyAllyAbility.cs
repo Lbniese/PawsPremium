@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Feral
@@ -19,10 +20,16 @@ namespace Paws.Core.Abilities.Feral
         {
             base.Category = AbilityCategory.Heal;
 
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.HealMyAlliesEnabled));
             base.Conditions.Add(new BooleanCondition(Settings.HealMyAlliesWithRejuvenationEnabled));
             base.Conditions.Add(new MeIsNotInTravelFormCondition());
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
             base.Conditions.Add(new TargetHealthRangeCondition(TargetType.MyCurrentTarget, 5.0, Settings.HealMyAlliesWithRejuvenationMinHealth));
             if (Settings.HealMyAlliesMyHealthCheckEnabled)
             {

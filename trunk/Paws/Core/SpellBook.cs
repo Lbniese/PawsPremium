@@ -40,6 +40,8 @@
         public const int Maim = 22570;
         public const int StampedingRoar = 106898;
         public const int Soothe = 2908;
+        public const int Cyclone = 33786;
+        public const int EntanglingRoots = 339;
         
         public const int Mangle = 33917;
         public const int Lacerate = 33745;

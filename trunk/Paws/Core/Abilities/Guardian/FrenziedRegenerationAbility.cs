@@ -9,6 +9,11 @@ namespace Paws.Core.Abilities.Guardian
             : base(WoWSpell.FromId(SpellBook.FrenziedRegeneration), true, true)
         {
             base.Category = AbilityCategory.Heal;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.FrenziedRegenerationEnabled));
             base.Conditions.Add(new MeIsInBearFormCondition());

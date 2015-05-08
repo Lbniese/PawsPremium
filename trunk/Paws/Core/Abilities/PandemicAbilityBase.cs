@@ -34,5 +34,13 @@ namespace Paws.Core.Abilities
                 (await CastManager.CastOnTarget(target, this, this.PandemicConditions)) ||
                 (await base.CastOnTarget(target));
         }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
+            this.PandemicConditions.Clear();
+            this.PandemicConditions.AddRange(this.RequiredConditions);
+        }
     }
 }

@@ -750,9 +750,9 @@
             this.label74.AutoSize = true;
             this.label74.Location = new System.Drawing.Point(4, 4);
             this.label74.Name = "label74";
-            this.label74.Size = new System.Drawing.Size(116, 15);
+            this.label74.Size = new System.Drawing.Size(85, 15);
             this.label74.TabIndex = 10;
-            this.label74.Text = "Rebirth (In Combat)";
+            this.label74.Text = "Rebirth (Beta)";
             // 
             // panel66
             // 

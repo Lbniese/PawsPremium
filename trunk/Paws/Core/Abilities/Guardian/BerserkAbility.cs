@@ -22,6 +22,11 @@ namespace Paws.Core.Abilities.Guardian
             : base(WoWSpell.FromId(SpellBook.BerserkGuardian), false, true)
         {
             base.Category = AbilityCategory.Buff;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.GuardianBerserkEnabled));
             base.Conditions.Add(new MeIsInBearFormCondition());

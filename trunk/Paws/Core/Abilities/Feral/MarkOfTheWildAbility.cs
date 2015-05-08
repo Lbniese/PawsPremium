@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Feral
@@ -14,19 +15,26 @@ namespace Paws.Core.Abilities.Feral
     /// <para>If target is in your party or raid, all party and raid members will be affected.</para>
     /// <para>http://www.wowhead.com/spell=1126/mark-of-the-wild</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Mark of the Wild")]
     public class MarkOfTheWildAbility : AbilityBase
     {
         public MarkOfTheWildAbility()
             : base(WoWSpell.FromId(SpellBook.MarkOfTheWild), true, true)
         {
             base.Category = AbilityCategory.Buff;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.MarkOfTheWildEnabled));
             base.Conditions.Add(new MeNotInCombatCondition());
             base.Conditions.Add(new MeDoesNotHaveStatsBuffCondition());
-            // TODO: If mounted or in travel form, don't do it!
             if (Settings.MarkOfTheWildDoNotApplyIfStealthed)
+            {
                 base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+            }
         }
     }
 }

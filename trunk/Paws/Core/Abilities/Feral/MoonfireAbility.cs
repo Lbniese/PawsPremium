@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 using System;
 
@@ -14,16 +15,24 @@ namespace Paws.Core.Abilities.Feral
     /// <para>(292.5% of Spell power) Arcane damage over 20 sec.</para>
     /// <para>http://www.wowhead.com/spell=8921/moonfire#comments</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Moonfire")]
     public class MoonfireAbility : PandemicAbilityBase
     {
         public MoonfireAbility()
             : base(WoWSpell.FromId(SpellBook.Moonfire))
         {
+            base.RequiredConditions.Add(new MeHasAttackableTargetCondition());
+            base.RequiredConditions.Add(new MeIsFacingTargetCondition());
+            base.RequiredConditions.Add(new MyTargetDistanceCondition(0, 38));
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             // Shared //
-            var hasAttackableTarget = new MeHasAttackableTargetCondition();
-            var isFacingTarget = new MeIsFacingTargetCondition();
-            var isInCastRange = new MyTargetDistanceCondition(0, 38);
-            var isNotProwling = new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl);
+            var isEnabled = new BooleanCondition(Settings.MoonfireEnabled);
             var isLowLevelCheck = new ConditionTestSwitchCondition(
                 new MeKnowsSpellCondition(SpellBook.CatForm),
                 new ConditionDependencyList(
@@ -38,11 +47,8 @@ namespace Paws.Core.Abilities.Feral
             );
 
             // Normal //
-            base.Conditions.Add(hasAttackableTarget);
-            base.Conditions.Add(isFacingTarget);
-            base.Conditions.Add(isInCastRange);
+            base.Conditions.Add(isEnabled);
             base.Conditions.Add(isLowLevelCheck);
-            base.Conditions.Add(isNotProwling);
             base.Conditions.Add(energy);
             base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, SpellBook.MoonfireDotDebuffLowLevel));
             base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, SpellBook.MoonfireDotDebuffHighLevel));
@@ -66,11 +72,8 @@ namespace Paws.Core.Abilities.Feral
             }
 
             // Pandemic //
-            base.PandemicConditions.Add(hasAttackableTarget);
-            base.PandemicConditions.Add(isInCastRange);
-            base.PandemicConditions.Add(isFacingTarget);
+            base.PandemicConditions.Add(isEnabled);
             base.PandemicConditions.Add(isLowLevelCheck);
-            base.PandemicConditions.Add(isNotProwling);
             base.PandemicConditions.Add(energy);
             base.PandemicConditions.Add(new BooleanCondition(Settings.MoonfireAllowClipping));
             base.PandemicConditions.Add(new TargetHasAuraCondition(TargetType.MyCurrentTarget, SpellBook.MoonfireDotDebuffHighLevel));

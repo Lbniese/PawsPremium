@@ -55,6 +55,8 @@ namespace Paws.Interface.Controls.Feral
             this.offensiveRakeEnabledCheckBox.Checked = Settings.RakeEnabled;
             offensiveRakeEnabledCheckBox_CheckedChanged(this.offensiveRakeEnabledCheckBox, EventArgs.Empty);
             this.offensiveRakeAllowClippingCheckBox.Checked = Settings.RakeAllowClipping;
+            this.offensiveRakeAllowMultiplierClippingCheckBox.Checked = Settings.RakeAllowMultiplierClipping;
+            this.offensiveRakeMaxEnemiesTextBox.Text = Settings.RakeMaxEnemies.ToString();            
             this.offensiveRakeStealthOpenerCheckBox.Checked = Settings.RakeStealthOpener;
             this.offensiveShredEnabledCheckBox.Checked = Settings.ShredEnabled;
             offensiveShredEnabledCheckBox_CheckedChanged(this.offensiveShredEnabledCheckBox, EventArgs.Empty);
@@ -110,6 +112,8 @@ namespace Paws.Interface.Controls.Feral
             Settings.MoonfireOnlyWithLunarInspiration = this.offensiveMoonfireLunarInspirationOnlyCheckBox.Checked;
             Settings.RakeEnabled = this.offensiveRakeEnabledCheckBox.Checked;
             Settings.RakeAllowClipping = this.offensiveRakeAllowClippingCheckBox.Checked;
+            Settings.RakeAllowMultiplierClipping = this.offensiveRakeAllowMultiplierClippingCheckBox.Checked;
+            Settings.RakeMaxEnemies = Convert.ToInt32(this.offensiveRakeMaxEnemiesTextBox.Text);
             Settings.RakeStealthOpener = this.offensiveRakeStealthOpenerCheckBox.Checked;
             Settings.ShredEnabled = this.offensiveShredEnabledCheckBox.Checked;
             Settings.ShredStealthOpener = this.offensiveShredStealthOpener.Checked;

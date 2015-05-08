@@ -1,4 +1,5 @@
-﻿using Paws.Core.Conditions;
+﻿using Paws.Core.Abilities.Attributes;
+using Paws.Core.Conditions;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Feral
@@ -15,6 +16,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>Increases the duration of Berserk by 5 seconds.</para>
     /// <para>http://www.wowhead.com/spell=106952/berserk</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Berserk")]
     public class BerserkAbility : AbilityBase
     {
         public BerserkAbility()
@@ -22,12 +24,18 @@ namespace Paws.Core.Abilities.Feral
         {
             base.Category = AbilityCategory.Buff;
 
+            base.RequiredConditions.Add(new MeIsInCatFormCondition());
+            base.RequiredConditions.Add(new MeHasAttackableTargetCondition());
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.BerserkDruid));
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+            base.RequiredConditions.Add(new MyTargetIsWithinMeleeRangeCondition());
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.BerserkEnabled));
-            base.Conditions.Add(new MeIsInCatFormCondition());
-            base.Conditions.Add(new MeHasAttackableTargetCondition());
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.BerserkDruid));
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
-            base.Conditions.Add(new MyTargetIsWithinMeleeRangeCondition());
             if (Settings.BerserkEnemyHealthCheck)
             {
                 base.Conditions.Add(new MyTargetHealthMultiplierCondition(Settings.BerserkEnemyHealthMultiplier));

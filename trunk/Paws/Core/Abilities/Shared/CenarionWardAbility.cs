@@ -1,6 +1,7 @@
 ﻿using Paws.Core.Conditions;
 using Styx.WoWInternals;
 using System;
+using Paws.Core.Abilities.Attributes;
 
 namespace Paws.Core.Abilities.Shared
 {
@@ -14,12 +15,18 @@ namespace Paws.Core.Abilities.Shared
     /// <para>for (879.9% of Spell power) over 6 seconds.</para>
     /// <para>http://www.wowhead.com/spell=102351/cenarion-ward</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Cenarion Ward")]
     public class CenarionWardAbility : AbilityBase
     {
         public CenarionWardAbility()
             : base(WoWSpell.FromId(SpellBook.CenarionWard), true, true)
         {
             base.Category = AbilityCategory.Buff;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
 
             base.Conditions.Add(new MeHasAttackableTargetCondition());
             base.Conditions.Add(new ConditionOrList(

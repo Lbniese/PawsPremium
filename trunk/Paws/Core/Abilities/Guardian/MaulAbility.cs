@@ -7,7 +7,12 @@ namespace Paws.Core.Abilities.Guardian
     {
         public MaulAbility()
             : base(WoWSpell.FromId(SpellBook.Maul), false, true)
+        { }
+
+        public override void ApplyDefaultSettings()
         {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.MaulEnabled));
             base.Conditions.Add(new MeIsInBearFormCondition());
             base.Conditions.Add(new MeHasAttackableTargetCondition());

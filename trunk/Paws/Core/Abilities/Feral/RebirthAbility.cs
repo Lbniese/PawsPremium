@@ -22,11 +22,17 @@ namespace Paws.Core.Abilities.Feral
         {
             base.Category = AbilityCategory.Heal;
 
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             if (Settings.RebirthOnlyDuringPredatorySwiftness)
             {
                 base.Conditions.Add(new TargetHasAuraCondition(TargetType.Me, SpellBook.PredatorySwiftnessProc));
             }
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
         }
     }
 }

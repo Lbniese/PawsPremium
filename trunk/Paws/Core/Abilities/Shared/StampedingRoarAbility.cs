@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Shared
@@ -13,11 +14,19 @@ namespace Paws.Core.Abilities.Shared
     /// <para>Using this ability outside of Bear Form or Cat Form activates Bear Form.</para>
     /// <para>http://www.wowhead.com/spell=106898/stampeding-roar</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Stampeding Roar")]
     public class StampedingRoarAbility : AbilityBase
     {
         public StampedingRoarAbility()
             : base(WoWSpell.FromId(SpellBook.StampedingRoar), true, true)
         {
+            
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new MeHasAttackableTargetCondition());
             base.Conditions.Add(new ConditionOrList(
                 new ConditionTestSwitchCondition(

@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GreyMagic">
+      <HintPath>..\..\..\GreyMagic.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Honorbuddy">
       <HintPath>..\..\..\Honorbuddy.exe</HintPath>
       <Private>False</Private>
@@ -57,6 +61,7 @@
     <Compile Include="Core\Abilities\AbilityBase.cs" />
     <Compile Include="Core\Abilities\AbilityCategory.cs" />
     <Compile Include="Core\Abilities\AbilityException.cs" />
+    <Compile Include="Core\Abilities\Attributes\AbilityChainAttribute.cs" />
     <Compile Include="Core\Abilities\BlockedAbility.cs" />
     <Compile Include="Core\Abilities\BlockedAbilityList.cs" />
     <Compile Include="Core\Abilities\Feral\BerserkingAbility.cs" />
@@ -70,6 +75,7 @@
     <Compile Include="Core\Abilities\Guardian\IncarnationAbility.cs" />
     <Compile Include="Core\Abilities\Guardian\BristlingFurAbility.cs" />
     <Compile Include="Core\Abilities\Guardian\WildChargeAbility.cs" />
+    <Compile Include="Core\Abilities\Shared\EntanglingRootsAbility.cs" />
     <Compile Include="Core\Abilities\Shared\MassEntanglementAbility.cs" />
     <Compile Include="Core\Abilities\Shared\IncapacitatingRoarAbility.cs" />
     <Compile Include="Core\Abilities\Feral\RemoveSnareWithDashAbility.cs" />
@@ -92,6 +98,7 @@
     <Compile Include="Core\Abilities\Shared\CenarionWardAbility.cs" />
     <Compile Include="Core\Abilities\Feral\MoonfireHeightIssueAbility.cs" />
     <Compile Include="Core\Abilities\Shared\SootheAbility.cs" />
+    <Compile Include="Core\Abilities\Shared\CycloneAbility.cs" />
     <Compile Include="Core\Abilities\Shared\TyphoonAbility.cs" />
     <Compile Include="Core\Abilities\Shared\MightyBashAbility.cs" />
     <Compile Include="Core\Abilities\Guardian\FrenziedRegenerationAbility.cs" />
@@ -126,7 +133,10 @@
     <Compile Include="Core\Abilities\Feral\SavageRoarAbility.cs" />
     <Compile Include="Core\Abilities\Feral\CatFormAbility.cs" />
     <Compile Include="Core\Abilities\Feral\WildChargeAbility.cs" />
+    <Compile Include="Core\AbilityChain.cs" />
+    <Compile Include="Core\ChainedAbility.cs" />
     <Compile Include="Core\BleedingUnit.cs" />
+    <Compile Include="Core\Conditions\MyMaxRakedUnitsCondition.cs" />
     <Compile Include="Core\Conditions\AttackableTargetsMaxCountCondition.cs" />
     <Compile Include="Core\Conditions\AttackableTargetsMinCountCondition.cs" />
     <Compile Include="Core\Conditions\Attributes\ItemConditionAttribute.cs" />
@@ -137,6 +147,7 @@
     <Compile Include="Core\Conditions\MyRageCondition.cs" />
     <Compile Include="Core\Conditions\MySpqcializationCondition.cs" />
     <Compile Include="Core\Conditions\MyTargetIsEnragedCondition.cs" />
+    <Compile Include="Core\Conditions\TargetDoesNotHaveSpellMechanicCondition.cs" />
     <Compile Include="Core\Conditions\TargetHasAuraMinStacksCondition.cs" />
     <Compile Include="Core\Conditions\TargetHasAuraMaxStacksCondition.cs" />
     <Compile Include="Core\Conditions\TargetHasNamedAuraCondition.cs" />
@@ -185,6 +196,7 @@
     <Compile Include="Core\Conditions\TargetType.cs" />
     <Compile Include="Core\Conditions\ICondition.cs" />
     <Compile Include="Core\ItemCondition.cs" />
+    <Compile Include="Core\Managers\AbilityChainsManager.cs" />
     <Compile Include="Core\MyState.cs" />
     <Compile Include="Core\PawsItem.cs" />
     <Compile Include="Core\Managers\GlobalSettingsManager.cs" />
@@ -208,6 +220,12 @@
     <Compile Include="Core\Utilities\Events.cs" />
     <Compile Include="Core\Utilities\Log.cs" />
     <Compile Include="Core\Utilities\Diagnostics.cs" />
+    <Compile Include="Interface\Controls\AbilityChainsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interface\Controls\AbilityChainsControl.Designer.cs">
+      <DependentUpon>AbilityChainsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interface\Controls\Feral\FeralHealingSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -263,6 +281,18 @@
     <Compile Include="Interface\Forms\AddItemMyBagsForm.Designer.cs">
       <DependentUpon>AddItemMyBagsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interface\Forms\AddNewAbilityChainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\Forms\AddNewAbilityChainForm.Designer.cs">
+      <DependentUpon>AddNewAbilityChainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Forms\AddNewAbilityForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\Forms\AddNewAbilityForm.Designer.cs">
+      <DependentUpon>AddNewAbilityForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interface\Forms\AddNewConditionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -316,10 +346,27 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\release.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>release.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\druid_symbol.png" />
-    <None Include="Resources\release-notes.rtf" />
+    <EmbeddedResource Include="Interface\Controls\AbilityChainsControl.resx">
+      <DependentUpon>AbilityChainsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Forms\AddNewAbilityChainForm.resx">
+      <DependentUpon>AddNewAbilityChainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Forms\AddNewAbilityForm.resx">
+      <DependentUpon>AddNewAbilityForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\release-notes.rtf" />
+    <EmbeddedResource Include="Resources\release.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>release.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Interface\Controls\Feral\FeralHealingSettings.resx">
@@ -376,35 +423,18 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Presets\Automated Battlegrounds.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Presets\Automated Dungeons.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Presets\Automated Questing.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Presets\Manual Arena.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Presets\Manual Battlegrounds.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Presets\Manual Dungeons.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Presets\Manual Questing.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Presets\Manual Raiding.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Presets\Minimalist.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\paws.png" />
+    <Content Include="Legal.txt" />
+    <EmbeddedResource Include="Presets\Automated Battlegrounds.xml" />
+    <EmbeddedResource Include="Presets\Automated Dungeons.xml" />
+    <EmbeddedResource Include="Presets\Automated Questing.xml" />
+    <EmbeddedResource Include="Presets\Manual Arena.xml" />
+    <EmbeddedResource Include="Presets\Manual Battlegrounds.xml" />
+    <EmbeddedResource Include="Presets\Manual Dungeons.xml" />
+    <EmbeddedResource Include="Presets\Manual Questing.xml" />
+    <EmbeddedResource Include="Presets\Manual Raiding.xml" />
+    <EmbeddedResource Include="Presets\Minimalist.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' == ''" />

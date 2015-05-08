@@ -20,9 +20,15 @@ namespace Paws.Core.Routines
         public const int BUFF_TIMER_INTERVAL_MS = 5000;
         private static Stopwatch BuffTimer = new Stopwatch();
 
+        public const int INIT_TIMER_MS = 3000;
+        public static Stopwatch InitTimer = new Stopwatch();
+
         public static async Task<bool> Rotation()
         {
             if (Main.DeathTimer.IsRunning) Main.DeathTimer.Reset();
+
+            if (Me.IsDead || Me.IsGhost || Me.IsCasting || Me.IsChanneling || Me.IsFlying || Me.OnTaxi || Me.Mounted || Me.IsInTravelForm())
+                return false;
 
             if (!BuffTimer.IsRunning) BuffTimer.Start();
 
@@ -33,12 +39,20 @@ namespace Paws.Core.Routines
             {
                 BuffTimer.Restart();
 
-                if (Me.IsDead || Me.IsGhost || Me.IsCasting || Me.IsChanneling || Me.IsFlying || Me.OnTaxi || Me.Mounted || Me.IsInTravelForm())
-                    return false;
-
                 if (Me.Specialization == WoWSpec.DruidGuardian) return await GuardianPreCombatRotation();
                 else return await FeralPreCombatRotation();
             }
+
+            if (!InitTimer.IsRunning) InitTimer.Start();
+            if (InitTimer.ElapsedMilliseconds >= INIT_TIMER_MS)
+            {
+                if (Me.Specialization == WoWSpec.DruidFeral)
+                {
+                    if (await Abilities.Cast<ProwlAbility>(Me)) return true;
+                }
+            }
+
+            if (await UnitManager.Instance.ForceCombat()) return true;
 
             return false;
         }

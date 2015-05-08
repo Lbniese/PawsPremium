@@ -18,6 +18,11 @@ namespace Paws.Core.Abilities.Shared
             : base(WoWSpell.FromId(SpellBook.HealingTouch))
         {
             base.Category = AbilityCategory.Heal;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
 
             base.Conditions.Add(new ConditionOrList(
                 new ConditionTestSwitchCondition(

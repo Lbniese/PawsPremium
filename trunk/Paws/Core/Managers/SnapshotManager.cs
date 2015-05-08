@@ -48,6 +48,8 @@ namespace Paws.Core.Managers
         private static WoWUnit MyCurrentTarget { get { return Me.CurrentTarget; } }
         private AbilityManager Abilities { get { return AbilityManager.Instance; } }
 
+        public List<BleedingUnit> RakedTargets { get; private set; }
+
         public static float CurrentMultiplier
         {
             get
@@ -57,19 +59,18 @@ namespace Paws.Core.Managers
                 if (Me.HasSavageRoarAura()) multiplier *= 1.4f;
                 if (Me.HasAura(SpellBook.BloodtalonsProc)) multiplier *= 1.3f;
                 if (Me.HasAura(SpellBook.TigersFury)) multiplier *= 1.15f;
-                if (Me.KnowsSpell(SpellBook.ImprovedRake) && (Me.HasAura(SpellBook.FeralIncarnationForm) || Me.HasAura(SpellBook.Prowl))) multiplier *= 2.0f;
+                if (Me.KnowsSpell(SpellBook.ImprovedRake) && (Me.HasAura(SpellBook.FeralIncarnationForm) || AbilityManager.Instance.WasJustProwling)) multiplier *= 2.0f;
+
+                // Log.GUI("Was Just Prowling? " + AbilityManager.Instance.WasJustProwling);
+                // Log.GUI("Last Cast Ability Type: " + AbilityManager.Instance.LastCastAbility.GetType().Name);
 
                 return multiplier;
             }
         }
 
-        public List<BleedingUnit> RakedTargets { get; private set; }
-        public List<BleedingUnit> RippedTargets { get; private set; }
-
         public SnapshotManager()
         {
             this.RakedTargets = new List<BleedingUnit>();
-            this.RippedTargets = new List<BleedingUnit>();
         }
 
         public async Task<bool> CheckAndApplyBloodtalons()
@@ -84,8 +85,8 @@ namespace Paws.Core.Managers
 
             if (Settings.BloodtalonsApplyToFinishers)
             {
-                // Do I have 5 combo points?
-                accessGranted = Me.ComboPoints == 5;
+                // Do I have 4 combo points?
+                accessGranted = Me.ComboPoints >= 4;
             }
 
             if (Settings.BloodtalonsApplyImmediately)
@@ -128,17 +129,16 @@ namespace Paws.Core.Managers
         {
             // Remove targets that should not be here anymore
             this.RakedTargets.RemoveAll(o => o == null || o.Unit == null || !o.Unit.IsValid || o.Unit.IsDead || !o.Unit.HasAura(SpellBook.RakeBleedDebuff));
-            this.RippedTargets.RemoveAll(o => o == null || o.Unit == null || !o.Unit.IsValid || o.Unit.IsDead || !o.Unit.HasAura(SpellBook.Rip));
         }
 
-        public void AddRakedTarget(WoWUnit target)
+        public void AddRakedTarget(WoWUnit target, bool fromCombatEvent = false)
         {
             foreach (var rakedTarget in this.RakedTargets)
             {
                 if (target == rakedTarget.Unit)
                 {
                     // target already exists, update the multiplier
-                    rakedTarget.AppliedMultiplier = CurrentMultiplier;
+                    if (!fromCombatEvent) rakedTarget.AppliedMultiplier = CurrentMultiplier;
                     return;
                 }
             }
@@ -148,27 +148,7 @@ namespace Paws.Core.Managers
 
             this.RakedTargets.Add(unit);
 
-            Log.Diagnostics(string.Format("Added Raked unit: {0} [{1}] ({2} total tracked units)", unit.Unit.SafeName, unit.Unit.GetUnitId(), this.RakedTargets.Count));
-        }
-
-        public void AddRippedTarget(WoWUnit target)
-        {
-            foreach (var rippedTarget in this.RippedTargets)
-            {
-                if (target == rippedTarget.Unit)
-                {
-                    // target already exists, update the multiplier
-                    rippedTarget.AppliedMultiplier = CurrentMultiplier;
-                    return;
-                }
-            }
-
-            // target does not exist...
-            BleedingUnit unit = new BleedingUnit(target, CurrentMultiplier);
-
-            this.RippedTargets.Add(unit);
-
-            Log.Diagnostics(string.Format("Added Ripped unit: {0} [{1}] ({2} total tracked units)", unit.Unit.Name, unit.Unit.GetUnitId(), this.RippedTargets.Count));
+            Log.Diagnostics(string.Format("Added Raked unit: {0} [{1}] @ {2:0.##}x ({3} total tracked units)", unit.Unit.SafeName, unit.Unit.GetUnitId(), unit.AppliedMultiplier, this.RakedTargets.Count));
         }
     }
 }

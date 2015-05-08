@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Feral
@@ -12,6 +13,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>movement speed by 30%. Lasts until cancelled.</para>
     /// <para>http://www.wowhead.com/spell=5215/prowl</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Prowl (Stealth)")]
     public class ProwlAbility : AbilityBase
     {
         public ProwlAbility()
@@ -19,11 +21,20 @@ namespace Paws.Core.Abilities.Feral
         {
             base.Category = AbilityCategory.Buff;
 
+            base.RequiredConditions.Add(new MeNotInCombatCondition());
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.ProwlEnabled));
-            base.Conditions.Add(new MeHasAttackableTargetCondition());
-            base.Conditions.Add(new MeNotInCombatCondition());
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
-            base.Conditions.Add(new MyTargetDistanceCondition(0, Settings.ProwlMaxDistance));
+            if (Settings.ProwlOnlyDuringPull)
+            {
+                base.Conditions.Add(new MeHasAttackableTargetCondition());
+                base.Conditions.Add(new MyTargetDistanceCondition(0, Settings.ProwlMaxDistance));
+            }
         }
     }
 }
