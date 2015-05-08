@@ -9,6 +9,11 @@ namespace Paws.Core.Abilities.Guardian
             : base(WoWSpell.FromId(SpellBook.BearForm))
         {
             base.Category = AbilityCategory.Buff;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.BearFormEnabled));
             base.Conditions.Add(new MeIsNotInBearFormCondition());

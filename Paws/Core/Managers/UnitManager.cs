@@ -2,6 +2,7 @@
 using Paws.Core.Abilities.Feral;
 using Paws.Core.Abilities.Guardian;
 using Paws.Core.Abilities.Shared;
+using Paws.Core.Conditions;
 using Paws.Core.Utilities;
 using Styx.CommonBot.Coroutines;
 using Styx.CommonBot.POI;
@@ -114,30 +115,22 @@ namespace Paws.Core.Managers
         /// </summary>
         private void EnemyUpdate()
         {
-            if (Me.Combat)
+            if (!_enemyScanner.IsRunning) _enemyScanner.Restart();
+            if (_enemyScanner.ElapsedMilliseconds >= _enemyScannerIntervalMs)
             {
-                if (!_enemyScanner.IsRunning) _enemyScanner.Restart();
-                if (_enemyScanner.ElapsedMilliseconds >= _enemyScannerIntervalMs)
-                {
-                    this.LastKnownSurroundingEnemies = ObjectManager.GetObjectsOfTypeFast<WoWUnit>().Where(o =>
-                        o.IsValid &&
-                        o.Distance <= SettingsManager.Instance.AOERange &&
-                        o.Attackable &&
-                        !o.IsDead &&
-                        !o.IsFriendly &&
-                        !o.IsNonCombatPet &&
-                        !o.IsCritter
-                    )
-                    .OrderBy(o => o.Distance)
-                    .ToList();
+                this.LastKnownSurroundingEnemies = ObjectManager.GetObjectsOfTypeFast<WoWUnit>().Where(o =>
+                    o.IsValid &&
+                    o.Distance <= SettingsManager.Instance.AOERange &&
+                    o.Attackable &&
+                    !o.IsDead &&
+                    !o.IsFriendly &&
+                    !o.IsNonCombatPet &&
+                    !o.IsCritter
+                )
+                .OrderBy(o => o.Distance)
+                .ToList();
 
-                    _enemyScanner.Restart();
-                }
-            }
-            else
-            {
-                this.LastKnownSurroundingEnemies.Clear();
-                _enemyScanner.Reset();
+                _enemyScanner.Restart();
             }
         }
 
@@ -158,7 +151,7 @@ namespace Paws.Core.Managers
                 {
                     StringBuilder sb = new StringBuilder(string.Format("Group size changed from {0} to {1}", this.LastKnownGroupMemberSize, Me.GroupInfo.NumRaidMembers));
                     this.LastKnownGroupMemberSize = Me.GroupInfo.NumRaidMembers;
-   
+
                     /* // BEGIN
                     this.LastKnownGroupMemberSize = Me.GroupInfo.NumRaidMembers;
                     foreach (var partyMemeber in Me.GroupInfo.RaidMembers)
@@ -179,6 +172,51 @@ namespace Paws.Core.Managers
 
                 _groupScanner.Restart();
             }
+        }
+
+        /// <summary>
+        /// Targets the nearest enemey.
+        /// </summary>
+        public void TargetNearestEnemey()
+        {
+            if (Settings.AllowTargeting)
+            {
+                if (Me.CurrentTarget == null || Me.CurrentTarget.IsDead)
+                {
+                    if (this.LastKnownSurroundingEnemies.Count > 0)
+                    {
+                        var newTarget = this.LastKnownSurroundingEnemies.FirstOrDefault();
+
+                        if (newTarget != null && newTarget.IsValid && newTarget.IsAlive)
+                        {
+                            newTarget.Target();
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Force combat with your current target.
+        /// </summary>
+        public async Task<bool> ForceCombat()
+        {
+            if (Settings.ForceCombat)
+            {
+                if (!Me.Combat && Me.HasAttackableTarget())
+                {
+                    if (Me.HasAura(SpellBook.Prowl))
+                    {
+                        if (await Abilities.Cast<ProwlOpenerAbility>(Me.CurrentTarget)) return true;
+                    }
+                    else
+                    {
+                        if (await Abilities.Cast<RakeAbility>(Me.CurrentTarget)) return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -302,7 +340,7 @@ namespace Paws.Core.Managers
         private async Task<bool> ResurrectDeadAlly(WoWPartyMember.GroupRole role)
         {
             var theDead = Styx.StyxWoW.Me.GroupInfo.RaidMembers
-                        .Where(o => 
+                        .Where(o =>
                             o.Role == role &&
                             o.Dead &&
                             o.ToPlayer().Distance <= 30.0
@@ -366,8 +404,8 @@ namespace Paws.Core.Managers
                     {
                         List<WoWPartyMember> possibilities = new List<WoWPartyMember>();
 
-                        var possibleTank = (possibleCandidates.FirstOrDefault(o => 
-                            (Settings.HealMyAlliesAnyAlly || Settings.HealMyAlliesTank) && 
+                        var possibleTank = (possibleCandidates.FirstOrDefault(o =>
+                            (Settings.HealMyAlliesAnyAlly || Settings.HealMyAlliesTank) &&
                             o.Role == WoWPartyMember.GroupRole.Tank));
 
                         var possibleLfrTank = (possibleCandidates.FirstOrDefault(o => (Settings.HealMyAlliesAnyAlly || Settings.HealMyAlliesTank) && ((int)o.Role == 50) || (int)o.Role == 51));
@@ -415,9 +453,9 @@ namespace Paws.Core.Managers
                                 if (await HealMyAlly<HealingTouchMyAllyAbility>(bestCandidate, theMostHurtPartyMember.Role, Settings.HealMyAlliesWithHealingTouchMinHealth)) return true;
 
                                 // Rejuvenation //
-                                LastKnownRejuvenatedAllies.RemoveAll(o => 
-                                    o == null || 
-                                    !o.IsValid || 
+                                LastKnownRejuvenatedAllies.RemoveAll(o =>
+                                    o == null ||
+                                    !o.IsValid ||
                                     !o.HasAura(SpellBook.Rejuvenation)
                                 );
 
@@ -494,6 +532,29 @@ namespace Paws.Core.Managers
         public static string GuidToUnitID(string wowGuid)
         {
             return string.IsNullOrEmpty(wowGuid) ? string.Empty : wowGuid.Substring(wowGuid.Length - 4, 4);
+        }
+
+        /// <summary>
+        /// Convert the TargetType enum to a WoWUnit.
+        /// </summary>
+        public static WoWUnit TargetTypeConverter(TargetType targetType)
+        {
+            switch (targetType)
+            {
+                case TargetType.Me:
+                    {
+                        return Me;
+                    }
+                case TargetType.MyCurrentTarget:
+                    {
+                        return Me.CurrentTarget;
+                    }
+                case TargetType.MyCurrentFocus:
+                    {
+                        return Me.FocusedUnit;
+                    }
+                default: return null;
+            }
         }
 
         private static Func<WoWPartyMember, bool> AllyNeedsHealingWhereClause = new Func<WoWPartyMember, bool>(o =>

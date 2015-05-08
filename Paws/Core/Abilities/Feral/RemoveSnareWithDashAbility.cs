@@ -17,11 +17,19 @@ namespace Paws.Core.Abilities.Feral
         public RemoveSnareWithDashAbility()
             : base(WoWSpell.FromId(SpellBook.Dash), true, true)
         {
+            base.Category = AbilityCategory.Defensive;
+
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, base.Spell.Id));
+            base.RequiredConditions.Add(new MeHasRootOrSnareCondition());
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.RemoveSnareWithDash));
             base.Conditions.Add(new MeHasAttackableTargetCondition());
             base.Conditions.Add(new MeIsInCatFormCondition());
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, base.Spell.Id));
-            base.Conditions.Add(new MeHasRootOrSnareCondition());
         }
     }
 }

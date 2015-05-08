@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 using System;
 
@@ -20,17 +21,26 @@ namespace Paws.Core.Abilities.Feral
     /// <para>targets.</para>
     /// <para>http://www.wowhead.com/spell=5221/shred</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Shred")]
     public class ShredAbility : MeleeFeralAbilityBase
     {
         public ShredAbility()
             : base(WoWSpell.FromId(SpellBook.Shred), true)
         {
-            base.Conditions.Add(new BooleanCondition(Settings.ShredEnabled));
-            base.Conditions.Add(new ConditionTestSwitchCondition(
+            base.RequiredConditions.Add(new ConditionTestSwitchCondition(
                 new TargetHasAuraCondition(TargetType.Me, SpellBook.BerserkDruid),
                 new MyEnergyRangeCondition(40.0 / 2.0),
                 new MyEnergyRangeCondition(40.0)
             ));
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
+            base.Conditions.Add(new BooleanCondition(Settings.ShredEnabled));
+            
             if (Settings.FerociousBiteEnabled)
             {
                 base.Conditions.Add(new ConditionTestSwitchCondition(
@@ -63,12 +73,22 @@ namespace Paws.Core.Abilities.Feral
         public ShredAtFiveComboPointsAbility()
             : base(WoWSpell.FromId(SpellBook.Shred), true)
         {
-            base.Conditions.Add(new BooleanCondition(Settings.ShredEnabled));
-            base.Conditions.Add(new ConditionTestSwitchCondition(
+            base.RequiredConditions.Add(new ConditionTestSwitchCondition(
                 new TargetHasAuraCondition(TargetType.Me, SpellBook.BerserkDruid),
-                new MyEnergyRangeCondition(50.0 / 2.0),
-                new MyEnergyRangeCondition(50.0)
+                new MyEnergyRangeCondition(40.0 / 2.0),
+                new MyEnergyRangeCondition(40.0)
             ));
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            // This ability pools more energy at 5 combo points
+
+            base.ApplyDefaultSettings();
+
+            base.Conditions.Add(new BooleanCondition(Settings.ShredEnabled));
+            // base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.BloodtalonsProc));
             base.Conditions.Add(new MyComboPointsCondition(5));
         }
     }

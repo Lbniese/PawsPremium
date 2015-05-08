@@ -15,6 +15,11 @@ namespace Paws.Core.Abilities.Guardian
             : base(WoWSpell.FromId(SpellBook.GuardianIncarnationForm), true, true)
         {
             base.Category = AbilityCategory.Buff;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.GuardianIncarnationEnabled));
             base.Conditions.Add(new MeHasAttackableTargetCondition());

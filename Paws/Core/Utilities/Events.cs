@@ -1,4 +1,5 @@
 ﻿using Paws.Core;
+using Paws.Core.Abilities.Feral;
 using Paws.Core.Managers;
 using Styx;
 using Styx.WoWInternals;
@@ -36,7 +37,7 @@ namespace Paws.Core.Utilities
                     {
                         // Added this routine to catch instances of rake casts that the user may have initiated so that rolling
                         // bleed modifiers are properly applied.
-                        SnapshotManager.Instance.AddRakedTarget(MyCurrentTarget);
+                        SnapshotManager.Instance.AddRakedTarget(MyCurrentTarget, true);
                     }
                 }
             }

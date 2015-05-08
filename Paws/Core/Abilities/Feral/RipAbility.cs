@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Paws.Core.Managers;
 using Paws.Core.Utilities;
 using Styx.WoWInternals;
@@ -22,11 +23,32 @@ namespace Paws.Core.Abilities.Feral
     /// <para>5 points: [floor(5 * (0.086 * Attack power * 1)) * 8] damage</para>
     /// <para>http://www.wowhead.com/spell=1079/rip</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Rip")]
     public class RipAbility : MeleeFeralPandemicAbilityBase
     {
         public RipAbility()
             : base(WoWSpell.FromId(SpellBook.Rip), true)
         {
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+        }
+
+        private TargetAuraMinTimeLeftCondition GetMinTimeLeftCondition()
+        {
+            for (var i = 0; i < base.PandemicConditions.Count; i++)
+            {
+                if (base.PandemicConditions[i] is TargetAuraMinTimeLeftCondition)
+                {
+                    return base.PandemicConditions[i] as TargetAuraMinTimeLeftCondition;
+                }
+            }
+
+            return null;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             // Shared //
             var ripIsEnabled = new BooleanCondition(Settings.RipEnabled);
             var minComboPoints = new MyComboPointsCondition(5, 5);
@@ -56,68 +78,6 @@ namespace Paws.Core.Abilities.Feral
             base.PandemicConditions.Add(new TargetHasAuraCondition(TargetType.MyCurrentTarget, SpellBook.Rip));
             base.PandemicConditions.Add(new TargetHealthRangeCondition(TargetType.MyCurrentTarget, 25, 100));
             base.PandemicConditions.Add(new TargetAuraMinTimeLeftCondition(TargetType.MyCurrentTarget, SpellBook.Rip, TimeSpan.FromSeconds(7)));
-        }
-
-        private TargetAuraMinTimeLeftCondition GetMinTimeLeftCondition()
-        {
-            for (var i = 0; i < base.PandemicConditions.Count; i++)
-            {
-                if (base.PandemicConditions[i] is TargetAuraMinTimeLeftCondition)
-                {
-                    return base.PandemicConditions[i] as TargetAuraMinTimeLeftCondition;
-                }
-            }
-
-            return null;
-        }
-
-        public override void Update()
-        {
-            if (MyCurrentTarget != null && MyCurrentTarget.IsValid)
-            {
-                int ripUnitIndex = -1;
-
-                for (var r = 0; r < SnapshotManager.Instance.RippedTargets.Count; r++)
-                {
-                    var ripTarget = SnapshotManager.Instance.RippedTargets[r];
-
-                    if (MyCurrentTarget == ripTarget.Unit && MyCurrentTarget.HealthPercent > 25.0) // We don't want to queue a Rip if FB can handle a refresh.
-                    {
-                        if (SnapshotManager.CurrentMultiplier > ripTarget.AppliedMultiplier)
-                        {
-                            // We need to reapply rip on the unit, this will happen by removing the time restriction on the pandemic conditions list
-                            var minTimeCondition = GetMinTimeLeftCondition();
-
-                            if (minTimeCondition != null)
-                            {
-                                // remove the target from the unit list (it will be readded when rip is successfully applied again but with a better multiplier)
-                                ripUnitIndex = r;
-
-                                base.PandemicConditions.Remove(minTimeCondition);
-                                Log.AppendLine(string.Format("Queuing Rip with a better multiplier (From {0:0.##}x to {1:0.##}x)", ripTarget.AppliedMultiplier, SnapshotManager.CurrentMultiplier), Colors.Tan);
-
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            // the multiplier is already the highest it can currently be, we need to make sure the pandemic time condition is applied.
-                            var minTimeCondition = GetMinTimeLeftCondition();
-
-                            if (minTimeCondition == null)
-                            {
-                                ripUnitIndex = r;
-
-                                base.PandemicConditions.Add(new TargetAuraMinTimeLeftCondition(TargetType.MyCurrentTarget, SpellBook.Rip, TimeSpan.FromSeconds(7)));
-
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                if (ripUnitIndex != -1) SnapshotManager.Instance.RippedTargets.RemoveAt(ripUnitIndex);
-            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 using System;
 
@@ -23,14 +24,20 @@ namespace Paws.Core.Abilities.Feral
         public FerociousBiteAbility()
             : base(WoWSpell.FromId(SpellBook.FerociousBite), true)
         {
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             base.Conditions.Add(new BooleanCondition(Settings.FerociousBiteEnabled));
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
             base.Conditions.Add(new MyComboPointsCondition(5));
             base.Conditions.Add(new ConditionTestSwitchCondition(
                 new TargetHasAuraCondition(TargetType.MyCurrentTarget, SpellBook.Rip),
                 new ConditionTestSwitchCondition(
                     new TargetHealthRangeCondition(TargetType.MyCurrentTarget, 26.0, 100.0),
-                    new TargetAuraMaxTimeLeftCondition(TargetType.MyCurrentTarget, SpellBook.Rip, TimeSpan.FromSeconds(10))
+                    new TargetAuraMaxTimeLeftCondition(TargetType.MyCurrentTarget, SpellBook.Rip, TimeSpan.FromSeconds(12))
                 )
             ));
             base.Conditions.Add(new ConditionTestSwitchCondition(

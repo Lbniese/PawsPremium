@@ -13,6 +13,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using System.Linq;
 
 
 namespace Paws.Interface
@@ -22,6 +23,8 @@ namespace Paws.Interface
         public WoWSpec SettingsMode { get; set; }
 
         private static LocalPlayer Me { get { return StyxWoW.Me; } }
+
+        private AbilityChainsControl _abilityChainsControl;
 
         #region Load Events
 
@@ -62,6 +65,8 @@ namespace Paws.Interface
         /// </summary>
         private void InitSettingsMode()
         {
+            AddPremiumContent();
+
             this.mobilityTab.Controls.Clear();
             this.offensiveTab.Controls.Clear();
             this.defensiveTab.Controls.Clear();
@@ -91,20 +96,31 @@ namespace Paws.Interface
         }
 
         /// <summary>
+        /// Method responsibile for setting up the visibility of the premium content.
+        /// </summary>
+        private void AddPremiumContent()
+        {
+            if (Main.Product == Product.Premium)
+            {
+                var tabPage = new TabPage("Ability Chains");
+
+                this._abilityChainsControl = new AbilityChainsControl();
+
+                tabPage.Controls.Add(this._abilityChainsControl);
+
+                this.vt.TabPages.Add(tabPage);
+            }
+        }
+
+        /// <summary>
         /// Loads the Rtf file into the introduction Rich text control.
         /// </summary>
         private void LoadIntroduction()
         {
-            try
-            {
-                var releaseNotesPath = Path.Combine(GlobalSettingsManager.GetPawsRoutineDirectory(), @"Paws\Resources\release-notes.rtf");
-                this.rtfAbout.LoadFile(releaseNotesPath);
-            }
-            catch
-            {
-                this.rtfAbout.Text = "Unable to load the release notes.\n\n" +
-                    "It may be possible that you have the release notes open in an external editor such as Microsoft Word.";
-            }
+            // This method has been changed so that we are no longer loading from file and instead loading from embedded resource
+            // to comply with store requirements.
+
+            this.rtfAbout.Rtf = Resources.release.release_notes;
         }
 
         /// <summary>
@@ -137,7 +153,7 @@ namespace Paws.Interface
         private void BindUISettings()
         {
             // Form Title //
-            this.FormHeader.Text = string.Format("Paws [{0}] Settings: {1}", this.SettingsMode.ToString().Replace("Druid", string.Empty), this.aboutProfilesPesetsComboBox.SelectedItem);
+            this.FormHeader.Text = string.Format("Paws {0} [{1}] Settings: {2}", Main.Product == Product.Community ? "Community" : "Premium", this.SettingsMode.ToString().Replace("Druid", string.Empty), this.aboutProfilesPesetsComboBox.SelectedItem);
 
             // General Tab //
             this.generalMarkOfTheWildEnabledCheckBox.Checked = SettingsManager.Instance.MarkOfTheWildEnabled;
@@ -157,6 +173,8 @@ namespace Paws.Interface
             this.generalInterruptTimingSuccessRateTextBox.Text = SettingsManager.Instance.InterruptSuccessRate.ToString("0.##");
             this.mobilityGeneralMovementCheckBox.Checked = SettingsManager.Instance.AllowMovement;
             this.mobilityGeneralTargetFacingCheckBox.Checked = SettingsManager.Instance.AllowTargetFacing;
+            this.mobilityAutoTargetCheckBox.Checked = SettingsManager.Instance.AllowTargeting;
+            this.mobilityForceCombatCheckBox.Checked = SettingsManager.Instance.ForceCombat;
 
             // Mobility Tab //
             BindUISettingsToControlCollection(this.mobilityTab.Controls);
@@ -250,6 +268,8 @@ namespace Paws.Interface
             SettingsManager.Instance.InterruptSuccessRate = Convert.ToDouble(this.generalInterruptTimingSuccessRateTextBox.Text);
             SettingsManager.Instance.AllowMovement = this.mobilityGeneralMovementCheckBox.Checked;
             SettingsManager.Instance.AllowTargetFacing = this.mobilityGeneralTargetFacingCheckBox.Checked;
+            SettingsManager.Instance.AllowTargeting = this.mobilityAutoTargetCheckBox.Checked;
+            SettingsManager.Instance.ForceCombat = this.mobilityForceCombatCheckBox.Checked;
 
             // Mobility Tab //
             ApplySettingsFromControlCollection(this.mobilityTab.Controls);
@@ -349,6 +369,17 @@ namespace Paws.Interface
             }
 
             ItemManager.SaveDataSet(items);
+        }
+
+        private void SavePremiumContentData()
+        {
+            if (Main.Product == Product.Premium)
+            {
+                if (this._abilityChainsControl != null)
+                {
+                    this._abilityChainsControl.SaveData();   
+                }
+            }
         }
 
         #endregion
@@ -580,6 +611,8 @@ namespace Paws.Interface
             GlobalSettingsManager.Instance.Save();
 
             SaveItemsData();
+
+            SavePremiumContentData();
 
             this.DialogResult = DialogResult.OK;
         }

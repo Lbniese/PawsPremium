@@ -31,6 +31,8 @@ namespace Paws.Interface.Controls.Feral
             this.generalCatFormDoNotOverrideTravelFormCheckBox.Checked = Settings.CatFormDoNotOverrideTravelForm;
             this.generalProwlEnabledCheckBox.Checked = Settings.ProwlEnabled;
             generalProwlEnabledCheckBox_CheckedChanged(this.generalProwlEnabledCheckBox, EventArgs.Empty);
+            this.mobilityProwlAlwaysRadioButton.Checked = Settings.ProwlAlways;
+            this.mobilityProwlOnlyDuringPullRadioButton.Checked = Settings.ProwlOnlyDuringPull;
             this.generalProwlMaxDistanceTextBox.Text = Settings.ProwlMaxDistance.ToString("0.##");
             this.mobilityWildChargeEnabledCheckBox.Checked = Settings.WildChargeEnabled;
             mobilityWildChargeEnabledCheckBox_CheckedChanged(this.mobilityWildChargeEnabledCheckBox, EventArgs.Empty);
@@ -58,6 +60,8 @@ namespace Paws.Interface.Controls.Feral
             Settings.CatFormDoNotOverrideBearForm = this.generalCatFormDoNotOverrideBearFormCheckBox.Checked;
             Settings.CatFormDoNotOverrideTravelForm = this.generalCatFormDoNotOverrideTravelFormCheckBox.Checked;
             Settings.ProwlEnabled = this.generalProwlEnabledCheckBox.Checked;
+            Settings.ProwlAlways = this.mobilityProwlAlwaysRadioButton.Checked;
+            Settings.ProwlOnlyDuringPull = this.mobilityProwlOnlyDuringPullRadioButton.Checked;
             Settings.ProwlMaxDistance = Convert.ToDouble(this.generalProwlMaxDistanceTextBox.Text);
             Settings.DashEnabled = this.mobilityDashEnabledCheckBox.Checked;
             Settings.DashMinDistance = Convert.ToDouble(this.mobilityDashMinDistanceTextBox.Text);

@@ -12,6 +12,7 @@ using Styx.WoWInternals.WoWObjects;
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Linq;
 using R = Paws.Core.Routines;
 
 namespace Paws
@@ -21,8 +22,10 @@ namespace Paws
     /// </summary>
     public class Main : CombatRoutine
     {
-        private static Version _version = new Version(1, 7, 0);
-        private static string _environment = "Development";
+        public static Product Product { get { return Paws.Product.Premium; } }
+
+        private static Version _version = new Version(1, 8, 0);
+        private static string _environment = "Release";
 
         public static Version Version { get { return _version; } }
         public static Stopwatch DeathTimer = new Stopwatch();
@@ -30,7 +33,7 @@ namespace Paws
         private static LocalPlayer Me { get { return StyxWoW.Me; } }
         private static WoWUnit MyCurrentTarget { get { return Me.CurrentTarget; } }
         public override WoWClass Class { get { return WoWClass.Druid; } }
-        public override string Name { get { return string.Format("Paws ({0}) (v{1})", _environment, Version); } }
+        public override string Name { get { return string.Format("Paws {0} ({1}) (v{2})", Product, _environment, Version); } }
         public override bool WantButton { get { return true; } }
         public override bool NeedDeath { get { return !BotManager.Current.IsRoutineBased() && Me.IsDead && !Me.IsGhost; } }
 
@@ -47,6 +50,7 @@ namespace Paws
 
         #endregion
 
+
         #region Implementation
 
         public override void Initialize()
@@ -57,8 +61,9 @@ namespace Paws
 
                 GlobalSettingsManager.Instance.Init();
                 AbilityManager.ReloadAbilities();
+                AbilityChainsManager.Init();
                 ItemManager.LoadDataSet();
-
+                
                 this.Events = new Events();
 
                 Log.Combat("--------------------------------------------------");
@@ -67,9 +72,11 @@ namespace Paws
                 Log.Combat(string.Format("Current Specialization: {0}", this.MyCurrentSpec.ToString().Replace("Druid", string.Empty)));
                 Log.Combat(string.Format("Current Profile: {0}", GlobalSettingsManager.Instance.LastUsedProfile));
                 Log.Combat(string.Format("{0} abilities loaded", AbilityManager.Instance.Abilities.Count));
-                Log.Combat(string.Format("{0} conditional use items loaded", ItemManager.Items.Count));
+                Log.Combat(string.Format("{0} conditional use items loaded ({1} enabled)", ItemManager.Items.Count, ItemManager.Items.Count(o => o.Enabled)));
                 Log.Combat("--------------------------------------------------");
 
+                AbilityChainsManager.LoadDataSet();
+                
                 SettingsManager.Instance.LogDump();
             }
             catch (Exception ex)
@@ -88,6 +95,9 @@ namespace Paws
                 AbilityManager.ReloadAbilities();
                 ItemManager.LoadDataSet();
 
+                AbilityChainsManager.Init();
+                AbilityChainsManager.LoadDataSet();
+
                 SettingsManager.Instance.LogDump();
 
                 Log.GUI(string.Format("Profile [{0}] saved and loaded.", GlobalSettingsManager.Instance.LastUsedProfile));
@@ -105,7 +115,8 @@ namespace Paws
             AbilityManager.Instance.Update();
             UnitManager.Instance.Update();
             SnapshotManager.Instance.Update();
-
+            UnitManager.Instance.TargetNearestEnemey();
+            
             base.Pulse();
         }
 
@@ -130,5 +141,10 @@ namespace Paws
         }
 
         #endregion
+    }
+
+    public enum Product
+    {
+        Community = 0x00, Premium
     }
 }

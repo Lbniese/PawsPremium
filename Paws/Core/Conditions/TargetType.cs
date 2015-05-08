@@ -5,6 +5,6 @@
     /// </summary>
     public enum TargetType
     {
-        Me, MyCurrentTarget
+        Me, MyCurrentTarget, MyCurrentFocus
     }
 }

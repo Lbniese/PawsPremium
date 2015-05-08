@@ -9,6 +9,11 @@ namespace Paws.Core.Abilities.Guardian
             : base(WoWSpell.FromId(SpellBook.BristlingFur), false, true)
         {
             base.Category = AbilityCategory.Defensive;
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.BristlingFurEnabled));
             base.Conditions.Add(new MeIsInBearFormCondition());

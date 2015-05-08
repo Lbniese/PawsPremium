@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions;
+using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Feral
@@ -13,16 +14,23 @@ namespace Paws.Core.Abilities.Feral
     /// <para>Leap behind an enemy, dazing them for 3 sec.</para>
     /// <para>http://www.wowhead.com/spell=49376/wild-charge</para>
     /// </summary>
+    [AbilityChain(FriendlyName = "Wild Charge")]
     public class WildChargeAbility : AbilityBase
     {
         public WildChargeAbility()
             : base(WoWSpell.FromId(SpellBook.WildCharge), true, true)
         {
-            base.Conditions.Add(new BooleanCondition(Settings.WildChargeEnabled));
             base.Conditions.Add(new MeHasAttackableTargetCondition());
             base.Conditions.Add(new MeIsInCatFormCondition());
             base.Conditions.Add(new MeIsFacingTargetCondition());
             base.Conditions.Add(new MyTargetInLineOfSightCondition());
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
+            base.Conditions.Add(new BooleanCondition(Settings.WildChargeEnabled));
             base.Conditions.Add(new MyTargetIsNotWithinMeleeRangeCondition());
             base.Conditions.Add(new MyTargetDistanceCondition(Settings.WildChargeMinDistance, Settings.WildChargeMaxDistance));
         }

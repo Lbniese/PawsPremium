@@ -25,10 +25,16 @@ namespace Paws.Core.Abilities.Feral
         {
             base.Category = AbilityCategory.Buff;
 
+            base.RequiredConditions.Add(new MeIsInCatFormCondition());
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
             // Shared //
             var savageRoarIsEnabled = new BooleanCondition(Settings.SavageRoarEnabled);
             var minComboPoints = new MyComboPointsCondition(Settings.SavageRoarMinComboPoints, 5);
-            var isInCatForm = new MeIsInCatFormCondition();
             var energy = new ConditionTestSwitchCondition(
                 new TargetHasAuraCondition(TargetType.Me, SpellBook.BerserkDruid),
                 new MyEnergyRangeCondition(25.0 / 2.0),
@@ -38,14 +44,12 @@ namespace Paws.Core.Abilities.Feral
             // Normal //
             base.Conditions.Add(savageRoarIsEnabled);
             base.Conditions.Add(minComboPoints);
-            base.Conditions.Add(isInCatForm);
             base.Conditions.Add(energy);
             base.Conditions.Add(new MySavageRoarAuraCondition(false));
 
             // Pandemic //
             base.PandemicConditions.Add(savageRoarIsEnabled);
             base.PandemicConditions.Add(minComboPoints);
-            base.PandemicConditions.Add(isInCatForm);
             base.PandemicConditions.Add(energy);
             base.PandemicConditions.Add(new BooleanCondition(Settings.SavageRoarAllowClipping));
             base.PandemicConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.GlyphOfSavagery));

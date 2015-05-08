@@ -8,7 +8,12 @@ namespace Paws.Core.Abilities.Guardian
     {
         public ThrashAbility()
             : base(WoWSpell.FromId(SpellBook.GuardianThrash), true, true)
+        { }
+
+        public override void ApplyDefaultSettings()
         {
+            base.ApplyDefaultSettings();
+
             var thrashIsEnabled = new BooleanCondition(Settings.GuardianThrashEnabled);
             var inBearForm = new MeIsInBearFormCondition();
             var attackableTarget = new MeHasAttackableTargetCondition();

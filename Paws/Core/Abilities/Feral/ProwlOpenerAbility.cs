@@ -11,11 +11,7 @@ namespace Paws.Core.Abilities.Feral
         public ProwlOpenerAbility()
             : base(WoWSpell.FromId(SpellBook.Rake), false)
         {
-            base.Conditions.Add(new TargetHasAuraCondition(TargetType.Me, SpellBook.Prowl));
-            base.Conditions.Add(new ConditionOrList(
-                new BooleanCondition(Settings.RakeEnabled && Settings.RakeStealthOpener),
-                new BooleanCondition(Settings.ShredEnabled && Settings.ShredStealthOpener)
-            ));
+            base.RequiredConditions.Add(new TargetHasAuraCondition(TargetType.Me, SpellBook.Prowl));
         }
 
         public override void Update()
@@ -27,6 +23,16 @@ namespace Paws.Core.Abilities.Feral
             // If we don't know rake, yet, set the spell to shred
             if (!Me.KnowsSpell(SpellBook.Rake))
                 base.Spell = WoWSpell.FromId(SpellBook.Shred);
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
+            base.Conditions.Add(new ConditionOrList(
+                new BooleanCondition(Settings.RakeEnabled && Settings.RakeStealthOpener),
+                new BooleanCondition(Settings.ShredEnabled && Settings.ShredStealthOpener)
+            ));
         }
     }
 }

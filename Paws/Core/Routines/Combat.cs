@@ -18,6 +18,7 @@ namespace Paws.Core.Routines
         private static AbilityManager Abilities { get { return AbilityManager.Instance; } }
         private static UnitManager Units { get { return UnitManager.Instance; } }
         private static SnapshotManager Snapshots { get { return SnapshotManager.Instance; } }
+        private static AbilityChainsManager Chains { get { return AbilityChainsManager.Instance; } }
 
         public static async Task<bool> Rotation()
         {
@@ -27,56 +28,66 @@ namespace Paws.Core.Routines
 
             if (BotManager.Current.IsRoutineBased() && !Me.Combat) return false;
 
-            if (Me.Specialization == WoWSpec.DruidFeral && SnareManager.BearFormBlockedTimer.IsRunning && Me.Shapeshift == ShapeshiftForm.Bear)
+            if (!Chains.TriggerInAction)
             {
-                if (await Abilities.Cast<Feral.CatFormPowerShiftAbility>(Me))
+                //Chains.Check();
+
+                if (Me.Specialization == WoWSpec.DruidFeral && SnareManager.BearFormBlockedTimer.IsRunning && Me.Shapeshift == ShapeshiftForm.Bear)
                 {
-                    Paws.Core.Utilities.Log.GUI(string.Format("Switching to Cat Form after Bear Form Powershift."));
-                    return true;
+                    if (await Abilities.Cast<Feral.CatFormPowerShiftAbility>(Me))
+                    {
+                        Paws.Core.Utilities.Log.GUI(string.Format("Switching to Cat Form after Bear Form Powershift."));
+                        return true;
+                    }
+
+                    return false;
                 }
 
-                return false;
+                // Clear loss of control if we can //
+                if (await ItemManager.ClearLossOfControlWithTrinkets()) return true;
+
+                // Don't go any further if we have total loss of control //
+                if (Me.HasTotalLossOfControl()) return false;
+
+                // Clear Roots and Snares if we can //
+                if (Me.Specialization != WoWSpec.DruidGuardian) // Will add Guardian Clears at a later time.
+                    if (await SnareManager.CheckAndClear()) return true;
+
+                // Use eligible items //
+                if (await ItemManager.UseEligibleItems(MyState.InCombat)) return true;
+
+                // Check on my minions //
+                if (!BotManager.Current.IsRoutineBased())
+                    if (await Units.CheckForMyMinionsBeingAttacked()) return false;
+
+                // Check for dead party members (ignore if in a BG or Arena) //
+                if (Me.Specialization != WoWSpec.DruidGuardian) // Will add Guardian Battle Rez at a later time.
+                    if (!Me.GroupInfo.IsInBattlegroundParty && !Me.IsInArena)
+                        if (await Units.CheckAndResurrectDeadAllies()) return true;
+
+                // Check for allies that need to be healed //
+                if (Me.Specialization != WoWSpec.DruidGuardian)
+                    if (await Units.CheckForAlliesNeedHealing()) return true;
+
+                // Movement //
+                if (SettingsManager.Instance.AllowMovement) await MovementHelper.MoveToMyCurrentTarget();
+                if (SettingsManager.Instance.AllowTargetFacing) await MovementHelper.FaceMyCurrentTarget();
+
+                // Clear Dead Target - useful in some situations for the questing bot //
+                if (!BotManager.Current.IsRoutineBased())
+                    if (await MovementHelper.ClearMyDeadTarget()) return true;
+
+                // Soothe an Enraged Target //
+                if (await Units.SootheEnragedTarget(MyCurrentTarget)) return true;
+
+                if (Me.Specialization == WoWSpec.DruidGuardian) return await GuardianCombatRotation();
+                else return await FeralCombatRotation();
             }
-
-            // Clear loss of control if we can //
-            if (await ItemManager.ClearLossOfControlWithTrinkets()) return true;
-
-            // Don't go any further if we have total loss of control //
-            if (Me.HasTotalLossOfControl()) return false;
-
-            // Clear Roots and Snares if we can //
-            if (Me.Specialization != WoWSpec.DruidGuardian) // Will add Guardian Clears at a later time.
-                if (await SnareManager.CheckAndClear()) return true;
-
-            // Use eligible items //
-            if (await ItemManager.UseEligibleItems(MyState.InCombat)) return true;
-
-            // Check on my minions //
-            if (!BotManager.Current.IsRoutineBased())
-                if (await Units.CheckForMyMinionsBeingAttacked()) return false;
-
-            // Check for dead party members (ignore if in a BG or Arena) //
-            if (Me.Specialization != WoWSpec.DruidGuardian) // Will add Guardian Battle Rez at a later time.
-                if (!Me.GroupInfo.IsInBattlegroundParty && !Me.IsInArena)
-                    if (await Units.CheckAndResurrectDeadAllies()) return true;
-
-            // Check for allies that need to be healed //
-            if (Me.Specialization != WoWSpec.DruidGuardian)
-                if (await Units.CheckForAlliesNeedHealing()) return true;
-
-            // Movement //
-            if (SettingsManager.Instance.AllowMovement) await MovementHelper.MoveToMyCurrentTarget();
-            if (SettingsManager.Instance.AllowTargetFacing) await MovementHelper.FaceMyCurrentTarget();
-
-            // Clear Dead Target - useful in some situations for the questing bot //
-            if (!BotManager.Current.IsRoutineBased())
-                if (await MovementHelper.ClearMyDeadTarget()) return true;
-
-            // Soothe an Enraged Target //
-            if (await Units.SootheEnragedTarget(MyCurrentTarget)) return true;
-
-            if (Me.Specialization == WoWSpec.DruidGuardian) return await GuardianCombatRotation();
-            else return await FeralCombatRotation();
+            else
+            {
+                // The normal rotation is paused because an ability chain has been triggered.
+                return await Chains.TriggeredRotation();
+            }
         }
 
         private static async Task<bool> GuardianCombatRotation()

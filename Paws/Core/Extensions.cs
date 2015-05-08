@@ -1,5 +1,6 @@
 ﻿using Paws.Core.Managers;
 using Paws.Core.Utilities;
+using Styx;
 using Styx.CommonBot;
 using Styx.Patchables;
 using Styx.WoWInternals;
@@ -96,7 +97,7 @@ namespace Paws.Core
         public static bool CanActuallyInterruptCurrentTargetSpellCast(this LocalPlayer thisPlayer, int milliseconds)
         {
             if (!thisPlayer.HasAttackableTarget()) return false;
-            if (thisPlayer.CurrentTarget.IsChanneling && thisPlayer.ChanneledSpell != null)
+            if (thisPlayer.CurrentTarget.IsChanneling && thisPlayer.CurrentTarget.ChanneledSpell != null)
             {
                 return (thisPlayer.CurrentTarget.CurrentChannelTimeLeft.TotalMilliseconds > milliseconds) &&
                     (thisPlayer.CurrentTarget.CanInterruptCurrentSpellCast);
@@ -173,8 +174,8 @@ namespace Paws.Core
         {
             foreach (var aura in thisPlayer.GetAllAuras())
             {
-                if (aura.Spell.Mechanic == WoWSpellMechanic.Rooted ||
-                    aura.Spell.Mechanic == WoWSpellMechanic.Snared)
+                if (aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Rooted) ||
+                    aura.Spell.Mechanic.HasFlag(WoWSpellMechanic.Snared))
                 {
                     // Log.Equipment(string.Format("Snare or Root detected on me: {0} ({1})", aura.Spell.Name, aura.Spell.Mechanic));
                     return true;
@@ -198,9 +199,17 @@ namespace Paws.Core
             SpellFindResults spellFindResults;
             if (SpellManager.FindSpell(thisSpell.Id, out spellFindResults))
             {
-                return spellFindResults.Override != null
-                    ? spellFindResults.Override.Cooldown
-                    : spellFindResults.Original.Cooldown;
+                WoWSpell theSpell = spellFindResults.Override != null
+                    ? spellFindResults.Override
+                    : spellFindResults.Original;
+
+                var timeLeft = SpellManager.GlobalCooldown 
+                    ? (theSpell.CooldownTimeLeft.TotalMilliseconds - 1500) 
+                    : theSpell.CooldownTimeLeft.TotalMilliseconds;
+
+                // Log.GUI(string.Format("Spell {0} Base CD: {1}, CD: {2}, GCD: {3}", theSpell.Name, theSpell.BaseCooldown, theSpell.CooldownTimeLeft.TotalMilliseconds, SpellManager.GlobalCooldownLeft.TotalMilliseconds));
+
+                return timeLeft <= 0;
             }
 
             return false;

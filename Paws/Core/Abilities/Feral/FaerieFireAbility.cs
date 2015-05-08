@@ -19,18 +19,48 @@ namespace Paws.Core.Abilities.Feral
     /// </summary>
     public class FaerieFireAbility: AbilityBase
     {
-        public FaerieFireAbility(WoWClass playerClass, bool settingDef)
+        public bool Enabled { get; set; }
+        public WoWClass Class { get; set; }
+
+        public FaerieFireAbility()
             : base(WoWSpell.FromId(SpellBook.FaerieFire), true, true)
         {
-            base.Conditions.Add(new BooleanCondition(settingDef));
+            this.Enabled = false;
+            this.Class = WoWClass.None;
+
+            ApplyRequiredConditions();
+        }
+
+        /// <summary>
+        /// Shortcut constructor to create the wow classes.
+        /// </summary>
+        public FaerieFireAbility(WoWClass @class, bool enabled)
+            : base(WoWSpell.FromId(SpellBook.FaerieFire), true, true)
+        {
+            this.Enabled = Enabled;
+            this.Class = @class;
+
+            ApplyRequiredConditions();
+            ApplyDefaultSettings();
+        }
+
+        private void ApplyRequiredConditions()
+        {
+            base.RequiredConditions.Add(new MeHasAttackableTargetCondition());
+            base.RequiredConditions.Add(new MyTargetIsNotPetCondition());
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, SpellBook.FaerieFire));
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, SpellBook.FaerieSwarm));
+            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+            base.RequiredConditions.Add(new MyTargetDistanceCondition(0, 35.0));
+        }
+
+        public override void ApplyDefaultSettings()
+        {
+            base.ApplyDefaultSettings();
+
+            base.Conditions.Add(new BooleanCondition(this.Enabled));
             base.Conditions.Add(new MeIsInCombatCondition());
-            base.Conditions.Add(new MeHasAttackableTargetCondition());
-            base.Conditions.Add(new MyTargetIsNotPetCondition());
-            base.Conditions.Add(new MyTargetIsPlayerClassCondition(playerClass));
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, SpellBook.FaerieFire));
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, SpellBook.FaerieSwarm));
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
-            base.Conditions.Add(new MyTargetDistanceCondition(0, 35.0));
+            base.Conditions.Add(new MyTargetIsPlayerClassCondition(this.Class));
         }
     }
 }
