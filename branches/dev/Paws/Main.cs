@@ -24,14 +24,19 @@ namespace Paws
     {
         public static Product Product { get { return Paws.Product.Premium; } }
 
-        private static Version _version = new Version(1, 8, 0);
+        private static Version _version = new Version(1, 8, 1);
         private static string _environment = "Release";
 
         public static Version Version { get { return _version; } }
         public static Stopwatch DeathTimer = new Stopwatch();
-
-        private static LocalPlayer Me { get { return StyxWoW.Me; } }
-        private static WoWUnit MyCurrentTarget { get { return Me.CurrentTarget; } }
+        public static LocalPlayer Me { get { return StyxWoW.Me; } }
+        public static WoWUnit MyCurrentTarget { get { return Me.CurrentTarget; } }
+        public static SettingsManager Settings { get { return SettingsManager.Instance; } }
+        public static AbilityManager Abilities { get { return AbilityManager.Instance; } }
+        public static UnitManager Units { get { return UnitManager.Instance; } }
+        public static SnapshotManager Snapshots { get { return SnapshotManager.Instance; } }
+        public static AbilityChainsManager Chains { get { return AbilityChainsManager.Instance; } }
+        
         public override WoWClass Class { get { return WoWClass.Druid; } }
         public override string Name { get { return string.Format("Paws {0} ({1}) (v{2})", Product, _environment, Version); } }
         public override bool WantButton { get { return true; } }
@@ -49,7 +54,6 @@ namespace Paws
         public override Composite RestBehavior { get { return new ActionRunCoroutine(o => R.Rest.Rotation()); } }
 
         #endregion
-
 
         #region Implementation
 
@@ -143,6 +147,9 @@ namespace Paws
         #endregion
     }
 
+    /// <summary>
+    /// The product determines the functionality enabled between the community or premium versions.
+    /// </summary>
     public enum Product
     {
         Community = 0x00, Premium

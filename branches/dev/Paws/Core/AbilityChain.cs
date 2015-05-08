@@ -9,6 +9,9 @@ using System.Xml.Serialization;
 
 namespace Paws.Core
 {
+    /// <summary>
+    /// An ability chain contains one ore more abilities that are executed in order.
+    /// </summary>
     public class AbilityChain : IXmlSerializable
     {
         /// <summary>

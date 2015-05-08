@@ -205,12 +205,13 @@ namespace Paws.Core.Managers
 
         public void KeyIsPressed(Hotkey hotKey)
         {
-            if (!StyxWoW.Me.Combat)
-            {
-                Log.AbilityChain(string.Format("Hotkey detected, but you must be in combat to trigger the {0} ability chain.", hotKey.Name));
-            }
-            else
-            {
+            // TODO: Add check for combat or out of combat ?
+
+            //if (!StyxWoW.Me.Combat)
+            //{
+            //    Log.AbilityChain(string.Format("Hotkey detected, but you must be in combat to trigger the {0} ability chain.", hotKey.Name));
+            //}
+            
                 // Ability Chain Check...
                 var abilityChain = this.AbilityChains.SingleOrDefault(o => "Paws_" + o.Name == hotKey.Name);
                 if (abilityChain != null)
@@ -226,7 +227,7 @@ namespace Paws.Core.Managers
                             abilityChain.Specialization.ToString().Replace("Druid", string.Empty), hotKey.Name));
                     }
                 }
-            }
+            
         }
 
         /// <summary>
