@@ -17,6 +17,7 @@ using Styx.Common;
 using Styx.CommonBot;
 using System.IO;
 using System.Xml.Serialization;
+using System.Windows.Media;
 
 namespace Paws.Core.Managers
 {
@@ -25,7 +26,14 @@ namespace Paws.Core.Managers
     /// </summary>
     public sealed class AbilityChainsManager
     {
-        public static List<Type> AllowedAbilityTypes { get; private set; }
+        private Stopwatch _monitor = new Stopwatch();
+        public const int MONITOR_ELAPSED_MS = 250;
+        private List<AbilityChain> _monitoredChains = new List<AbilityChain>();
+
+        /// <summary>
+        /// Provides the list of chainable ability types that can be used in ability chains.
+        /// </summary>
+        public static List<Type> ChainableAbilityTypes { get; private set; }
 
         /// <summary>
         /// The time between each ability before deciding to kill the ability chain.
@@ -89,12 +97,63 @@ namespace Paws.Core.Managers
         /// </summary>
         private Stopwatch _triggerTimer = new Stopwatch();
 
+        /// <summary>
+        /// Chained abilities are placed into this queue and are dequeued when they are cast.
+        /// </summary>
+        private Queue<ChainedAbility> _abilityQueue;
+
         public AbilityChainsManager()
         {
             this.AbilityChains = new List<AbilityChain>();
         }
 
-        public void RegisterAbilityChain(AbilityChain abilityChain)
+        public void Update()
+        {
+            if (this._monitoredChains.Count > 0)
+            {
+                if (!this._monitor.IsRunning) this._monitor.Start();
+                if (this._monitor.ElapsedMilliseconds > MONITOR_ELAPSED_MS)
+                {
+                    AbilityChain chainToRemoveFromWatch = null;
+                    foreach(AbilityChain abilityChain in this._monitoredChains)
+                    {
+                        bool okayToRemove = true;
+                        
+                        foreach (var chainedAbility in abilityChain.ChainedAbilities)
+                        {
+                            if (chainedAbility.MustBeReady)
+                            {
+                                if (chainedAbility.Instance.Spell.CooldownTimeLeft.TotalMilliseconds > 2000)
+                                {
+                                    okayToRemove = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if (okayToRemove)
+                        {
+                            chainToRemoveFromWatch = abilityChain;
+                            break;
+                        }
+                    }
+
+                    if (chainToRemoveFromWatch != null)
+                    {
+                        string name = chainToRemoveFromWatch.Name;
+                        Toast.AbilityChain(name);
+
+                        this._monitoredChains.Remove(chainToRemoveFromWatch);
+                    }
+
+                    this._monitor.Restart();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Registers an ability chain with the hotkey manager and makes the ability chain ready to be triggered.
+        /// </summary>
+        public void Register(AbilityChain abilityChain)
         {
             if (Main.Product == Product.Premium)
             {
@@ -115,8 +174,9 @@ namespace Paws.Core.Managers
             }
         }
 
-        private Queue<ChainedAbility> _abilityQueue;
-
+        /// <summary>
+        /// (Non-Blocking) This method should be called by the routines when a trigger occurs to ensure that the routines are properly paused.
+        /// </summary>
         public async Task<bool> TriggeredRotation()
         {
             try
@@ -143,7 +203,7 @@ namespace Paws.Core.Managers
                             if (_triggerTimer.ElapsedMilliseconds > this.TriggerTimerElapsedMs)
                             {
                                 Log.Diagnostics(string.Format("Ability cast failed: {0}, skipping to the next link in the ability chain.", ability.FriendlyName));
-
+                                
                                 _abilityQueue.Dequeue();
                                 _triggerTimer.Restart();
 
@@ -155,9 +215,11 @@ namespace Paws.Core.Managers
                     {
                         Log.AbilityChain("The " + this.TriggeredAbilityChain.Name + " ability chain finished.");
 
+                        this._monitoredChains.Add(this.TriggeredAbilityChain);
+                        
                         this.TriggerInAction = false;
                         this.TriggeredAbilityChain = null;
-
+                        
                         _triggerTimer.Reset();
                     }
                 }
@@ -165,6 +227,8 @@ namespace Paws.Core.Managers
             catch (Exception ex)
             {
                 Log.AbilityChain(string.Format("{0} ability chain failed. Exception raised: {1}", this.TriggeredAbilityChain.Name, ex.ToString()));
+
+                this._monitoredChains.Add(this.TriggeredAbilityChain);
 
                 this.TriggerInAction = false;
                 this.TriggeredAbilityChain = null;
@@ -175,7 +239,10 @@ namespace Paws.Core.Managers
             return false;
         }
 
-        public void Trigger(AbilityChain abilityChain)
+        /// <summary>
+        /// The internal method used to trigger an ability and set it available for the TriggeredRotation method.
+        /// </summary>
+        private void Trigger(AbilityChain abilityChain)
         {
             if (!this.TriggerInAction)
             {
@@ -203,41 +270,37 @@ namespace Paws.Core.Managers
             }
         }
 
-        public void KeyIsPressed(Hotkey hotKey)
+        /// <summary>
+        /// The internal method used to handle hotkeys that are pressed. This will subsequently call the Trigger method provided the various checks and balances pass.
+        /// </summary>
+        private void KeyIsPressed(Hotkey hotKey)
         {
-            // TODO: Add check for combat or out of combat ?
-
-            //if (!StyxWoW.Me.Combat)
-            //{
-            //    Log.AbilityChain(string.Format("Hotkey detected, but you must be in combat to trigger the {0} ability chain.", hotKey.Name));
-            //}
-            
-                // Ability Chain Check...
-                var abilityChain = this.AbilityChains.SingleOrDefault(o => "Paws_" + o.Name == hotKey.Name);
-                if (abilityChain != null)
+            // Ability Chain Check... placing a "Paws_" prefix ensures that no other registered hotkeys are messed with in the system.
+            var abilityChain = this.AbilityChains.SingleOrDefault(o => "Paws_" + o.Name == hotKey.Name);
+            if (abilityChain != null)
+            {
+                if (StyxWoW.Me.Specialization == abilityChain.Specialization)
                 {
-                    if (StyxWoW.Me.Specialization == abilityChain.Specialization)
-                    {
-                        // We have a triggered Ability Chain
-                        Trigger(abilityChain);
-                    }
-                    else
-                    {
-                        Log.AbilityChain(string.Format("Hotkey detected, but your specialization must be {0} to trigger the {1} ability chain.", 
-                            abilityChain.Specialization.ToString().Replace("Druid", string.Empty), hotKey.Name));
-                    }
+                    // We have a triggered Ability Chain
+                    Trigger(abilityChain);
                 }
-            
+                else
+                {
+                    Log.AbilityChain(string.Format("Hotkey detected, but your specialization must be {0} to trigger the {1} ability chain.",
+                        abilityChain.Specialization.ToString().Replace("Druid", string.Empty), hotKey.Name));
+                }
+            }
+
         }
 
         /// <summary>
         /// Retrieves a new list of allowed abilities based on the list of allowed types.
         /// </summary>
-        public static List<ChainedAbility> GetAllowedAbilities()
+        public static List<ChainedAbility> GetAllowedChainableAbilities()
         {
             List<ChainedAbility> allowedAbilities = new List<ChainedAbility>();
 
-            foreach (Type abilityType in AllowedAbilityTypes)
+            foreach (Type abilityType in ChainableAbilityTypes)
             {
                 allowedAbilities.Add(new ChainedAbility(abilityType));
             }
@@ -246,7 +309,7 @@ namespace Paws.Core.Managers
         }
 
         /// <summary>
-        /// Saves the dataset of abilities to file.
+        /// Saves the dataset of ability chains to the filesystem.
         /// </summary>
         public static void SaveDataSet(List<AbilityChain> abilityChains)
         {
@@ -261,6 +324,9 @@ namespace Paws.Core.Managers
             }
         }
 
+        /// <summary>
+        /// Loads the dataset of ability chains from the filesystem.
+        /// </summary>
         public static void LoadDataSet()
         {
             var listOfAbilityChains = new List<AbilityChain>();
@@ -269,54 +335,9 @@ namespace Paws.Core.Managers
 
             if (!File.Exists(pathToFile))
             {
-                // Create a default abilities list...
-                List<AbilityChain> defaultChains = new List<AbilityChain>();
+                var sampleChains = SampleFactory.CreateAbilityChainsSampleList();
 
-                // Ability chain sample: Burst Damage
-                AbilityChain sampleBurstChain = new AbilityChain("Burst Damage");
-
-                sampleBurstChain.Specialization = WoWSpec.DruidFeral;
-                sampleBurstChain.HotKey = System.Windows.Forms.Keys.F;
-                sampleBurstChain.ModiferKey = ModifierKeys.Control;
-                sampleBurstChain.ChainedAbilities.Add(new ChainedAbility(new Feral.IncarnationAbility(), TargetType.Me, true));
-                sampleBurstChain.ChainedAbilities.Add(new ChainedAbility(new Feral.BerserkAbility(), TargetType.Me, true));
-
-                defaultChains.Add(sampleBurstChain);
-
-                // Ability chain sample: Burst Damage
-                AbilityChain sampleDefenseChain = new AbilityChain("HotW Defense");
-
-                sampleDefenseChain.Specialization = WoWSpec.DruidFeral;
-                sampleDefenseChain.HotKey = System.Windows.Forms.Keys.D;
-                sampleDefenseChain.ModiferKey = ModifierKeys.Control;
-                sampleDefenseChain.ChainedAbilities.Add(new ChainedAbility(new Feral.BearFormPowerShiftAbility(), TargetType.Me, false));
-                sampleDefenseChain.ChainedAbilities.Add(new ChainedAbility(new Feral.HeartOfTheWildAbility(), TargetType.Me, true));
-                sampleDefenseChain.ChainedAbilities.Add(new ChainedAbility(new Shared.CenarionWardAbility(), TargetType.Me, false));
-                sampleDefenseChain.ChainedAbilities.Add(new ChainedAbility(new Feral.SurvivalInstinctsAbility(), TargetType.Me, false));
-
-                defaultChains.Add(sampleDefenseChain);
-
-                // Ability chain sample: Cyclone
-                AbilityChain sampleCycloneChain = new AbilityChain("Cyclone");
-
-                sampleCycloneChain.Specialization = WoWSpec.DruidFeral;
-                sampleCycloneChain.HotKey = System.Windows.Forms.Keys.C;
-                sampleCycloneChain.ModiferKey = ModifierKeys.Control;
-                sampleCycloneChain.ChainedAbilities.Add(new ChainedAbility(new Shared.CycloneAbility(), TargetType.MyCurrentTarget, false));
-
-                defaultChains.Add(sampleCycloneChain);
-
-                // Ability chain sample: Entangling Roots
-                AbilityChain sampleEntanglingRootsChain = new AbilityChain("Entangling Roots");
-
-                sampleEntanglingRootsChain.Specialization = WoWSpec.DruidFeral;
-                sampleEntanglingRootsChain.HotKey = System.Windows.Forms.Keys.R;
-                sampleEntanglingRootsChain.ModiferKey = ModifierKeys.Shift;
-                sampleEntanglingRootsChain.ChainedAbilities.Add(new ChainedAbility(new Shared.EntanglingRootsAbility(), TargetType.MyCurrentTarget, false));
-
-                defaultChains.Add(sampleEntanglingRootsChain);
-
-                SaveDataSet(defaultChains);
+                SaveDataSet(sampleChains);
                 LoadDataSet();
             }
 
@@ -328,9 +349,9 @@ namespace Paws.Core.Managers
                 reader.Close();
             }
 
-            foreach(var chain in listOfAbilityChains)
+            foreach (var chain in listOfAbilityChains)
             {
-                AbilityChainsManager.Instance.RegisterAbilityChain(chain);
+                AbilityChainsManager.Instance.Register(chain);
             }
         }
 
@@ -339,7 +360,7 @@ namespace Paws.Core.Managers
         /// </summary>
         static AbilityChainsManager()
         {
-            AllowedAbilityTypes = AppDomain.CurrentDomain.GetAssemblies()
+            ChainableAbilityTypes = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(o => o.GetTypes())
                 .Where(o => Attribute.IsDefined(o, typeof(AbilityChainAttribute)))
                 .OrderBy(o => o.Name)

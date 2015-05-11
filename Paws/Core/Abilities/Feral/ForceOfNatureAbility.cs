@@ -16,7 +16,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>Maximum 3 charges.</para>
     /// <para>http://www.wowhead.com/spell=102703/force-of-nature</para>
     /// </summary>
-    [AbilityChain(FriendlyName = "Force of Nature")]
+    [AbilityChain(FriendlyName = "Force of Nature", AvailableSpecs = AvailableSpecs.Feral)]
     public class ForceOfNatureAbility : AbilityBase
     {
         public ForceOfNatureAbility()

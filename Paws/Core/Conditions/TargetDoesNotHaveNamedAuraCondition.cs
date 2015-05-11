@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions.Attributes;
+using Paws.Core.Managers;
 using Styx;
 using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
@@ -36,7 +37,7 @@ namespace Paws.Core.Conditions
 
         public bool Satisfied()
         {
-            var target = this.Target == TargetType.Me ? StyxWoW.Me : StyxWoW.Me.CurrentTarget;
+            var target = UnitManager.TargetTypeConverter(this.Target);
 
             if (target == null || !target.IsValid)
                 return false;

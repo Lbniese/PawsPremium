@@ -1,5 +1,4 @@
 ﻿using Paws.Core;
-using Paws.Core.Conditions;
 using Paws.Core.Utilities;
 using Styx.Common;
 using System;
@@ -41,8 +40,9 @@ namespace Paws.Interface.Forms
                 foreach (var chainedAbility in abilityChain.ChainedAbilities)
                 {
                     var abilityItem = new ListViewItem(chainedAbility.ToString());
-                    abilityItem.SubItems.Add(chainedAbility.TargetType == TargetType.Me ? "Me" : "My Current Target");
-                    abilityItem.SubItems.Add(chainedAbility.MustBeReady ? "Yes" : "No");
+
+                    abilityItem.SubItems.Add(ConvertUtility.TargetTypeToString(chainedAbility.TargetType));
+                    abilityItem.SubItems.Add(ConvertUtility.BoolToYesNoString(chainedAbility.MustBeReady));
 
                     abilityItem.Tag = chainedAbility;
 
@@ -120,8 +120,9 @@ namespace Paws.Interface.Forms
             if (newForm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 var abilityItem = new ListViewItem(newForm.AllowedAbility.ToString());
-                abilityItem.SubItems.Add(newForm.AllowedAbility.TargetType == TargetType.Me ? "Me" : "My Current Target");
-                abilityItem.SubItems.Add(newForm.AllowedAbility.MustBeReady ? "Yes" : "No");
+
+                abilityItem.SubItems.Add(ConvertUtility.TargetTypeToString(newForm.AllowedAbility.TargetType));
+                abilityItem.SubItems.Add(ConvertUtility.BoolToYesNoString(newForm.AllowedAbility.MustBeReady));
 
                 abilityItem.Tag = newForm.AllowedAbility;
 

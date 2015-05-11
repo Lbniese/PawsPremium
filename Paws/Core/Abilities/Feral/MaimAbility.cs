@@ -20,7 +20,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>5 points: 110% damage, 5 sec</para>
     /// <para>http://www.wowhead.com/spell=22570/maim</para>
     /// </summary>
-    [AbilityChain(FriendlyName = "Maim (Stun)")]
+    [AbilityChain(FriendlyName = "Maim (Stun)", AvailableSpecs = AvailableSpecs.Feral)]
     public class MaimAbility : MeleeFeralAbilityBase
     {
         public MaimAbility()

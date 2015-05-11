@@ -44,6 +44,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.removeSelectedConditionsButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.itemEntryTextBox = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.panel65.SuspendLayout();
             this.panel66.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -53,7 +55,7 @@
             // 
             this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.saveButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.saveButton.Location = new System.Drawing.Point(430, 281);
+            this.saveButton.Location = new System.Drawing.Point(430, 315);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(122, 23);
             this.saveButton.TabIndex = 0;
@@ -66,7 +68,7 @@
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cancelButton.Location = new System.Drawing.Point(302, 281);
+            this.cancelButton.Location = new System.Drawing.Point(302, 315);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(122, 23);
             this.cancelButton.TabIndex = 1;
@@ -75,18 +77,18 @@
             // 
             // conditionsListView
             // 
-            this.conditionsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.conditionsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.conditionsListView.CheckBoxes = true;
             this.conditionsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.nameColumn});
             this.conditionsListView.FullRowSelect = true;
             this.conditionsListView.GridLines = true;
-            this.conditionsListView.Location = new System.Drawing.Point(12, 149);
+            this.conditionsListView.Location = new System.Drawing.Point(12, 178);
             this.conditionsListView.MultiSelect = false;
             this.conditionsListView.Name = "conditionsListView";
-            this.conditionsListView.Size = new System.Drawing.Size(540, 120);
+            this.conditionsListView.Size = new System.Drawing.Size(540, 125);
             this.conditionsListView.TabIndex = 2;
             this.conditionsListView.UseCompatibleStateImageBehavior = false;
             this.conditionsListView.View = System.Windows.Forms.View.Details;
@@ -112,7 +114,7 @@
             // 
             // panel65
             // 
-            this.panel65.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.panel65.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel65.BackColor = System.Drawing.Color.DimGray;
             this.panel65.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -135,10 +137,12 @@
             // 
             // panel66
             // 
-            this.panel66.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.panel66.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel66.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panel66.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel66.Controls.Add(this.itemEntryTextBox);
+            this.panel66.Controls.Add(this.label4);
             this.panel66.Controls.Add(this.label3);
             this.panel66.Controls.Add(this.myStateComboBox);
             this.panel66.Controls.Add(this.myBagsButton);
@@ -146,13 +150,13 @@
             this.panel66.Controls.Add(this.label2);
             this.panel66.Location = new System.Drawing.Point(12, 30);
             this.panel66.Name = "panel66";
-            this.panel66.Size = new System.Drawing.Size(540, 87);
+            this.panel66.Size = new System.Drawing.Size(540, 116);
             this.panel66.TabIndex = 29;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(25, 50);
+            this.label3.Location = new System.Drawing.Point(24, 79);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(52, 13);
             this.label3.TabIndex = 32;
@@ -167,7 +171,7 @@
             "In Combat",
             "Combat Healing",
             "Resting"});
-            this.myStateComboBox.Location = new System.Drawing.Point(83, 47);
+            this.myStateComboBox.Location = new System.Drawing.Point(82, 76);
             this.myStateComboBox.Name = "myStateComboBox";
             this.myStateComboBox.Size = new System.Drawing.Size(223, 21);
             this.myStateComboBox.TabIndex = 31;
@@ -175,11 +179,11 @@
             // myBagsButton
             // 
             this.myBagsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.myBagsButton.Location = new System.Drawing.Point(456, 19);
+            this.myBagsButton.Location = new System.Drawing.Point(206, 20);
             this.myBagsButton.Name = "myBagsButton";
-            this.myBagsButton.Size = new System.Drawing.Size(70, 23);
+            this.myBagsButton.Size = new System.Drawing.Size(148, 23);
             this.myBagsButton.TabIndex = 30;
-            this.myBagsButton.Text = "My Bags...";
+            this.myBagsButton.Text = "Select from my bags...";
             this.myBagsButton.UseVisualStyleBackColor = true;
             this.myBagsButton.Click += new System.EventHandler(this.myBagsButton_Click);
             // 
@@ -187,15 +191,15 @@
             // 
             this.itemNameTextBox.BackColor = System.Drawing.Color.Wheat;
             this.itemNameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.itemNameTextBox.Location = new System.Drawing.Point(83, 21);
+            this.itemNameTextBox.Location = new System.Drawing.Point(82, 50);
             this.itemNameTextBox.Name = "itemNameTextBox";
-            this.itemNameTextBox.Size = new System.Drawing.Size(367, 20);
+            this.itemNameTextBox.Size = new System.Drawing.Size(435, 20);
             this.itemNameTextBox.TabIndex = 17;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 23);
+            this.label2.Location = new System.Drawing.Point(15, 52);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(61, 13);
             this.label2.TabIndex = 0;
@@ -203,7 +207,7 @@
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.DimGray;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -212,7 +216,7 @@
             this.panel1.Controls.Add(this.newConditionButton);
             this.panel1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel1.ForeColor = System.Drawing.Color.White;
-            this.panel1.Location = new System.Drawing.Point(12, 123);
+            this.panel1.Location = new System.Drawing.Point(12, 152);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(540, 26);
             this.panel1.TabIndex = 29;
@@ -240,11 +244,29 @@
             this.label1.TabIndex = 10;
             this.label1.Text = "Conditions";
             // 
+            // itemEntryTextBox
+            // 
+            this.itemEntryTextBox.BackColor = System.Drawing.Color.Wheat;
+            this.itemEntryTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.itemEntryTextBox.Location = new System.Drawing.Point(82, 22);
+            this.itemEntryTextBox.Name = "itemEntryTextBox";
+            this.itemEntryTextBox.Size = new System.Drawing.Size(118, 20);
+            this.itemEntryTextBox.TabIndex = 34;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(29, 24);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(42, 13);
+            this.label4.TabIndex = 33;
+            this.label4.Text = "Item Id:";
+            // 
             // AddNewItemForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(564, 319);
+            this.ClientSize = new System.Drawing.Size(564, 353);
             this.ControlBox = false;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel65);
@@ -283,5 +305,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox myStateComboBox;
         private System.Windows.Forms.Button removeSelectedConditionsButton;
+        private System.Windows.Forms.TextBox itemEntryTextBox;
+        private System.Windows.Forms.Label label4;
     }
 }

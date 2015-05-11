@@ -13,7 +13,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>movement speed by 30%. Lasts until cancelled.</para>
     /// <para>http://www.wowhead.com/spell=5215/prowl</para>
     /// </summary>
-    [AbilityChain(FriendlyName = "Prowl (Stealth)")]
+    [AbilityChain(FriendlyName = "Prowl (Stealth)", AvailableSpecs = AvailableSpecs.Feral)]
     public class ProwlAbility : AbilityBase
     {
         public ProwlAbility()

@@ -18,7 +18,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para></para>
     /// <para>http://www.wowhead.com/spell=768/cat-form"</para>
     /// </summary>
-    [AbilityChain(FriendlyName = "Cat Form")]
+    [AbilityChain(FriendlyName = "Cat Form", AvailableSpecs = AvailableSpecs.Feral)]
     public class CatFormPowerShiftAbility : AbilityBase
     {
         public CatFormPowerShiftAbility()

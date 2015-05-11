@@ -496,6 +496,8 @@ namespace Paws.Interface
 
                 if (editForm.ShowDialog() == DialogResult.OK)
                 {
+                    lvItem.Name = editForm.PawsItem.Name;
+
                     lvItem.SubItems[1].Text = editForm.PawsItem.Enabled ? "Enabled" : "Disabled";
                     lvItem.SubItems[1].BackColor = editForm.PawsItem.Enabled ? Color.DarkGreen : Color.DarkRed;
 
@@ -619,7 +621,10 @@ namespace Paws.Interface
 
         private void openSupportThreadButton_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://www.thebuddyforum.com/honorbuddy-forum/combat-routines/druid/204632-paws-feral-druid-combat-routine.html");
+            if (Main.Product == Product.Premium)
+                System.Diagnostics.Process.Start("https://www.thebuddyforum.com/thebuddystore/honorbuddy-store/honorbuddy-store-routines/druid/214189-paws-feral-guardian-premium-edition.html");
+            else
+                System.Diagnostics.Process.Start("https://www.thebuddyforum.com/thebuddystore/honorbuddy-store/honorbuddy-store-routines/druid/210106-paws-feral-guardian-community-edition.html");
         }
 
         private void specializationButton_Click(object sender, EventArgs e)

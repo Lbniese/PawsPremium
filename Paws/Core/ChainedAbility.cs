@@ -109,7 +109,7 @@ namespace Paws.Core
             var mustBeReady = reader.GetAttribute("MustBeReady");
             var targetType = reader.GetAttribute("TargetType");
 
-            TargetType outTargetType = Conditions.TargetType.Me;
+            TargetType outTargetType = TargetType.Me;
             Enum.TryParse<TargetType>(targetType, out outTargetType);
             this.TargetType = outTargetType;
 

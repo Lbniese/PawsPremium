@@ -4,6 +4,7 @@ using Paws.Core.Abilities.Guardian;
 using Paws.Core.Abilities.Shared;
 using Paws.Core.Conditions;
 using Paws.Core.Utilities;
+using Styx;
 using Styx.CommonBot.Coroutines;
 using Styx.CommonBot.POI;
 using Styx.WoWInternals;
@@ -52,6 +53,16 @@ namespace Paws.Core.Managers
         private int _enemyScannerIntervalMs = 500;
 
         /// <summary>
+        /// Timer used to monitor the surrounding enemy players.
+        /// </summary>
+        private Stopwatch _enemyPlayerScanner = new Stopwatch();
+
+        /// <summary>
+        /// The number of milliseconds to elapse before considering the enemy player timer "tick"
+        /// </summary>
+        private int _enemyPlayerInterfalMs = 500;
+
+        /// <summary>
         /// Timer used to monitor the group information.
         /// </summary>
         private Stopwatch _groupScanner = new Stopwatch();
@@ -82,6 +93,11 @@ namespace Paws.Core.Managers
         public List<WoWUnit> LastKnownSurroundingEnemies { get; private set; }
 
         /// <summary>
+        /// Gets the list of the last known surrounding enemy players (Cached - ensure to check for null and valid units). 
+        /// </summary>
+        public List<WoWPlayer> LastKnownSurroundingEnemyPlayers { get; private set; }
+
+        /// <summary>
         /// Gets the list of the last known allies that have had Rejuvenation applied.
         /// </summary>
         public List<WoWUnit> LastKnownRejuvenatedAllies { get; private set; }
@@ -91,12 +107,24 @@ namespace Paws.Core.Managers
         /// </summary>
         public int LastKnownGroupMemberSize { get; set; }
 
+        public List<WoWSpec> HealerSpecs { get; private set; }
+
         public UnitManager()
         {
+            this.HealerSpecs = new List<WoWSpec>();
+            this.HealerSpecs.Add(WoWSpec.DruidRestoration);
+            this.HealerSpecs.Add(WoWSpec.MonkMistweaver);
+            this.HealerSpecs.Add(WoWSpec.PaladinHoly);
+            this.HealerSpecs.Add(WoWSpec.PriestDiscipline);
+            this.HealerSpecs.Add(WoWSpec.PriestHoly);
+            this.HealerSpecs.Add(WoWSpec.ShamanRestoration);
+
             this.LastKnownSurroundingEnemies = new List<WoWUnit>();
+            this.LastKnownSurroundingEnemyPlayers = new List<WoWPlayer>();
             this.LastKnownRejuvenatedAllies = new List<WoWUnit>();
 
             _enemyScanner.Start();
+            _enemyPlayerScanner.Start();
             _groupScanner.Start();
             _minionTimer.Start();
         }
@@ -107,6 +135,7 @@ namespace Paws.Core.Managers
         public void Update()
         {
             EnemyUpdate();
+            EnemyPlayerUpdate();
             GroupUpdate();
         }
 
@@ -131,6 +160,27 @@ namespace Paws.Core.Managers
                 .ToList();
 
                 _enemyScanner.Restart();
+            }
+        }
+
+        /// <summary>
+        /// Updates and caches the last known surrrounding enemies list. Try to make as few calls to the object manager as neccessary for performance considerations.
+        /// </summary>
+        private void EnemyPlayerUpdate()
+        {
+            if (!_enemyPlayerScanner.IsRunning) _enemyPlayerScanner.Restart();
+            if (_enemyPlayerScanner.ElapsedMilliseconds >= _enemyPlayerInterfalMs)
+            {
+                this.LastKnownSurroundingEnemyPlayers = ObjectManager.GetObjectsOfTypeFast<WoWPlayer>().Where(o =>
+                    o.IsValid &&
+                    o.IsPlayer &&
+                    !o.IsDead &&
+                    !o.IsFriendly
+                )
+                .OrderBy(o => o.Distance)
+                .ToList();
+
+                _enemyPlayerScanner.Restart();
             }
         }
 
@@ -549,7 +599,7 @@ namespace Paws.Core.Managers
                     {
                         return Me.CurrentTarget;
                     }
-                case TargetType.MyCurrentFocus:
+                case TargetType.MyFocusTarget:
                     {
                         return Me.FocusedUnit;
                     }

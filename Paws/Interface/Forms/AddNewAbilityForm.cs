@@ -24,7 +24,7 @@ namespace Paws.Interface.Forms
 
         private void AddNewAbilityForm_Load(object sender, EventArgs e)
         {
-            foreach (var ability in AbilityChainsManager.GetAllowedAbilities())
+            foreach (var ability in AbilityChainsManager.GetAllowedChainableAbilities())
             {
                 this.abilitiesComboBox.Items.Add(ability);
             }
@@ -44,7 +44,10 @@ namespace Paws.Interface.Forms
             this.AllowedAbility.CreateInstance();
 
             this.AllowedAbility.MustBeReady = this.isRequiredCheckBox.Checked;
-            this.AllowedAbility.TargetType = this.targetMeRadioButton.Checked ? TargetType.Me : TargetType.MyCurrentTarget;
+
+            if (this.targetMeRadioButton.Checked) this.AllowedAbility.TargetType = TargetType.Me;
+            if (this.targetCurrentTargetRadioButton.Checked) this.AllowedAbility.TargetType = TargetType.MyCurrentTarget;
+            if (this.focusTargetRadioButton.Checked) this.AllowedAbility.TargetType = TargetType.MyFocusTarget;
 
             this.DialogResult = DialogResult.OK;
         }

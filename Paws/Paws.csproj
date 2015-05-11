@@ -62,6 +62,7 @@
     <Compile Include="Core\Abilities\AbilityCategory.cs" />
     <Compile Include="Core\Abilities\AbilityException.cs" />
     <Compile Include="Core\Abilities\Attributes\AbilityChainAttribute.cs" />
+    <Compile Include="Core\Abilities\Attributes\AvailableSpecs.cs" />
     <Compile Include="Core\Abilities\BlockedAbility.cs" />
     <Compile Include="Core\Abilities\BlockedAbilityList.cs" />
     <Compile Include="Core\Abilities\Feral\BerserkingAbility.cs" />
@@ -193,7 +194,7 @@
     <Compile Include="Core\Conditions\IsOffGlobalCooldownCondition.cs" />
     <Compile Include="Core\Conditions\MySavageRoarAuraCondition.cs" />
     <Compile Include="Core\Conditions\SpellIsNotOnCooldownCondition.cs" />
-    <Compile Include="Core\Conditions\TargetType.cs" />
+    <Compile Include="Core\TargetType.cs" />
     <Compile Include="Core\Conditions\ICondition.cs" />
     <Compile Include="Core\ItemCondition.cs" />
     <Compile Include="Core\Managers\AbilityChainsManager.cs" />
@@ -217,9 +218,12 @@
     <Compile Include="Core\SpellBook.cs" />
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\Utilities\CombatLogEvent.cs" />
+    <Compile Include="Core\Utilities\ConvertUtility.cs" />
     <Compile Include="Core\Utilities\Events.cs" />
     <Compile Include="Core\Utilities\Log.cs" />
     <Compile Include="Core\Utilities\Diagnostics.cs" />
+    <Compile Include="Core\Utilities\SampleFactory.cs" />
+    <Compile Include="Core\Utilities\Toast.cs" />
     <Compile Include="Interface\Controls\AbilityChainsControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -366,6 +370,7 @@
     <EmbeddedResource Include="Resources\release.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>release.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

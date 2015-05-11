@@ -1,4 +1,5 @@
-﻿using Styx;
+﻿using Paws.Core.Managers;
+using Styx;
 using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
 using System;
@@ -49,10 +50,10 @@ namespace Paws.Core.Conditions
 
         public bool Satisfied()
         {
-            var target = this.Target == TargetType.Me ? StyxWoW.Me : StyxWoW.Me.CurrentTarget;
+            var target = UnitManager.TargetTypeConverter(this.Target);
 
             if (target == null || !target.IsValid)
-                throw new ConditionException("Target cannot be null or invalid.");
+                return false;
 
             return target.GetAllAuras().SingleOrDefault(o =>
                 o.SpellId == this.AuraId &&

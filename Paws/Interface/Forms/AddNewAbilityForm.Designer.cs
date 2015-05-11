@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.cancelButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
             this.panel65 = new System.Windows.Forms.Panel();
@@ -40,6 +41,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.abilitiesComboBox = new System.Windows.Forms.ComboBox();
+            this.focusTargetRadioButton = new System.Windows.Forms.RadioButton();
+            this.toolTipProvider = new System.Windows.Forms.ToolTip(this.components);
             this.panel65.SuspendLayout();
             this.panel66.SuspendLayout();
             this.SuspendLayout();
@@ -97,6 +100,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel66.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panel66.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel66.Controls.Add(this.focusTargetRadioButton);
             this.panel66.Controls.Add(this.targetCurrentTargetRadioButton);
             this.panel66.Controls.Add(this.targetMeRadioButton);
             this.panel66.Controls.Add(this.label1);
@@ -112,7 +116,8 @@
             // targetCurrentTargetRadioButton
             // 
             this.targetCurrentTargetRadioButton.AutoSize = true;
-            this.targetCurrentTargetRadioButton.Location = new System.Drawing.Point(193, 51);
+            this.targetCurrentTargetRadioButton.Checked = true;
+            this.targetCurrentTargetRadioButton.Location = new System.Drawing.Point(177, 51);
             this.targetCurrentTargetRadioButton.Name = "targetCurrentTargetRadioButton";
             this.targetCurrentTargetRadioButton.Size = new System.Drawing.Size(93, 17);
             this.targetCurrentTargetRadioButton.TabIndex = 37;
@@ -127,7 +132,6 @@
             this.targetMeRadioButton.Name = "targetMeRadioButton";
             this.targetMeRadioButton.Size = new System.Drawing.Size(40, 17);
             this.targetMeRadioButton.TabIndex = 36;
-            this.targetMeRadioButton.TabStop = true;
             this.targetMeRadioButton.Text = "Me";
             this.targetMeRadioButton.UseVisualStyleBackColor = true;
             // 
@@ -147,6 +151,8 @@
             this.isRequiredCheckBox.Name = "isRequiredCheckBox";
             this.isRequiredCheckBox.Size = new System.Drawing.Size(15, 14);
             this.isRequiredCheckBox.TabIndex = 34;
+            this.toolTipProvider.SetToolTip(this.isRequiredCheckBox, "If this is selected, the ability chain will not be triggered unless this Ability " +
+        "is not on cooldown.");
             this.isRequiredCheckBox.UseVisualStyleBackColor = true;
             // 
             // label2
@@ -177,6 +183,16 @@
             this.abilitiesComboBox.Name = "abilitiesComboBox";
             this.abilitiesComboBox.Size = new System.Drawing.Size(325, 21);
             this.abilitiesComboBox.TabIndex = 31;
+            // 
+            // focusTargetRadioButton
+            // 
+            this.focusTargetRadioButton.AutoSize = true;
+            this.focusTargetRadioButton.Location = new System.Drawing.Point(286, 51);
+            this.focusTargetRadioButton.Name = "focusTargetRadioButton";
+            this.focusTargetRadioButton.Size = new System.Drawing.Size(88, 17);
+            this.focusTargetRadioButton.TabIndex = 38;
+            this.focusTargetRadioButton.Text = "Focus Target";
+            this.focusTargetRadioButton.UseVisualStyleBackColor = true;
             // 
             // AddNewAbilityForm
             // 
@@ -214,5 +230,7 @@
         private System.Windows.Forms.RadioButton targetMeRadioButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox isRequiredCheckBox;
+        private System.Windows.Forms.RadioButton focusTargetRadioButton;
+        private System.Windows.Forms.ToolTip toolTipProvider;
     }
 }
