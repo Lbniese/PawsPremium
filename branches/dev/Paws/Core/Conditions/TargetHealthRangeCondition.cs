@@ -1,4 +1,5 @@
 ﻿using Paws.Core.Conditions.Attributes;
+using Paws.Core.Managers;
 using Styx;
 using Styx.WoWInternals.WoWObjects;
 using System;
@@ -52,10 +53,10 @@ namespace Paws.Core.Conditions
 
         public bool Satisfied()
         {
-            var target = this.Target == TargetType.Me ? StyxWoW.Me : StyxWoW.Me.CurrentTarget;
+            var target = UnitManager.TargetTypeConverter(this.Target);
 
             if (target == null || !target.IsValid)
-                throw new ConditionException("Target cannot be null or invalid.");
+                return false;
 
             if (this.Min < 0 || this.Max > 100)
                 throw new ConditionException("Min and Max must be clamped at 0 and 100 respectively.");

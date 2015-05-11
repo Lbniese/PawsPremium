@@ -14,6 +14,8 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Linq;
 using R = Paws.Core.Routines;
+using Styx.Common;
+using System.Windows.Media;
 
 namespace Paws
 {
@@ -24,8 +26,8 @@ namespace Paws
     {
         public static Product Product { get { return Paws.Product.Premium; } }
 
-        private static Version _version = new Version(1, 8, 1);
-        private static string _environment = "Release";
+        private static Version _version = new Version(1, 9, 0);
+        private static string _environment = "Development";
 
         public static Version Version { get { return _version; } }
         public static Stopwatch DeathTimer = new Stopwatch();
@@ -80,6 +82,28 @@ namespace Paws
                 Log.Combat("--------------------------------------------------");
 
                 AbilityChainsManager.LoadDataSet();
+
+                //------------- TEMP ---------------//
+                HotkeysManager.Register("PawsCore_Set Enemey Healer to Focus Target", Keys.F1, ModifierKeys.Alt, (hotkey) =>
+                    {
+                        Log.GUI("Focus Target Triggered");
+
+                        var focusHealer = Units.LastKnownSurroundingEnemyPlayers.Where(o => Units.HealerSpecs.Contains(o.Specialization)).FirstOrDefault();
+
+                        if (focusHealer != null && focusHealer.IsValid && focusHealer.IsAlive)
+                        {
+                            Me.SetFocus(focusHealer);
+                        }
+                    });
+
+                StyxWoW.Overlay.AddToast(() =>
+                    {
+                        return string.Format("Paws has been Activated");
+                    },
+                    TimeSpan.FromSeconds(5), Colors.AliceBlue, Colors.Bisque, new FontFamily("Arial")
+                );
+
+                //---------------------------------//
                 
                 SettingsManager.Instance.LogDump();
             }
@@ -117,6 +141,7 @@ namespace Paws
             }
 
             AbilityManager.Instance.Update();
+            AbilityChainsManager.Instance.Update();
             UnitManager.Instance.Update();
             SnapshotManager.Instance.Update();
             UnitManager.Instance.TargetNearestEnemey();

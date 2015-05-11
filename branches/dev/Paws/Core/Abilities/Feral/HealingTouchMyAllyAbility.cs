@@ -13,7 +13,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>Heals a friendsly target for (360% of Spell power).</para>
     /// <para>http://www.wowhead.com/spell=5185/healing-touch</para>
     /// </summary>
-    [AbilityChain(FriendlyName = "Healing Touch")]
+    [AbilityChain(FriendlyName = "Healing Touch", AvailableSpecs = AvailableSpecs.Feral)]
     public class HealingTouchMyAllyAbility : AbilityBase
     {
         public HealingTouchMyAllyAbility()

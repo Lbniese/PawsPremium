@@ -13,7 +13,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>When activated, dramatically imporves the Druid's ability to tank, cast spells, and heal for 45 seconds.</para>
     /// <para>http://www.wowhead.com/spell=108292/heart-of-the-wild</para>
     /// </summary>
-    [AbilityChain(FriendlyName = "Heart of the Wild")]
+    [AbilityChain(FriendlyName = "Heart of the Wild", AvailableSpecs = AvailableSpecs.Feral)]
     public class HeartOfTheWildAbility : AbilityBase
     {
         public HeartOfTheWildAbility()

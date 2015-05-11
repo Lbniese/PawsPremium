@@ -16,7 +16,11 @@ namespace Paws.Interface
             // load the items from my bags...
             var useableItems = Styx.StyxWoW.Me.BagItems
                 .Where(o => o.Usable)
-                .Select(o => o.Name)
+                .Select(o => new ItemSelectionEntry()
+                {
+                    Entry = o.Entry,
+                    Name = o.Name
+                })
                 .Distinct()
                 .OrderBy(o => o);
 
@@ -29,6 +33,22 @@ namespace Paws.Interface
         private void saveButton_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
+        }
+    }
+
+    public class ItemSelectionEntry : IComparable<ItemSelectionEntry>
+    {
+        public uint Entry { get; set; }
+        public string Name { get; set; }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
+
+        public int CompareTo(ItemSelectionEntry that)
+        {
+            return this.Entry.CompareTo(that.Entry);
         }
     }
 }

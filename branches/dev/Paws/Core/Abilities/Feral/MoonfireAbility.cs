@@ -15,7 +15,7 @@ namespace Paws.Core.Abilities.Feral
     /// <para>(292.5% of Spell power) Arcane damage over 20 sec.</para>
     /// <para>http://www.wowhead.com/spell=8921/moonfire#comments</para>
     /// </summary>
-    [AbilityChain(FriendlyName = "Moonfire")]
+    [AbilityChain(FriendlyName = "Moonfire", AvailableSpecs = AvailableSpecs.Feral)]
     public class MoonfireAbility : PandemicAbilityBase
     {
         public MoonfireAbility()
