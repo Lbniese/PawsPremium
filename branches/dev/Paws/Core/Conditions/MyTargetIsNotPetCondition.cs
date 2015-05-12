@@ -9,8 +9,8 @@ namespace Paws.Core.Conditions
     {
         public bool Satisfied()
         {
-            if (StyxWoW.Me.CurrentTarget == null || !StyxWoW.Me.CurrentTarget.IsValid)
-                throw new ConditionException("Current target cannot be null or invalid.");
+            if (Main.MyCurrentTarget == null || !Main.MyCurrentTarget.IsValid)
+                return false;
 
             return !StyxWoW.Me.CurrentTarget.IsPet;
         }

@@ -35,8 +35,8 @@ namespace Paws.Core.Conditions
 
         public bool Satisfied()
         {
-            if (StyxWoW.Me.CurrentTarget == null || !StyxWoW.Me.CurrentTarget.IsValid)
-                throw new ConditionException("The current target cannot be null or invalid");
+            if (Main.MyCurrentTarget == null || !Main.MyCurrentTarget.IsValid)
+                return false;
 
             if (this.Min > this.Max)
                 throw new ConditionException("The Min cannot be greater than the Max");

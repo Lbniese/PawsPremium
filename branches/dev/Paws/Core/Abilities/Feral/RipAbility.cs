@@ -51,7 +51,7 @@ namespace Paws.Core.Abilities.Feral
 
             // Shared //
             var ripIsEnabled = new BooleanCondition(Settings.RipEnabled);
-            var minComboPoints = new MyComboPointsCondition(5, 5);
+            var minComboPoints = new MyComboPointsCondition(5);
             var healthCheck = new ConditionTestSwitchCondition(
                 new BooleanCondition(Settings.RipEnemyHealthCheck),
                 new MyTargetHealthMultiplierCondition(Settings.RipEnemyHealthMultiplier)

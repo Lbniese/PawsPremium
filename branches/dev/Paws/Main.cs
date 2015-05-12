@@ -71,6 +71,7 @@ namespace Paws
                 ItemManager.LoadDataSet();
                 
                 this.Events = new Events();
+                this.Events.Attach();
 
                 Log.Combat("--------------------------------------------------");
                 Log.Combat(Name);
@@ -95,14 +96,6 @@ namespace Paws
                             Me.SetFocus(focusHealer);
                         }
                     });
-
-                StyxWoW.Overlay.AddToast(() =>
-                    {
-                        return string.Format("Paws has been Activated");
-                    },
-                    TimeSpan.FromSeconds(5), Colors.AliceBlue, Colors.Bisque, new FontFamily("Arial")
-                );
-
                 //---------------------------------//
                 
                 SettingsManager.Instance.LogDump();
@@ -111,6 +104,13 @@ namespace Paws
             {
                 Log.GUI(string.Format("Error Initializing Paws Combat Routine: {0}", ex));
             }
+        }
+
+        public override void ShutDown()
+        {
+            this.Events.Detach();
+
+            base.ShutDown();
         }
 
         public override void OnButtonPress()
@@ -173,7 +173,10 @@ namespace Paws
     }
 
     /// <summary>
-    /// The product determines the functionality enabled between the community or premium versions.
+    /// The product determines the functionality enabled between the community (free) or premium (paid) versions.
+    /// This exists to simplify maintaining the free and paid versions.  The free version does not
+    /// expose any of the paid version's functionality and this flag simply exists to maintain a single
+    /// code base between the two.
     /// </summary>
     public enum Product
     {

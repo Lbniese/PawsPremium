@@ -102,10 +102,31 @@ namespace Paws.Core.Abilities.Feral
                 new MyEnergyRangeCondition(35.0)
             );
 
+
+            // Rip can only be opened with if (1) We know the spell, and (2) The Rip settings requirements are met.
+            var myComboPoints = new ConditionTestSwitchCondition(
+                new BooleanCondition(Settings.RipEnabled),                                              // is rip enabled?
+                new ConditionTestSwitchCondition(
+                    new MeKnowsSpellCondition(SpellBook.Rip),                                           // do we have rip in our spellbook?
+                    new ConditionTestSwitchCondition(
+                        new BooleanCondition(Settings.RipEnemyHealthCheck),                             // does rip have a health check requirement?
+                        new ConditionTestSwitchCondition(
+                            new MyTargetHealthMultiplierCondition(Settings.RipEnemyHealthMultiplier),   // yes, so does the target meet the rip requirement?
+                            new MyComboPointsCondition(0, 4)                                            // Yes, thus we must be less than 5 CP to perform a Rake.
+                        )
+                    )
+                ),
+                new ConditionTestSwitchCondition(
+                    new BooleanCondition(Settings.FerociousBiteEnabled),                                 // Rip is not enabled, is Ferocious bite enabled?
+                    new MyComboPointsCondition(0, 4)                                                     // Yes, thus we must be less than 5 CP to perform a Rake.
+                )
+            );
+
             // Normal //
             base.Conditions.Add(rakeIsEnabled);
             base.Conditions.Add(meIsNotProwling);
             base.Conditions.Add(energy);
+            base.Conditions.Add(myComboPoints);
             base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.MyCurrentTarget, SpellBook.RakeBleedDebuff));
             base.Conditions.Add(new MyMaxRakedUnitsCondition(Settings.RakeMaxEnemies));
 
@@ -113,6 +134,7 @@ namespace Paws.Core.Abilities.Feral
             base.PandemicConditions.Add(rakeIsEnabled);
             base.PandemicConditions.Add(meIsNotProwling);
             base.PandemicConditions.Add(energy);
+            base.PandemicConditions.Add(myComboPoints);
             base.PandemicConditions.Add(new BooleanCondition(Settings.RakeAllowClipping));
             base.PandemicConditions.Add(new TargetHasAuraCondition(TargetType.MyCurrentTarget, SpellBook.RakeBleedDebuff));
             base.PandemicConditions.Add(new TargetAuraMinTimeLeftCondition(TargetType.MyCurrentTarget, SpellBook.RakeBleedDebuff, TimeSpan.FromSeconds(4.5)));

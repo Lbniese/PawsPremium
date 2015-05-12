@@ -47,6 +47,10 @@ namespace Paws.Core.Abilities.Feral
                 new AttackableTargetsMinCountCondition(Settings.ThrashMinEnemies)
             );
             var distance = new MyTargetDistanceCondition(0, Settings.AOERange);
+            var bloodTalons = new ConditionTestSwitchCondition(
+                new TargetHasAuraCondition(TargetType.Me, SpellBook.BloodtalonsProc),
+                new MyComboPointsCondition(0, 4)
+            );
 
             base.Conditions.Add(enabled);
             base.Conditions.Add(minTargetCount);
@@ -59,6 +63,7 @@ namespace Paws.Core.Abilities.Feral
                     new MySavageRoarAuraCondition()
                 ));
             }
+            base.Conditions.Add(bloodTalons);
 
             base.PandemicConditions.Add(enabled);
             base.PandemicConditions.Add(minTargetCount);
@@ -72,6 +77,7 @@ namespace Paws.Core.Abilities.Feral
                     new MySavageRoarAuraCondition()
                 ));
             }
+            base.PandemicConditions.Add(bloodTalons);
         }
     }
 }
