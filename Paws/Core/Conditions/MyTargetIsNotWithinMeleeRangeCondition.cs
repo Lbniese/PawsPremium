@@ -11,8 +11,8 @@ namespace Paws.Core.Conditions
     {
         public bool Satisfied()
         {
-            if (StyxWoW.Me.CurrentTarget == null)
-                throw new ConditionException("Target cannot be null.");
+            if (Main.MyCurrentTarget == null || !Main.MyCurrentTarget.IsValid)
+                return false;
 
             return !StyxWoW.Me.CurrentTarget.IsWithinMeleeRange;
         }

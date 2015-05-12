@@ -60,7 +60,7 @@ namespace Paws.Core.Managers
         /// <summary>
         /// The number of milliseconds to elapse before considering the enemy player timer "tick"
         /// </summary>
-        private int _enemyPlayerInterfalMs = 500;
+        private int _enemyPlayerIntervalMs = 500;
 
         /// <summary>
         /// Timer used to monitor the group information.
@@ -169,7 +169,7 @@ namespace Paws.Core.Managers
         private void EnemyPlayerUpdate()
         {
             if (!_enemyPlayerScanner.IsRunning) _enemyPlayerScanner.Restart();
-            if (_enemyPlayerScanner.ElapsedMilliseconds >= _enemyPlayerInterfalMs)
+            if (_enemyPlayerScanner.ElapsedMilliseconds >= _enemyPlayerIntervalMs)
             {
                 this.LastKnownSurroundingEnemyPlayers = ObjectManager.GetObjectsOfTypeFast<WoWPlayer>().Where(o =>
                     o.IsValid &&
@@ -240,6 +240,34 @@ namespace Paws.Core.Managers
                         if (newTarget != null && newTarget.IsValid && newTarget.IsAlive)
                         {
                             newTarget.Target();
+                        }
+                    }
+                }
+            }
+        }
+
+        public void CheckForMultiDotTarget()
+        {
+            if (Main.Product == Product.Premium)
+            {
+                if (Me.CurrentTarget != null && !Me.CurrentTarget.IsFriendly)
+                {
+                    if (Me.CurrentTarget.HasAura(SpellBook.RakeBleedDebuff))
+                    {
+                        if (this.LastKnownSurroundingEnemies != null)
+                        {
+                            var bleedingUnitCount = this.LastKnownSurroundingEnemies.Count(o => o.HasAura(SpellBook.RakeBleedDebuff));
+                            var nonBleedingUnits = this.LastKnownSurroundingEnemies
+                                .Where(o => o != null && o.IsValid && o != Me.CurrentTarget && o.IsAlive && !o.HasAura(SpellBook.RakeBleedDebuff))
+                                .OrderBy(o => o.Distance);
+
+                            if (nonBleedingUnits.Count() > 0 && bleedingUnitCount < Settings.RakeMaxEnemies)
+                            {
+                                var targetToSwitchTo = nonBleedingUnits.First();
+
+                                targetToSwitchTo.Target();
+                                Log.Diagnostics(string.Format("Multidot swtich to {0} [{1}]", targetToSwitchTo.SafeName, GuidToUnitID(targetToSwitchTo.Guid)));
+                            }
                         }
                     }
                 }

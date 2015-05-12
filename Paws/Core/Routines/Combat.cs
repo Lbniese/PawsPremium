@@ -155,6 +155,8 @@ namespace Paws.Core.Routines
             if (await Abilities.Cast<Feral.ShredAbility>(MyCurrentTarget)) return true;
             if (await Abilities.Cast<Feral.ShredAtFiveComboPointsAbility>(MyCurrentTarget)) return true;
 
+            Units.CheckForMultiDotTarget();
+
             return false;
         }
     }

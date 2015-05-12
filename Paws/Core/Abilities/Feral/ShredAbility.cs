@@ -88,7 +88,7 @@ namespace Paws.Core.Abilities.Feral
             base.ApplyDefaultSettings();
 
             base.Conditions.Add(new BooleanCondition(Settings.ShredEnabled));
-            // base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.BloodtalonsProc));
+            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.BloodtalonsProc));
             base.Conditions.Add(new MyComboPointsCondition(5));
         }
     }

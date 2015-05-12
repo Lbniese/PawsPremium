@@ -14,17 +14,35 @@ using System.Windows.Media;
 
 namespace Paws.Core.Utilities
 {
-    public class Events
+    public sealed class Events
     {
         private static LocalPlayer Me { get { return StyxWoW.Me; } }
         private static WoWUnit MyCurrentTarget { get { return Me.CurrentTarget; } }
 
+        private LuaEventHandlerDelegate _eventHandlerDelegate;
+
         public Events()
         {
-            Lua.Events.AttachEvent("COMBAT_LOG_EVENT_UNFILTERED", new LuaEventHandlerDelegate(CombatLogHandler));
+            this._eventHandlerDelegate = new LuaEventHandlerDelegate(CombatLogHandler);
         }
 
-        public void CombatLogHandler(object self, LuaEventArgs args)
+        /// <summary>
+        /// Attaches the required events to monitor.
+        /// </summary>
+        public void Attach()
+        {
+            Lua.Events.AttachEvent("COMBAT_LOG_EVENT_UNFILTERED", this._eventHandlerDelegate);
+        }
+
+        /// <summary>
+        /// Detaches the monitored events.
+        /// </summary>
+        public void Detach()
+        {
+            Lua.Events.DetachEvent("COMBAT_LOG_EVENT_UNFILTERED", this._eventHandlerDelegate);
+        }
+
+        private void CombatLogHandler(object self, LuaEventArgs args)
         {
             if (CombatLogEvent.GetEvent(args) == "SPELL_CAST_SUCCESS")
             {
