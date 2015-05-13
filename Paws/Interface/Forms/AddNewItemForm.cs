@@ -1,4 +1,5 @@
 ﻿using Paws.Core;
+using Paws.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -21,10 +22,11 @@ namespace Paws.Interface
             InitializeComponent();
 
             this.PawsItem = item;
+            this.itemEntryTextBox.Text = this.PawsItem.Entry.ToString();
             this.itemNameTextBox.Text = this.PawsItem.Name;
             this.myStateComboBox.SelectedIndex = (int)this.PawsItem.MyState;
 
-            foreach(var condition in this.PawsItem.Conditions)
+            foreach (var condition in this.PawsItem.Conditions)
             {
                 var conditionItem = new ListViewItem(condition.ToString());
                 conditionItem.Tag = condition;
@@ -51,9 +53,9 @@ namespace Paws.Interface
             if (this.conditionsListView.CheckedItems.Count > 0)
             {
                 var result = MessageBox.Show(string.Format("You are about to remove {0} {1}. Would you like to proceed?",
-                    this.conditionsListView.CheckedItems.Count, this.conditionsListView.CheckedItems.Count == 1 ? "condition" : "conditions"), 
-                    "Warning", 
-                    MessageBoxButtons.YesNo, 
+                    this.conditionsListView.CheckedItems.Count, this.conditionsListView.CheckedItems.Count == 1 ? "condition" : "conditions"),
+                    "Warning",
+                    MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning);
 
                 if (result == DialogResult.Yes)
@@ -68,6 +70,12 @@ namespace Paws.Interface
 
         private void saveButton_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(this.itemEntryTextBox.Text))
+            {
+                MessageBox.Show("You must enter an item id to continue.", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             if (string.IsNullOrEmpty(this.itemNameTextBox.Text))
             {
                 MessageBox.Show("You must enter an item name to continue.", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -77,6 +85,7 @@ namespace Paws.Interface
             this.PawsItem = new PawsItem()
             {
                 Name = this.itemNameTextBox.Text,
+                Entry = Convert.ToInt32(this.itemEntryTextBox.Text),
                 Enabled = true,
                 MyState = (MyState)this.myStateComboBox.SelectedIndex,
                 Conditions = new List<ItemCondition>()
@@ -97,7 +106,13 @@ namespace Paws.Interface
 
             if (newForm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                this.itemNameTextBox.Text = newForm.carriedItemsComboBox.Text;
+                var selectedItem = newForm.carriedItemsComboBox.SelectedItem as ItemSelectionEntry;
+
+                if (selectedItem != null)
+                {
+                    this.itemEntryTextBox.Text = selectedItem.Entry.ToString();
+                    this.itemNameTextBox.Text = selectedItem.Name;
+                }
             }
         }
     }

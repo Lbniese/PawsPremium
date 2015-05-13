@@ -23,11 +23,10 @@ namespace Paws.Core
             {
                 return
                     thisPlayer.CurrentTarget != null &&
-                    (thisPlayer.CurrentTarget.Name.ToUpper().Contains("DUMMY")) ||
-                    (thisPlayer.CurrentTarget.IsValid &&
+                    thisPlayer.CurrentTarget.IsValid &&
                     thisPlayer.CurrentTarget.Attackable &&
                     thisPlayer.CurrentTarget.CanSelect &&
-                    !thisPlayer.CurrentTarget.IsDead);
+                    !thisPlayer.CurrentTarget.IsDead;
             }
             catch
             {

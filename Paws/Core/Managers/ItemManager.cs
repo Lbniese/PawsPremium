@@ -22,7 +22,7 @@ namespace Paws.Core.Managers
     /// </summary>
     public static class ItemManager
     {
-        public static int Healthstone = 5512;
+        public const int HealthstoneEntryId = 5512;
 
         private static LocalPlayer Me { get { return StyxWoW.Me; } }
         private static WoWUnit MyCurrentTarget { get { return Me.CurrentTarget; } }
@@ -59,7 +59,7 @@ namespace Paws.Core.Managers
                     return false;
 
             var theItem = Me.BagItems
-                .SingleOrDefault(o => o.Name == item.Name);
+                .SingleOrDefault(o => o.Entry == item.Entry);
 
             if (theItem != null && theItem.CooldownTimeLeft.TotalMilliseconds == 0)
             {
@@ -100,12 +100,12 @@ namespace Paws.Core.Managers
                     (SettingsManager.Instance.HealthstoneEnabled && Me.HealthPercent <= SettingsManager.Instance.HealthstoneMinHealth))
             {
                 var healthstone = Me.BagItems
-                    .SingleOrDefault(o => o.Name == "Healthstone");
+                    .SingleOrDefault(o => o.Entry == ItemManager.HealthstoneEntryId);
 
                 if (healthstone != null && healthstone.CooldownTimeLeft.TotalMilliseconds == 0)
                 {
                     healthstone.Use();
-                    Log.AppendLine("Used Healthstone on Me.", Colors.Yellow);
+                    Log.Equipment("Used Healthstone on Me.");
 
                     await CommonCoroutines.SleepForLagDuration();
 
@@ -282,33 +282,9 @@ namespace Paws.Core.Managers
 
             if (!File.Exists(pathToFile))
             {
-                // Create a default items list...
-                List<PawsItem> defaultItems = new List<PawsItem>();
+                var itemSamples = SampleFactory.CreateItemsSampleList();
 
-                // Item sample 1: Oralius' Whispering Crystal
-                PawsItem oraliusWhisperingCrystal = new PawsItem()
-                {
-                    Name = "Oralius' Whispering Crystal",
-                    MyState = MyState.NotInCombat,
-                    Enabled = true
-                };
-                oraliusWhisperingCrystal.Conditions.Add(new ItemCondition() { Instance = new TargetDoesNotHaveNamedAuraCondition(TargetType.Me, "Whispers of Insanity") });
-
-                // Item sample 2: Draenic Agility Potion
-                PawsItem draenicAgilityPotion = new PawsItem()
-                {
-                    Name = "Draenic Agility Potion",
-                    MyState = MyState.InCombat,
-                    Enabled = false
-                };
-                draenicAgilityPotion.Conditions.Add(new ItemCondition() { Instance = new MeIsInCatFormCondition() });
-                draenicAgilityPotion.Conditions.Add(new ItemCondition() { Instance = new TargetHasNamedAuraCondition(TargetType.Me, "Berserk") });
-                draenicAgilityPotion.Conditions.Add(new ItemCondition() { Instance = new MyTargetIsWithinMeleeRangeCondition() });
-
-                defaultItems.Add(oraliusWhisperingCrystal);
-                defaultItems.Add(draenicAgilityPotion);
-
-                SaveDataSet(defaultItems);
+                SaveDataSet(itemSamples);
                 LoadDataSet();
             }
 
