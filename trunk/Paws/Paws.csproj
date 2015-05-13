@@ -220,6 +220,7 @@
     <Compile Include="Core\Utilities\Events.cs" />
     <Compile Include="Core\Utilities\Log.cs" />
     <Compile Include="Core\Utilities\Diagnostics.cs" />
+    <Compile Include="Core\Utilities\SampleFactory.cs" />
     <Compile Include="Interface\Controls\AbilityChainsControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

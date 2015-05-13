@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
+using Paws.Core.Utilities;
 
 namespace Paws.Core
 {
@@ -13,6 +14,11 @@ namespace Paws.Core
         /// Gets or sets the name of the item.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// The entry id of the item (Required for locale independency)
+        /// </summary>
+        public int Entry { get; set; }
 
         /// <summary>
         /// Enables or disables the use of the item.
@@ -62,12 +68,22 @@ namespace Paws.Core
         public void ReadXml(XmlReader reader)
         {
             var name = reader.GetAttribute("Name");
+            var entry = reader.GetAttribute("Entry");
             var myState = reader.GetAttribute("MyState");
             var enabled = reader.GetAttribute("Enabled");
-            
+
             reader.Read();
 
             this.Name = name;
+
+            int outEntry = -1;
+            if (!int.TryParse(entry, out outEntry))
+            {
+                Log.GUI(string.Format("WARNING: Unable to load item \"{0}\" because the entry id is missing. This is due to having an older version of the Paws-Items.xml settings file.  Please either delete the Paws-Items.xml file under your settings folder, or re-add items using the Items tab in the Paws user interface.", name));
+                return;
+            }
+            this.Entry = outEntry;
+
             MyState outMyState = Core.MyState.NotInCombat;
 
             Enum.TryParse<MyState>(myState, out outMyState);
@@ -90,6 +106,7 @@ namespace Paws.Core
                 return;
 
             writer.WriteAttributeString("Name", this.Name);
+            writer.WriteAttributeString("Entry", this.Entry.ToString());
             writer.WriteAttributeString("MyState", this.MyState.ToString());
             writer.WriteAttributeString("Enabled", this.Enabled.ToString());
             XmlSerializer serializer = new XmlSerializer(this.Conditions.GetType());

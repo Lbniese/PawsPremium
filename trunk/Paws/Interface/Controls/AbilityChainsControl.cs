@@ -13,11 +13,13 @@ namespace Paws.Interface.Controls
         public AbilityChainsControl()
         {
             InitializeComponent();
+
+            ReadData();
         }
 
         private void AbilityChainsControl_Load(object sender, EventArgs e)
         {
-            ReadData();
+            
         }
 
         private void abilityChainsAddNewAbilityChainButton_Click(object sender, EventArgs e)

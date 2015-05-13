@@ -203,30 +203,27 @@ namespace Paws.Core.Managers
             }
         }
 
-        public void KeyIsPressed(Hotkey hotKey)
+        /// <summary>
+        /// The internal method used to handle hotkeys that are pressed. This will subsequently call the Trigger method provided the various checks and balances pass.
+        /// </summary>
+        private void KeyIsPressed(Hotkey hotKey)
         {
-            if (!StyxWoW.Me.Combat)
+            // Ability Chain Check... placing a "Paws_" prefix ensures that no other registered hotkeys are messed with in the system.
+            var abilityChain = this.AbilityChains.SingleOrDefault(o => "Paws_" + o.Name == hotKey.Name);
+            if (abilityChain != null)
             {
-                Log.AbilityChain(string.Format("Hotkey detected, but you must be in combat to trigger the {0} ability chain.", hotKey.Name));
-            }
-            else
-            {
-                // Ability Chain Check...
-                var abilityChain = this.AbilityChains.SingleOrDefault(o => "Paws_" + o.Name == hotKey.Name);
-                if (abilityChain != null)
+                if (StyxWoW.Me.Specialization == abilityChain.Specialization)
                 {
-                    if (StyxWoW.Me.Specialization == abilityChain.Specialization)
-                    {
-                        // We have a triggered Ability Chain
-                        Trigger(abilityChain);
-                    }
-                    else
-                    {
-                        Log.AbilityChain(string.Format("Hotkey detected, but your specialization must be {0} to trigger the {1} ability chain.", 
-                            abilityChain.Specialization.ToString().Replace("Druid", string.Empty), hotKey.Name));
-                    }
+                    // We have a triggered Ability Chain
+                    Trigger(abilityChain);
+                }
+                else
+                {
+                    Log.AbilityChain(string.Format("Hotkey detected, but your specialization must be {0} to trigger the {1} ability chain.",
+                        abilityChain.Specialization.ToString().Replace("Druid", string.Empty), hotKey.Name));
                 }
             }
+
         }
 
         /// <summary>
