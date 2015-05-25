@@ -175,6 +175,7 @@ namespace Paws.Interface
             this.mobilityGeneralTargetFacingCheckBox.Checked = SettingsManager.Instance.AllowTargetFacing;
             this.mobilityAutoTargetCheckBox.Checked = SettingsManager.Instance.AllowTargeting;
             this.mobilityForceCombatCheckBox.Checked = SettingsManager.Instance.ForceCombat;
+            this.generalMultiDotRotationEnabledCheckBox.Checked = SettingsManager.Instance.MultiDOTRotationEnabled;
 
             // Mobility Tab //
             BindUISettingsToControlCollection(this.mobilityTab.Controls);
@@ -270,6 +271,7 @@ namespace Paws.Interface
             SettingsManager.Instance.AllowTargetFacing = this.mobilityGeneralTargetFacingCheckBox.Checked;
             SettingsManager.Instance.AllowTargeting = this.mobilityAutoTargetCheckBox.Checked;
             SettingsManager.Instance.ForceCombat = this.mobilityForceCombatCheckBox.Checked;
+            SettingsManager.Instance.MultiDOTRotationEnabled = this.generalMultiDotRotationEnabledCheckBox.Checked;
 
             // Mobility Tab //
             ApplySettingsFromControlCollection(this.mobilityTab.Controls);

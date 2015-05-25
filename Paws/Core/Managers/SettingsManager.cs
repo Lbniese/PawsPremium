@@ -359,6 +359,9 @@ namespace Paws.Core.Managers
         public bool ForceCombat { get; set; }
 
         [Setting, DefaultValue(true)]
+        public bool MultiDOTRotationEnabled { get; set; }
+
+        [Setting, DefaultValue(true)]
         public bool WildChargeEnabled { get; set; }
 
         [Setting, DefaultValue(10.0)]

@@ -165,20 +165,8 @@
             this.enabledColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.stateColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.itemUseConditionsColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.generalMultiDotRotationTitlePanel = new System.Windows.Forms.Panel();
             this.generalMultiDotRotationEnabledCheckBox = new System.Windows.Forms.CheckBox();
-            this.generalMultiDotRotationPanel = new System.Windows.Forms.Panel();
-            this.generalMultiDotRotationRakeEnabledCheckBox = new System.Windows.Forms.CheckBox();
-            this.generalMultiDotRotationMoonfireEnabledCheckBox = new System.Windows.Forms.CheckBox();
-            this.generalMultiDotRotationRipEnabledCheckBox = new System.Windows.Forms.CheckBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.generalMultiDotRotationMaxEnemiesTextBox = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.generalMultiDotRotationSetHotkeyButton = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.generalMultiDotRotationHotkeyTextBox = new System.Windows.Forms.TextBox();
             this.itemsListViewContextMenu.SuspendLayout();
             this.vt.SuspendLayout();
             this.aboutTab.SuspendLayout();
@@ -214,8 +202,6 @@
             this.panel10.SuspendLayout();
             this.itemsTabPage.SuspendLayout();
             this.panel46.SuspendLayout();
-            this.generalMultiDotRotationTitlePanel.SuspendLayout();
-            this.generalMultiDotRotationPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // FormHeader
@@ -597,8 +583,6 @@
             // generalTab
             // 
             this.generalTab.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.generalTab.Controls.Add(this.generalMultiDotRotationTitlePanel);
-            this.generalTab.Controls.Add(this.generalMultiDotRotationPanel);
             this.generalTab.Controls.Add(this.panel3);
             this.generalTab.Controls.Add(this.generalSoothePanel);
             this.generalTab.Controls.Add(this.panel1);
@@ -710,14 +694,16 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(4, 4);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(134, 15);
+            this.label1.Size = new System.Drawing.Size(119, 15);
             this.label1.TabIndex = 20;
-            this.label1.Text = "Movement Automation";
+            this.label1.Text = "General Automation";
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.Snow;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.panel5);
+            this.panel2.Controls.Add(this.generalMultiDotRotationEnabledCheckBox);
             this.panel2.Controls.Add(this.panel4);
             this.panel2.Controls.Add(this.mobilityForceCombatCheckBox);
             this.panel2.Controls.Add(this.mobilityGeneralTargetFacingCheckBox);
@@ -725,7 +711,7 @@
             this.panel2.Controls.Add(this.mobilityGeneralMovementCheckBox);
             this.panel2.Location = new System.Drawing.Point(6, 24);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(249, 116);
+            this.panel2.Size = new System.Drawing.Size(249, 160);
             this.panel2.TabIndex = 33;
             // 
             // panel4
@@ -1765,157 +1751,25 @@
             this.itemUseConditionsColumnHeader.Text = "Use Conditions";
             this.itemUseConditionsColumnHeader.Width = 325;
             // 
-            // generalMultiDotRotationTitlePanel
-            // 
-            this.generalMultiDotRotationTitlePanel.BackColor = System.Drawing.Color.DarkGreen;
-            this.generalMultiDotRotationTitlePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.generalMultiDotRotationTitlePanel.Controls.Add(this.generalMultiDotRotationEnabledCheckBox);
-            this.generalMultiDotRotationTitlePanel.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.generalMultiDotRotationTitlePanel.ForeColor = System.Drawing.Color.White;
-            this.generalMultiDotRotationTitlePanel.Location = new System.Drawing.Point(6, 146);
-            this.generalMultiDotRotationTitlePanel.Name = "generalMultiDotRotationTitlePanel";
-            this.generalMultiDotRotationTitlePanel.Size = new System.Drawing.Size(249, 26);
-            this.generalMultiDotRotationTitlePanel.TabIndex = 18;
-            // 
             // generalMultiDotRotationEnabledCheckBox
             // 
             this.generalMultiDotRotationEnabledCheckBox.AutoSize = true;
-            this.generalMultiDotRotationEnabledCheckBox.Location = new System.Drawing.Point(4, 3);
+            this.generalMultiDotRotationEnabledCheckBox.Location = new System.Drawing.Point(8, 127);
             this.generalMultiDotRotationEnabledCheckBox.Name = "generalMultiDotRotationEnabledCheckBox";
-            this.generalMultiDotRotationEnabledCheckBox.Size = new System.Drawing.Size(131, 19);
-            this.generalMultiDotRotationEnabledCheckBox.TabIndex = 0;
+            this.generalMultiDotRotationEnabledCheckBox.Size = new System.Drawing.Size(129, 19);
+            this.generalMultiDotRotationEnabledCheckBox.TabIndex = 21;
             this.generalMultiDotRotationEnabledCheckBox.Text = "Multi-DOT Rotation";
             this.generalMultiDotRotationEnabledCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // generalMultiDotRotationPanel
-            // 
-            this.generalMultiDotRotationPanel.BackColor = System.Drawing.Color.Snow;
-            this.generalMultiDotRotationPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.generalMultiDotRotationPanel.Controls.Add(this.label6);
-            this.generalMultiDotRotationPanel.Controls.Add(this.generalMultiDotRotationHotkeyTextBox);
-            this.generalMultiDotRotationPanel.Controls.Add(this.generalMultiDotRotationSetHotkeyButton);
-            this.generalMultiDotRotationPanel.Controls.Add(this.panel6);
-            this.generalMultiDotRotationPanel.Controls.Add(this.panel5);
-            this.generalMultiDotRotationPanel.Controls.Add(this.label4);
-            this.generalMultiDotRotationPanel.Controls.Add(this.generalMultiDotRotationMaxEnemiesTextBox);
-            this.generalMultiDotRotationPanel.Controls.Add(this.label5);
-            this.generalMultiDotRotationPanel.Controls.Add(this.generalMultiDotRotationRipEnabledCheckBox);
-            this.generalMultiDotRotationPanel.Controls.Add(this.generalMultiDotRotationMoonfireEnabledCheckBox);
-            this.generalMultiDotRotationPanel.Controls.Add(this.generalMultiDotRotationRakeEnabledCheckBox);
-            this.generalMultiDotRotationPanel.Location = new System.Drawing.Point(6, 164);
-            this.generalMultiDotRotationPanel.Name = "generalMultiDotRotationPanel";
-            this.generalMultiDotRotationPanel.Size = new System.Drawing.Size(249, 207);
-            this.generalMultiDotRotationPanel.TabIndex = 19;
-            // 
-            // generalMultiDotRotationRakeEnabledCheckBox
-            // 
-            this.generalMultiDotRotationRakeEnabledCheckBox.AutoSize = true;
-            this.generalMultiDotRotationRakeEnabledCheckBox.Location = new System.Drawing.Point(11, 16);
-            this.generalMultiDotRotationRakeEnabledCheckBox.Name = "generalMultiDotRotationRakeEnabledCheckBox";
-            this.generalMultiDotRotationRakeEnabledCheckBox.Size = new System.Drawing.Size(55, 19);
-            this.generalMultiDotRotationRakeEnabledCheckBox.TabIndex = 3;
-            this.generalMultiDotRotationRakeEnabledCheckBox.Text = "Rake";
-            this.generalMultiDotRotationRakeEnabledCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // generalMultiDotRotationMoonfireEnabledCheckBox
-            // 
-            this.generalMultiDotRotationMoonfireEnabledCheckBox.AutoSize = true;
-            this.generalMultiDotRotationMoonfireEnabledCheckBox.Location = new System.Drawing.Point(11, 35);
-            this.generalMultiDotRotationMoonfireEnabledCheckBox.Name = "generalMultiDotRotationMoonfireEnabledCheckBox";
-            this.generalMultiDotRotationMoonfireEnabledCheckBox.Size = new System.Drawing.Size(73, 19);
-            this.generalMultiDotRotationMoonfireEnabledCheckBox.TabIndex = 4;
-            this.generalMultiDotRotationMoonfireEnabledCheckBox.Text = "Moonfire";
-            this.generalMultiDotRotationMoonfireEnabledCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // generalMultiDotRotationRipEnabledCheckBox
-            // 
-            this.generalMultiDotRotationRipEnabledCheckBox.AutoSize = true;
-            this.generalMultiDotRotationRipEnabledCheckBox.Location = new System.Drawing.Point(11, 54);
-            this.generalMultiDotRotationRipEnabledCheckBox.Name = "generalMultiDotRotationRipEnabledCheckBox";
-            this.generalMultiDotRotationRipEnabledCheckBox.Size = new System.Drawing.Size(45, 19);
-            this.generalMultiDotRotationRipEnabledCheckBox.TabIndex = 5;
-            this.generalMultiDotRotationRipEnabledCheckBox.Text = "RIp";
-            this.generalMultiDotRotationRipEnabledCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(19, 94);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(44, 15);
-            this.label4.TabIndex = 14;
-            this.label4.Text = "Max of ";
-            // 
-            // generalMultiDotRotationMaxEnemiesTextBox
-            // 
-            this.generalMultiDotRotationMaxEnemiesTextBox.BackColor = System.Drawing.Color.Wheat;
-            this.generalMultiDotRotationMaxEnemiesTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.generalMultiDotRotationMaxEnemiesTextBox.Location = new System.Drawing.Point(64, 91);
-            this.generalMultiDotRotationMaxEnemiesTextBox.Name = "generalMultiDotRotationMaxEnemiesTextBox";
-            this.generalMultiDotRotationMaxEnemiesTextBox.Size = new System.Drawing.Size(50, 21);
-            this.generalMultiDotRotationMaxEnemiesTextBox.TabIndex = 12;
-            this.generalMultiDotRotationMaxEnemiesTextBox.Text = "4";
-            this.generalMultiDotRotationMaxEnemiesTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(117, 94);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(106, 15);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "enemies at a time";
             // 
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.Color.DarkGray;
             this.panel5.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel5.ForeColor = System.Drawing.Color.White;
-            this.panel5.Location = new System.Drawing.Point(13, 79);
+            this.panel5.Location = new System.Drawing.Point(13, 115);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(220, 1);
             this.panel5.TabIndex = 21;
-            // 
-            // panel6
-            // 
-            this.panel6.BackColor = System.Drawing.Color.DarkGray;
-            this.panel6.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel6.ForeColor = System.Drawing.Color.White;
-            this.panel6.Location = new System.Drawing.Point(13, 125);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(220, 1);
-            this.panel6.TabIndex = 22;
-            // 
-            // generalMultiDotRotationSetHotkeyButton
-            // 
-            this.generalMultiDotRotationSetHotkeyButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.generalMultiDotRotationSetHotkeyButton.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.generalMultiDotRotationSetHotkeyButton.Location = new System.Drawing.Point(13, 136);
-            this.generalMultiDotRotationSetHotkeyButton.Name = "generalMultiDotRotationSetHotkeyButton";
-            this.generalMultiDotRotationSetHotkeyButton.Size = new System.Drawing.Size(220, 26);
-            this.generalMultiDotRotationSetHotkeyButton.TabIndex = 23;
-            this.generalMultiDotRotationSetHotkeyButton.Text = "Set Toggle Hotkey";
-            this.generalMultiDotRotationSetHotkeyButton.UseVisualStyleBackColor = true;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(47, 173);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(47, 15);
-            this.label6.TabIndex = 25;
-            this.label6.Text = "Hotkey:";
-            // 
-            // generalMultiDotRotationHotkeyTextBox
-            // 
-            this.generalMultiDotRotationHotkeyTextBox.BackColor = System.Drawing.Color.Snow;
-            this.generalMultiDotRotationHotkeyTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.generalMultiDotRotationHotkeyTextBox.Location = new System.Drawing.Point(100, 170);
-            this.generalMultiDotRotationHotkeyTextBox.Name = "generalMultiDotRotationHotkeyTextBox";
-            this.generalMultiDotRotationHotkeyTextBox.Size = new System.Drawing.Size(104, 21);
-            this.generalMultiDotRotationHotkeyTextBox.TabIndex = 24;
-            this.generalMultiDotRotationHotkeyTextBox.Text = "2000";
-            this.generalMultiDotRotationHotkeyTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // SettingsForm
             // 
@@ -1997,10 +1851,6 @@
             this.itemsTabPage.ResumeLayout(false);
             this.panel46.ResumeLayout(false);
             this.panel46.PerformLayout();
-            this.generalMultiDotRotationTitlePanel.ResumeLayout(false);
-            this.generalMultiDotRotationTitlePanel.PerformLayout();
-            this.generalMultiDotRotationPanel.ResumeLayout(false);
-            this.generalMultiDotRotationPanel.PerformLayout();
             this.ResumeLayout(false);
 
 		}
@@ -2147,19 +1997,7 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.CheckBox mobilityForceCombatCheckBox;
         private System.Windows.Forms.CheckBox mobilityAutoTargetCheckBox;
-        private System.Windows.Forms.Panel generalMultiDotRotationTitlePanel;
-        private System.Windows.Forms.CheckBox generalMultiDotRotationEnabledCheckBox;
-        private System.Windows.Forms.Panel generalMultiDotRotationPanel;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox generalMultiDotRotationHotkeyTextBox;
-        private System.Windows.Forms.Button generalMultiDotRotationSetHotkeyButton;
-        private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox generalMultiDotRotationMaxEnemiesTextBox;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.CheckBox generalMultiDotRotationRipEnabledCheckBox;
-        private System.Windows.Forms.CheckBox generalMultiDotRotationMoonfireEnabledCheckBox;
-        private System.Windows.Forms.CheckBox generalMultiDotRotationRakeEnabledCheckBox;
+        private System.Windows.Forms.CheckBox generalMultiDotRotationEnabledCheckBox;
 	}
 }
