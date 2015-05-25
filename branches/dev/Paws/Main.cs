@@ -26,8 +26,8 @@ namespace Paws
     {
         public static Product Product { get { return Paws.Product.Premium; } }
 
-        private static Version _version = new Version(1, 9, 0);
-        private static string _environment = "Development";
+        private static Version _version = new Version(1, 8, 6);
+        private static string _environment = "Release";
 
         public static Version Version { get { return _version; } }
         public static Stopwatch DeathTimer = new Stopwatch();
@@ -84,25 +84,25 @@ namespace Paws
 
                 AbilityChainsManager.LoadDataSet();
 
-                //------------- TEMP ---------------//
-                HotkeysManager.Register("PawsCore_Set Enemey Healer to Focus Target", Keys.F1, ModifierKeys.Alt, (hotkey) =>
-                    {
-                        Log.GUI("Focus Target Triggered");
+                //------------- TEMP IN DEVELOPMENT ---------------//
+                //HotkeysManager.Register("PawsCore_Set Enemey Healer to Focus Target", Keys.F1, ModifierKeys.Alt, (hotkey) =>
+                //    {
+                //        Log.GUI("Focus Target Triggered");
 
-                        var focusHealer = Units.LastKnownSurroundingEnemyPlayers.Where(o => Units.HealerSpecs.Contains(o.Specialization)).FirstOrDefault();
+                //        var focusHealer = Units.LastKnownSurroundingEnemyPlayers.Where(o => Units.HealerSpecs.Contains(o.Specialization)).FirstOrDefault();
 
-                        if (focusHealer != null && focusHealer.IsValid && focusHealer.IsAlive)
-                        {
-                            Me.SetFocus(focusHealer);
-                        }
-                    });
-                //---------------------------------//
+                //        if (focusHealer != null && focusHealer.IsValid && focusHealer.IsAlive)
+                //        {
+                //            Me.SetFocus(focusHealer);
+                //        }
+                //    });
+                //------------------------------------------------//
                 
                 SettingsManager.Instance.LogDump();
             }
             catch (Exception ex)
             {
-                Log.GUI(string.Format("Error Initializing Paws Combat Routine: {0}", ex));
+                Log.Diagnostics(string.Format("Error Initializing Paws Combat Routine: {0}", ex));
             }
         }
 

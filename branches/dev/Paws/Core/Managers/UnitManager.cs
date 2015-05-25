@@ -248,7 +248,7 @@ namespace Paws.Core.Managers
 
         public void CheckForMultiDotTarget()
         {
-            if (Main.Product == Product.Premium)
+            if (Main.Product == Product.Premium && Settings.MultiDOTRotationEnabled && Me.Specialization == WoWSpec.DruidFeral)
             {
                 if (Me.CurrentTarget != null && !Me.CurrentTarget.IsFriendly)
                 {
