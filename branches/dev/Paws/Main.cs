@@ -24,10 +24,10 @@ namespace Paws
     /// </summary>
     public class Main : CombatRoutine
     {
-        public static Product Product { get { return Paws.Product.Premium; } }
+        public static Product Product { get { return Paws.Product.Community; } }
 
-        private static Version _version = new Version(1, 8, 6);
-        private static string _environment = "Release";
+        private static Version _version = new Version(1, 8, 5);
+        private static string _environment = "Beta";
 
         public static Version Version { get { return _version; } }
         public static Stopwatch DeathTimer = new Stopwatch();
