@@ -118,24 +118,6 @@ namespace Paws.Properties {
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
         ///&lt;SettingsManager&gt;
         ///  &lt;BearFormEnabled&gt;True&lt;/BearFormEnabled&gt;
-        ///  &lt;BearFormOnlyDuringPullOrCombat&gt;False&lt;/BearFormOnlyDuringPullOrCombat&gt;
-        ///  &lt;BearFormAlways&gt;True&lt;/BearFormAlways&gt;
-        ///  &lt;BearFormDoNotOverrideCatForm&gt;True&lt;/BearFormDoNotOverrideCatForm&gt;
-        ///  &lt;BearFormDoNotOverrideTravelForm&gt;True&lt;/BearFormDoNotOverrideTravelForm&gt;
-        ///  &lt;GuardianWildChargeEnabled&gt;True&lt;/GuardianWildChargeEnabled&gt;
-        ///  &lt;GuardianWildChargeMinDistance&gt;10&lt;/GuardianWildChargeMinDistance&gt;
-        ///  &lt;GuardianWildChar [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string Manual_Arena {
-            get {
-                return ResourceManager.GetString("Manual_Arena", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-        ///&lt;SettingsManager&gt;
-        ///  &lt;BearFormEnabled&gt;True&lt;/BearFormEnabled&gt;
         ///  &lt;BearFormOnlyDuringPullOrCombat&gt;True&lt;/BearFormOnlyDuringPullOrCombat&gt;
         ///  &lt;BearFormAlways&gt;False&lt;/BearFormAlways&gt;
         ///  &lt;BearFormDoNotOverrideCatForm&gt;True&lt;/BearFormDoNotOverrideCatForm&gt;

@@ -32,7 +32,8 @@ namespace Paws.Core.Routines
             {
                 // Checking if auras are greater than 0 helps with the bot to stop rebuffing immediately after zoning in
                 // because the bot has a very small window after loading the character when it's loaded but does not know about
-                // the character auras yet (aura count is 0). // Even if we don't have any visible buffs up, the character likely has over 10 "invisible" auras
+                // the character auras yet (aura count is 0). 
+                // Even if we don't have any visible buffs up, the character likely has over 10 "invisible" auras
                 if ((BuffTimer.ElapsedMilliseconds >= BUFF_TIMER_INTERVAL_MS) && Main.Me.Auras.Count > 0)
                 {
                     BuffTimer.Restart();

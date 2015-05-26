@@ -2,6 +2,7 @@
 using Styx.Helpers;
 using System;
 using System.Collections;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -50,7 +51,7 @@ namespace Paws.Core.Managers
             // Determine if the Preset settings files exist for the routine //
             // This has been changed so that the XML files are now embedded resources //
 
-            var presetResourceSet = new ResourceSet(Assembly.GetExecutingAssembly().GetManifestResourceStream("Paws.Properties.Resources.resources"));
+
 
             // Determine if the Preset settings files exist for the current character //
             var characterSettingsDirectory = Path.Combine(Settings.CharacterSettingsDirectory, "Paws");
@@ -58,6 +59,8 @@ namespace Paws.Core.Managers
             {
                 Directory.CreateDirectory(characterSettingsDirectory);
                 Log.Diagnostics("Character Settings Directory Established... generating default presets.");
+
+                var presetResourceSet = Properties.Resources.ResourceManager.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
 
 
                 int resourceCount = 0;
@@ -72,6 +75,7 @@ namespace Paws.Core.Managers
 
                 Log.Diagnostics(string.Format("...Finished generating {0} preset files", resourceCount));
             }
+
         }
 
         public static string[] GetCharacterProfileFiles()

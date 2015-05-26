@@ -83,8 +83,7 @@ namespace Paws.Interface
                     }
                 default:
                     {
-                        // Change this to Community //
-                        this.generalTab.Controls.Add(new GeneralPremiumSettings(this));
+                        this.generalTab.Controls.Add(new GeneralCommunitySettings(this));
                         break;
                     }
             }

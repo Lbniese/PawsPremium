@@ -117,29 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Automated_Battlegrounds" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\presets\automated battlegrounds.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="Automated_Dungeons" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\presets\automated dungeons.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="Automated_Questing" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\presets\automated questing.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="Manual_Battlegrounds" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\presets\manual battlegrounds.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="Manual_Dungeons" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\presets\manual dungeons.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="Manual_Questing" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\presets\manual questing.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="Manual_Raiding" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\presets\manual raiding.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="Minimalist" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\presets\minimalist.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
 </root>

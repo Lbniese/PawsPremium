@@ -109,43 +109,46 @@ namespace Paws.Core.Managers
 
         public void Update()
         {
-            if (this._monitoredChains.Count > 0)
+            if (Main.Product == Product.Premium)
             {
-                if (!this._monitor.IsRunning) this._monitor.Start();
-                if (this._monitor.ElapsedMilliseconds > MONITOR_ELAPSED_MS)
+                if (this._monitoredChains.Count > 0)
                 {
-                    AbilityChain chainToRemoveFromWatch = null;
-                    foreach(AbilityChain abilityChain in this._monitoredChains)
+                    if (!this._monitor.IsRunning) this._monitor.Start();
+                    if (this._monitor.ElapsedMilliseconds > MONITOR_ELAPSED_MS)
                     {
-                        bool okayToRemove = true;
-                        
-                        foreach (var chainedAbility in abilityChain.ChainedAbilities)
+                        AbilityChain chainToRemoveFromWatch = null;
+                        foreach (AbilityChain abilityChain in this._monitoredChains)
                         {
-                            if (chainedAbility.MustBeReady)
+                            bool okayToRemove = true;
+
+                            foreach (var chainedAbility in abilityChain.ChainedAbilities)
                             {
-                                if (chainedAbility.Instance.Spell.CooldownTimeLeft.TotalMilliseconds > 2000)
+                                if (chainedAbility.MustBeReady)
                                 {
-                                    okayToRemove = false;
-                                    break;
+                                    if (chainedAbility.Instance.Spell.CooldownTimeLeft.TotalMilliseconds > 2000)
+                                    {
+                                        okayToRemove = false;
+                                        break;
+                                    }
                                 }
                             }
+                            if (okayToRemove)
+                            {
+                                chainToRemoveFromWatch = abilityChain;
+                                break;
+                            }
                         }
-                        if (okayToRemove)
+
+                        if (chainToRemoveFromWatch != null)
                         {
-                            chainToRemoveFromWatch = abilityChain;
-                            break;
+                            string name = chainToRemoveFromWatch.Name;
+                            Toast.AbilityChain(name);
+
+                            this._monitoredChains.Remove(chainToRemoveFromWatch);
                         }
+
+                        this._monitor.Restart();
                     }
-
-                    if (chainToRemoveFromWatch != null)
-                    {
-                        string name = chainToRemoveFromWatch.Name;
-                        Toast.AbilityChain(name);
-
-                        this._monitoredChains.Remove(chainToRemoveFromWatch);
-                    }
-
-                    this._monitor.Restart();
                 }
             }
         }
@@ -275,22 +278,24 @@ namespace Paws.Core.Managers
         /// </summary>
         private void KeyIsPressed(Hotkey hotKey)
         {
-            // Ability Chain Check... placing a "Paws_" prefix ensures that no other registered hotkeys are messed with in the system.
-            var abilityChain = this.AbilityChains.SingleOrDefault(o => "Paws_" + o.Name == hotKey.Name);
-            if (abilityChain != null)
+            if (Main.Product == Product.Premium)
             {
-                if (StyxWoW.Me.Specialization == abilityChain.Specialization)
+                // Ability Chain Check... placing a "Paws_" prefix ensures that no other registered hotkeys are messed with in the system.
+                var abilityChain = this.AbilityChains.SingleOrDefault(o => "Paws_" + o.Name == hotKey.Name);
+                if (abilityChain != null)
                 {
-                    // We have a triggered Ability Chain
-                    Trigger(abilityChain);
-                }
-                else
-                {
-                    Log.AbilityChain(string.Format("Hotkey detected, but your specialization must be {0} to trigger the {1} ability chain.",
-                        abilityChain.Specialization.ToString().Replace("Druid", string.Empty), hotKey.Name));
+                    if (StyxWoW.Me.Specialization == abilityChain.Specialization)
+                    {
+                        // We have a triggered Ability Chain
+                        Trigger(abilityChain);
+                    }
+                    else
+                    {
+                        Log.AbilityChain(string.Format("Hotkey detected, but your specialization must be {0} to trigger the {1} ability chain.",
+                            abilityChain.Specialization.ToString().Replace("Druid", string.Empty), hotKey.Name));
+                    }
                 }
             }
-
         }
 
         /// <summary>
@@ -329,29 +334,32 @@ namespace Paws.Core.Managers
         /// </summary>
         public static void LoadDataSet()
         {
-            var listOfAbilityChains = new List<AbilityChain>();
-
-            var pathToFile = Path.Combine(Styx.Helpers.Settings.CharacterSettingsDirectory, "Paws-AbilityChains.xml");
-
-            if (!File.Exists(pathToFile))
+            if (Main.Product == Product.Premium)
             {
-                var sampleChains = SampleFactory.CreateAbilityChainsSampleList();
+                var listOfAbilityChains = new List<AbilityChain>();
 
-                SaveDataSet(sampleChains);
-                LoadDataSet();
-            }
+                var pathToFile = Path.Combine(Styx.Helpers.Settings.CharacterSettingsDirectory, "Paws-AbilityChains.xml");
 
-            XmlSerializer serializer = new XmlSerializer(typeof(List<AbilityChain>));
+                if (!File.Exists(pathToFile))
+                {
+                    var sampleChains = SampleFactory.CreateAbilityChainsSampleList();
 
-            using (StreamReader reader = new StreamReader(pathToFile))
-            {
-                listOfAbilityChains = (List<AbilityChain>)serializer.Deserialize(reader);
-                reader.Close();
-            }
+                    SaveDataSet(sampleChains);
+                    LoadDataSet();
+                }
 
-            foreach (var chain in listOfAbilityChains)
-            {
-                AbilityChainsManager.Instance.Register(chain);
+                XmlSerializer serializer = new XmlSerializer(typeof(List<AbilityChain>));
+
+                using (StreamReader reader = new StreamReader(pathToFile))
+                {
+                    listOfAbilityChains = (List<AbilityChain>)serializer.Deserialize(reader);
+                    reader.Close();
+                }
+
+                foreach (var chain in listOfAbilityChains)
+                {
+                    AbilityChainsManager.Instance.Register(chain);
+                }
             }
         }
 

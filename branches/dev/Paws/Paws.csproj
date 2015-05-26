@@ -279,6 +279,12 @@
       <DependentUpon>GuardianOffensiveSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Interface\Controls\ISettingsControl.cs" />
+    <Compile Include="Interface\Controls\Shared\GeneralCommunitySettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interface\Controls\Shared\GeneralCommunitySettings.Designer.cs">
+      <DependentUpon>GeneralCommunitySettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interface\Controls\Shared\GeneralPremiumSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -366,6 +372,9 @@
     <EmbeddedResource Include="Interface\Controls\AbilityChainsControl.resx">
       <DependentUpon>AbilityChainsControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Controls\Shared\GeneralCommunitySettings.resx">
+      <DependentUpon>GeneralCommunitySettings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Interface\Controls\Shared\GeneralPremiumSettings.resx">
       <DependentUpon>GeneralPremiumSettings.cs</DependentUpon>
     </EmbeddedResource>
@@ -441,7 +450,6 @@
     <EmbeddedResource Include="Presets\Automated Battlegrounds.xml" />
     <EmbeddedResource Include="Presets\Automated Dungeons.xml" />
     <EmbeddedResource Include="Presets\Automated Questing.xml" />
-    <EmbeddedResource Include="Presets\Manual Arena.xml" />
     <EmbeddedResource Include="Presets\Manual Battlegrounds.xml" />
     <EmbeddedResource Include="Presets\Manual Dungeons.xml" />
     <EmbeddedResource Include="Presets\Manual Questing.xml" />

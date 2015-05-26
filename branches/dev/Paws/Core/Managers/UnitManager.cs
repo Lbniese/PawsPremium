@@ -164,7 +164,7 @@ namespace Paws.Core.Managers
         }
 
         /// <summary>
-        /// Updates and caches the last known surrrounding enemies list. Try to make as few calls to the object manager as neccessary for performance considerations.
+        /// Updates and caches the last known surrrounding player's list. Try to make as few calls to the object manager as neccessary for performance considerations.
         /// </summary>
         private void EnemyPlayerUpdate()
         {
@@ -229,7 +229,7 @@ namespace Paws.Core.Managers
         /// </summary>
         public void TargetNearestEnemey()
         {
-            if (Settings.AllowTargeting)
+            if (Main.Product == Product.Premium && Settings.AllowTargeting)
             {
                 if (Me.CurrentTarget == null || Me.CurrentTarget.IsDead)
                 {
@@ -246,6 +246,9 @@ namespace Paws.Core.Managers
             }
         }
 
+        /// <summary>
+        /// Looks for a multidot candidate and target's that enemy.
+        /// </summary>
         public void CheckForMultiDotTarget()
         {
             if (Main.Product == Product.Premium && Settings.MultiDOTRotationEnabled && Me.Specialization == WoWSpec.DruidFeral)
@@ -279,7 +282,7 @@ namespace Paws.Core.Managers
         /// </summary>
         public async Task<bool> ForceCombat()
         {
-            if (Settings.ForceCombat)
+            if (Main.Product == Product.Premium && Settings.ForceCombat)
             {
                 if (!Me.Combat && Me.HasAttackableTarget())
                 {
@@ -384,7 +387,7 @@ namespace Paws.Core.Managers
         }
 
         /// <summary>
-        /// TODO: Experimental, and does not work yet.
+        /// TODO: Experimental, and does quite work 100%, yet (perhaps the dead must be targeted?)
         /// </summary>
         public async Task<bool> CheckAndResurrectDeadAllies()
         {
@@ -602,11 +605,17 @@ namespace Paws.Core.Managers
             return false;
         }
 
+        /// <summary>
+        /// TODO: Move to Convert utility
+        /// </summary>
         public static string GuidToUnitID(WoWGuid wowGuid)
         {
             return Log.Right(string.Format("{0:X4}", wowGuid.Lowest), 4);
         }
 
+        /// <summary>
+        /// TODO: Move to Convert utility
+        /// </summary>
         public static string GuidToUnitID(string wowGuid)
         {
             return string.IsNullOrEmpty(wowGuid) ? string.Empty : wowGuid.Substring(wowGuid.Length - 4, 4);
