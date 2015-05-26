@@ -3,6 +3,7 @@ using Paws.Core.Managers;
 using Paws.Interface.Controls;
 using Paws.Interface.Controls.Feral;
 using Paws.Interface.Controls.Guardian;
+using Paws.Interface.Controls.Shared;
 using Paws.Interface.Forms;
 using Styx;
 using Styx.Helpers;
@@ -67,10 +68,26 @@ namespace Paws.Interface
         {
             AddPremiumContent();
 
+            this.generalTab.Controls.Clear();
             this.mobilityTab.Controls.Clear();
             this.offensiveTab.Controls.Clear();
             this.defensiveTab.Controls.Clear();
             this.healingTab.Controls.Clear();
+
+            switch (Main.Product)
+            {
+                case Product.Premium:
+                    {
+                        this.generalTab.Controls.Add(new GeneralPremiumSettings(this));
+                        break;
+                    }
+                default:
+                    {
+                        // Change this to Community //
+                        this.generalTab.Controls.Add(new GeneralPremiumSettings(this));
+                        break;
+                    }
+            }
 
             switch (this.SettingsMode)
             {
@@ -156,26 +173,7 @@ namespace Paws.Interface
             this.FormHeader.Text = string.Format("Paws {0} [{1}] Settings: {2}", Main.Product == Product.Community ? "Community" : "Premium", this.SettingsMode.ToString().Replace("Druid", string.Empty), this.aboutProfilesPesetsComboBox.SelectedItem);
 
             // General Tab //
-            this.generalMarkOfTheWildEnabledCheckBox.Checked = SettingsManager.Instance.MarkOfTheWildEnabled;
-            generalMarkOfTheWildEnabledCheckBox_CheckedChanged(this.generalMarkOfTheWildEnabledCheckBox, EventArgs.Empty);
-            this.generalMarkOfTheWildDoNotApplyStealthedCheckBox.Checked = SettingsManager.Instance.MarkOfTheWildDoNotApplyIfStealthed;
-            this.generalSootheEnabledCheckBox.Checked = SettingsManager.Instance.SootheEnabled;
-            generalSootheEnabledCheckBox_CheckedChanged(generalSootheEnabledCheckBox, EventArgs.Empty);
-            this.generalSootheReactionTimeTextBox.Text = SettingsManager.Instance.SootheReactionTimeInMs.ToString();
-            this.generalTargetHeightCheckBox.Checked = SettingsManager.Instance.TargetHeightEnabled;
-            generalTargetHeightCheckBox_CheckedChanged(this.generalTargetHeightCheckBox, EventArgs.Empty);
-            this.generalTargetHeightTextBox.Text = SettingsManager.Instance.TargetHeightMinDistance.ToString("0.##");
-            this.generalReleaseSpiritOnDeathEnabledCheckBox.Checked = SettingsManager.Instance.ReleaseSpiritOnDeathEnabled;
-            generalReleaseSpiritOnDeathEnabledCheckBox_CheckedChanged(this.generalReleaseSpiritOnDeathEnabledCheckBox, EventArgs.Empty);
-            this.generalReleaseSpiritOnDeathTimerTextBox.Text = SettingsManager.Instance.ReleaseSpiritOnDeathIntervalInMs.ToString();
-            this.generalInterruptTimingMinMSTextBox.Text = SettingsManager.Instance.InterruptMinMilliseconds.ToString();
-            this.generalInterruptTimingMaxMSTextBox.Text = SettingsManager.Instance.InterruptMaxMilliseconds.ToString();
-            this.generalInterruptTimingSuccessRateTextBox.Text = SettingsManager.Instance.InterruptSuccessRate.ToString("0.##");
-            this.mobilityGeneralMovementCheckBox.Checked = SettingsManager.Instance.AllowMovement;
-            this.mobilityGeneralTargetFacingCheckBox.Checked = SettingsManager.Instance.AllowTargetFacing;
-            this.mobilityAutoTargetCheckBox.Checked = SettingsManager.Instance.AllowTargeting;
-            this.mobilityForceCombatCheckBox.Checked = SettingsManager.Instance.ForceCombat;
-            this.generalMultiDotRotationEnabledCheckBox.Checked = SettingsManager.Instance.MultiDOTRotationEnabled;
+            BindUISettingsToControlCollection(this.generalTab.Controls);
 
             // Mobility Tab //
             BindUISettingsToControlCollection(this.mobilityTab.Controls);
@@ -256,22 +254,7 @@ namespace Paws.Interface
         private void ApplySettings()
         {
             // General Tab //
-            SettingsManager.Instance.MarkOfTheWildEnabled = this.generalMarkOfTheWildEnabledCheckBox.Checked;
-            SettingsManager.Instance.MarkOfTheWildDoNotApplyIfStealthed = this.generalMarkOfTheWildDoNotApplyStealthedCheckBox.Checked;
-            SettingsManager.Instance.SootheEnabled = this.generalSootheEnabledCheckBox.Checked;
-            SettingsManager.Instance.SootheReactionTimeInMs = Convert.ToInt32(this.generalSootheReactionTimeTextBox.Text);
-            SettingsManager.Instance.TargetHeightEnabled = this.generalTargetHeightCheckBox.Checked;
-            SettingsManager.Instance.TargetHeightMinDistance = this.generalTargetHeightTextBox.Text.ToFloat();
-            SettingsManager.Instance.ReleaseSpiritOnDeathEnabled = this.generalReleaseSpiritOnDeathEnabledCheckBox.Checked;
-            SettingsManager.Instance.ReleaseSpiritOnDeathIntervalInMs = Convert.ToInt32(this.generalReleaseSpiritOnDeathTimerTextBox.Text);
-            SettingsManager.Instance.InterruptMinMilliseconds = Convert.ToInt32(this.generalInterruptTimingMinMSTextBox.Text);
-            SettingsManager.Instance.InterruptMaxMilliseconds = Convert.ToInt32(this.generalInterruptTimingMaxMSTextBox.Text);
-            SettingsManager.Instance.InterruptSuccessRate = Convert.ToDouble(this.generalInterruptTimingSuccessRateTextBox.Text);
-            SettingsManager.Instance.AllowMovement = this.mobilityGeneralMovementCheckBox.Checked;
-            SettingsManager.Instance.AllowTargetFacing = this.mobilityGeneralTargetFacingCheckBox.Checked;
-            SettingsManager.Instance.AllowTargeting = this.mobilityAutoTargetCheckBox.Checked;
-            SettingsManager.Instance.ForceCombat = this.mobilityForceCombatCheckBox.Checked;
-            SettingsManager.Instance.MultiDOTRotationEnabled = this.generalMultiDotRotationEnabledCheckBox.Checked;
+            ApplySettingsFromControlCollection(this.generalTab.Controls);
 
             // Mobility Tab //
             ApplySettingsFromControlCollection(this.mobilityTab.Controls);
@@ -543,23 +526,6 @@ namespace Paws.Interface
             }
         }
 
-        private void generalMarkOfTheWildEnabledCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            this.generalMarkOfTheWildPanel.Enabled = (sender as CheckBox).Checked;
-            InterfaceElementColorToggle(sender);
-        }
-
-        private void generalSootheEnabledCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            this.generalSoothePanel.Enabled = (sender as CheckBox).Checked;
-            InterfaceElementColorToggle(sender);
-        }
-
-        private void generalAutoTargetingEnabledCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            InterfaceElementColorToggle(sender);
-        }
-
         private void miscTrinket1EnabledCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             this.miscTrinket1Panel.Enabled = (sender as CheckBox).Checked;
@@ -581,18 +547,6 @@ namespace Paws.Interface
         private void miscRacialAbilityTrollBerserkingCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             this.miscRacialAbilityTrollBerserkingPanel.Enabled = (sender as CheckBox).Checked;
-            InterfaceElementColorToggle(sender);
-        }
-
-        private void generalTargetHeightCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            this.generalTargetHeightPanel.Enabled = (sender as CheckBox).Checked;
-            InterfaceElementColorToggle(sender);
-        }
-
-        private void generalReleaseSpiritOnDeathEnabledCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            this.generalReleaseSpiritOnDeathPanel.Enabled = (sender as CheckBox).Checked;
             InterfaceElementColorToggle(sender);
         }
 
