@@ -26,7 +26,7 @@ namespace Paws
     {
         public static Product Product { get { return Paws.Product.Premium; } }
 
-        private static Version _version = new Version(1, 8, 0);
+        private static Version _version = new Version(1, 9, 0);
         private static string _environment = "Development";
 
         public static Version Version { get { return _version; } }
