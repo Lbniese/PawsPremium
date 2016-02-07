@@ -1,10 +1,10 @@
-﻿using Styx;
-using Paws.Core.Conditions.Attributes;
+﻿using Paws.Core.Conditions.Attributes;
+using Styx;
 
 namespace Paws.Core.Conditions
 {
     /// <summary>
-    /// Condition based on if the player is in Bear form.
+    ///     Condition based on if the player is in Bear form.
     /// </summary>
     [ItemCondition(FriendlyName = "I am in Bear Form")]
     public class MeIsInBearFormCondition : ICondition

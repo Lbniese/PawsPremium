@@ -8,18 +8,18 @@ namespace Paws.Core.Abilities.Guardian
         public FrenziedRegenerationAbility()
             : base(WoWSpell.FromId(SpellBook.FrenziedRegeneration), true, true)
         {
-            base.Category = AbilityCategory.Heal;
+            Category = AbilityCategory.Heal;
         }
 
         public override void ApplyDefaultSettings()
         {
             base.ApplyDefaultSettings();
 
-            base.Conditions.Add(new BooleanCondition(Settings.FrenziedRegenerationEnabled));
-            base.Conditions.Add(new MeIsInBearFormCondition());
-            base.Conditions.Add(new MeIsInCombatCondition());
-            base.Conditions.Add(new TargetHealthRangeCondition(TargetType.Me, 0, Settings.FrenziedRegenerationMinHealth));
-            base.Conditions.Add(new MyRageCondition(Settings.FrenziedRegenerationMinRage));
+            Conditions.Add(new BooleanCondition(Settings.FrenziedRegenerationEnabled));
+            Conditions.Add(new MeIsInBearFormCondition());
+            Conditions.Add(new MeIsInCombatCondition());
+            Conditions.Add(new TargetHealthRangeCondition(TargetType.Me, 0, Settings.FrenziedRegenerationMinHealth));
+            Conditions.Add(new MyRageCondition(Settings.FrenziedRegenerationMinRage));
         }
     }
 }

@@ -1,9 +1,10 @@
-﻿using Paws.Core.Conditions;
+﻿using System.Collections.Generic;
+using System.Windows.Forms;
+using Paws.Core.Abilities.Feral;
+using Paws.Core.Abilities.Shared;
+using Paws.Core.Conditions;
 using Styx;
 using Styx.Common;
-using System.Collections.Generic;
-using Feral = Paws.Core.Abilities.Feral;
-using Shared = Paws.Core.Abilities.Shared;
 
 namespace Paws.Core.Utilities
 {
@@ -12,49 +13,53 @@ namespace Paws.Core.Utilities
         public static List<AbilityChain> CreateAbilityChainsSampleList()
         {
             // Create a default abilities list...
-            List<AbilityChain> sampleChains = new List<AbilityChain>();
+            var sampleChains = new List<AbilityChain>();
 
             // Ability chain sample: Burst Damage
-            AbilityChain sampleBurstChain = new AbilityChain("Burst Damage");
+            var sampleBurstChain = new AbilityChain("Burst Damage");
 
             sampleBurstChain.Specialization = WoWSpec.DruidFeral;
-            sampleBurstChain.HotKey = System.Windows.Forms.Keys.F;
+            sampleBurstChain.HotKey = Keys.F;
             sampleBurstChain.ModiferKey = ModifierKeys.Control;
-            sampleBurstChain.ChainedAbilities.Add(new ChainedAbility(new Feral.IncarnationAbility(), TargetType.Me, true));
-            sampleBurstChain.ChainedAbilities.Add(new ChainedAbility(new Feral.BerserkAbility(), TargetType.Me, true));
+            sampleBurstChain.ChainedAbilities.Add(new ChainedAbility(new IncarnationAbility(), TargetType.Me, true));
+            sampleBurstChain.ChainedAbilities.Add(new ChainedAbility(new BerserkAbility(), TargetType.Me, true));
 
             sampleChains.Add(sampleBurstChain);
 
             // Ability chain sample: Burst Damage
-            AbilityChain sampleDefenseChain = new AbilityChain("HotW Defense");
+            var sampleDefenseChain = new AbilityChain("HotW Defense");
 
             sampleDefenseChain.Specialization = WoWSpec.DruidFeral;
-            sampleDefenseChain.HotKey = System.Windows.Forms.Keys.D;
+            sampleDefenseChain.HotKey = Keys.D;
             sampleDefenseChain.ModiferKey = ModifierKeys.Control;
-            sampleDefenseChain.ChainedAbilities.Add(new ChainedAbility(new Feral.BearFormPowerShiftAbility(), TargetType.Me, false));
-            sampleDefenseChain.ChainedAbilities.Add(new ChainedAbility(new Feral.HeartOfTheWildAbility(), TargetType.Me, true));
-            sampleDefenseChain.ChainedAbilities.Add(new ChainedAbility(new Shared.CenarionWardAbility(), TargetType.Me, false));
-            sampleDefenseChain.ChainedAbilities.Add(new ChainedAbility(new Feral.SurvivalInstinctsAbility(), TargetType.Me, false));
+            sampleDefenseChain.ChainedAbilities.Add(new ChainedAbility(new BearFormPowerShiftAbility(), TargetType.Me,
+                false));
+            sampleDefenseChain.ChainedAbilities.Add(new ChainedAbility(new HeartOfTheWildAbility(), TargetType.Me, true));
+            sampleDefenseChain.ChainedAbilities.Add(new ChainedAbility(new CenarionWardAbility(), TargetType.Me, false));
+            sampleDefenseChain.ChainedAbilities.Add(new ChainedAbility(new SurvivalInstinctsAbility(), TargetType.Me,
+                false));
 
             sampleChains.Add(sampleDefenseChain);
 
             // Ability chain sample: Cyclone
-            AbilityChain sampleCycloneChain = new AbilityChain("Cyclone");
+            var sampleCycloneChain = new AbilityChain("Cyclone");
 
             sampleCycloneChain.Specialization = WoWSpec.DruidFeral;
-            sampleCycloneChain.HotKey = System.Windows.Forms.Keys.C;
+            sampleCycloneChain.HotKey = Keys.C;
             sampleCycloneChain.ModiferKey = ModifierKeys.Control;
-            sampleCycloneChain.ChainedAbilities.Add(new ChainedAbility(new Shared.CycloneAbility(), TargetType.MyCurrentTarget, false));
+            sampleCycloneChain.ChainedAbilities.Add(new ChainedAbility(new CycloneAbility(), TargetType.MyCurrentTarget,
+                false));
 
             sampleChains.Add(sampleCycloneChain);
 
             // Ability chain sample: Entangling Roots
-            AbilityChain sampleEntanglingRootsChain = new AbilityChain("Entangling Roots");
+            var sampleEntanglingRootsChain = new AbilityChain("Entangling Roots");
 
             sampleEntanglingRootsChain.Specialization = WoWSpec.DruidFeral;
-            sampleEntanglingRootsChain.HotKey = System.Windows.Forms.Keys.R;
+            sampleEntanglingRootsChain.HotKey = Keys.R;
             sampleEntanglingRootsChain.ModiferKey = ModifierKeys.Shift;
-            sampleEntanglingRootsChain.ChainedAbilities.Add(new ChainedAbility(new Shared.EntanglingRootsAbility(), TargetType.MyCurrentTarget, false));
+            sampleEntanglingRootsChain.ChainedAbilities.Add(new ChainedAbility(new EntanglingRootsAbility(),
+                TargetType.MyCurrentTarget, false));
 
             sampleChains.Add(sampleEntanglingRootsChain);
 
@@ -64,29 +69,35 @@ namespace Paws.Core.Utilities
         public static List<PawsItem> CreateItemsSampleList()
         {
             // Create a default items list...
-            List<PawsItem> sampleItems = new List<PawsItem>();
+            var sampleItems = new List<PawsItem>();
 
             // Item sample 1: Oralius' Whispering Crystal
-            PawsItem oraliusWhisperingCrystal = new PawsItem()
+            var oraliusWhisperingCrystal = new PawsItem
             {
                 Name = "Oralius' Whispering Crystal",
                 Entry = 118922,
                 MyState = MyState.NotInCombat,
                 Enabled = false
             };
-            oraliusWhisperingCrystal.Conditions.Add(new ItemCondition() { Instance = new TargetDoesNotHaveNamedAuraCondition(TargetType.Me, "Whispers of Insanity") });
+            oraliusWhisperingCrystal.Conditions.Add(new ItemCondition
+            {
+                Instance = new TargetDoesNotHaveNamedAuraCondition(TargetType.Me, "Whispers of Insanity")
+            });
 
             // Item sample 2: Draenic Agility Potion
-            PawsItem draenicAgilityPotion = new PawsItem()
+            var draenicAgilityPotion = new PawsItem
             {
                 Name = "Draenic Agility Potion",
                 Entry = 109217,
                 MyState = MyState.InCombat,
                 Enabled = false
             };
-            draenicAgilityPotion.Conditions.Add(new ItemCondition() { Instance = new MeIsInCatFormCondition() });
-            draenicAgilityPotion.Conditions.Add(new ItemCondition() { Instance = new TargetHasNamedAuraCondition(TargetType.Me, "Berserk") });
-            draenicAgilityPotion.Conditions.Add(new ItemCondition() { Instance = new MyTargetIsWithinMeleeRangeCondition() });
+            draenicAgilityPotion.Conditions.Add(new ItemCondition {Instance = new MeIsInCatFormCondition()});
+            draenicAgilityPotion.Conditions.Add(new ItemCondition
+            {
+                Instance = new TargetHasNamedAuraCondition(TargetType.Me, "Berserk")
+            });
+            draenicAgilityPotion.Conditions.Add(new ItemCondition {Instance = new MyTargetIsWithinMeleeRangeCondition()});
 
             sampleItems.Add(oraliusWhisperingCrystal);
             sampleItems.Add(draenicAgilityPotion);

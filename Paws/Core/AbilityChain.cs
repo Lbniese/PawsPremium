@@ -1,53 +1,54 @@
-﻿using Styx;
-using Styx.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using Styx;
+using Styx.Common;
 
 namespace Paws.Core
 {
     public class AbilityChain : IXmlSerializable
     {
+        public AbilityChain()
+            : this("Not Named")
+        {
+        }
+
+        public AbilityChain(string name)
+        {
+            Name = name;
+            Specialization = WoWSpec.DruidFeral;
+            ChainedAbilities = new List<ChainedAbility>();
+            HotKey = Keys.None;
+            ModiferKey = ModifierKeys.Alt;
+        }
+
         /// <summary>
-        /// The list of chained abilities associated with this ability chain.
+        ///     The list of chained abilities associated with this ability chain.
         /// </summary>
         public List<ChainedAbility> ChainedAbilities { get; set; }
 
         /// <summary>
-        /// The name of the ability chain (also used as the name of the registered hotkey action)
+        ///     The name of the ability chain (also used as the name of the registered hotkey action)
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// The specialization required to run this ability chain.
+        ///     The specialization required to run this ability chain.
         /// </summary>
         public WoWSpec Specialization { get; set; }
 
         /// <summary>
-        /// The Key associated with this ability chain that must be pressed in combination with the ModifierKey (if present).
+        ///     The Key associated with this ability chain that must be pressed in combination with the ModifierKey (if present).
         /// </summary>
         public Keys HotKey { get; set; }
 
         /// <summary>
-        /// The Modifier Key associated with this ability chain that must be pressed in combination with the HotKey.
+        ///     The Modifier Key associated with this ability chain that must be pressed in combination with the HotKey.
         /// </summary>
         public ModifierKeys ModiferKey { get; set; }
-
-        public AbilityChain()
-            : this("Not Named")
-        { }
-
-        public AbilityChain(string name)
-        {
-            this.Name = name;
-            this.Specialization = WoWSpec.DruidFeral;
-            this.ChainedAbilities = new List<ChainedAbility>();
-            this.HotKey = Keys.None;
-            this.ModiferKey = ModifierKeys.Alt;
-        }
 
         #region IXmlSerializable
 
@@ -57,7 +58,8 @@ namespace Paws.Core
         }
 
         /// <summary>
-        /// Since our abilities implement a behavior (interface) and not a state (base class), serialization must be done manually.
+        ///     Since our abilities implement a behavior (interface) and not a state (base class), serialization must be done
+        ///     manually.
         /// </summary>
         public void ReadXml(XmlReader reader)
         {
@@ -68,38 +70,38 @@ namespace Paws.Core
 
             reader.Read();
 
-            this.Name = name;
+            Name = name;
 
-            WoWSpec outSpec = WoWSpec.DruidFeral;
-            Enum.TryParse<WoWSpec>(specialization, out outSpec);
-            this.Specialization = outSpec;
+            WoWSpec outSpec;
+            Enum.TryParse(specialization, out outSpec);
+            Specialization = outSpec;
 
-            Keys outHotKey = Keys.None;
-            Enum.TryParse<Keys>(hotKey, out outHotKey);
-            this.HotKey = outHotKey;
+            Keys outHotKey;
+            Enum.TryParse(hotKey, out outHotKey);
+            HotKey = outHotKey;
 
-            ModifierKeys outModifierKey = ModifierKeys.NoRepeat;
-            Enum.TryParse<ModifierKeys>(modifierKey, out outModifierKey);
-            this.ModiferKey = outModifierKey;
+            ModifierKeys outModifierKey;
+            Enum.TryParse(modifierKey, out outModifierKey);
+            ModiferKey = outModifierKey;
 
-            XmlSerializer serializer = new XmlSerializer(this.ChainedAbilities.GetType());
+            var serializer = new XmlSerializer(ChainedAbilities.GetType());
 
-            this.ChainedAbilities= (List<ChainedAbility>)serializer.Deserialize(reader);
+            ChainedAbilities = (List<ChainedAbility>) serializer.Deserialize(reader);
             reader.ReadEndElement();
         }
 
         public void WriteXml(XmlWriter writer)
         {
-            if (this.ChainedAbilities == null)
+            if (ChainedAbilities == null)
                 return;
 
-            writer.WriteAttributeString("Name", this.Name);
-            writer.WriteAttributeString("Specialization", this.Specialization.ToString());
-            writer.WriteAttributeString("Hotkey", this.HotKey.ToString());
-            writer.WriteAttributeString("Modifier", this.ModiferKey.ToString());
-            
-            XmlSerializer serializer = new XmlSerializer(this.ChainedAbilities.GetType());
-            serializer.Serialize(writer, this.ChainedAbilities);
+            writer.WriteAttributeString("Name", Name);
+            writer.WriteAttributeString("Specialization", Specialization.ToString());
+            writer.WriteAttributeString("Hotkey", HotKey.ToString());
+            writer.WriteAttributeString("Modifier", ModiferKey.ToString());
+
+            var serializer = new XmlSerializer(ChainedAbilities.GetType());
+            serializer.Serialize(writer, ChainedAbilities);
         }
 
         #endregion

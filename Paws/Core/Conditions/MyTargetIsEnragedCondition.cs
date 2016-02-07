@@ -1,10 +1,10 @@
-﻿using Styx;
-using Paws.Core.Conditions.Attributes;
+﻿using Paws.Core.Conditions.Attributes;
+using Styx;
 
 namespace Paws.Core.Conditions
 {
     /// <summary>
-    /// Condition based on if the player's current target is enraged.
+    ///     Condition based on if the player's current target is enraged.
     /// </summary>
     [ItemCondition(FriendlyName = "My Target is Enraged")]
     public class MyTargetIsEnragedCondition : ICondition

@@ -1,4 +1,6 @@
-﻿namespace Paws.Interface {
+﻿using Paws.Interface.Controls;
+
+namespace Paws.Interface.Forms {
 	partial class SettingsForm {
 		/// <summary>
 		/// Required designer variable.
@@ -45,7 +47,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.editItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vt = new Paws.Interface.VerticalTabs();
+            this.vt = new VerticalTabs();
             this.aboutTab = new System.Windows.Forms.TabPage();
             this.panel57 = new System.Windows.Forms.Panel();
             this.label98 = new System.Windows.Forms.Label();
@@ -435,7 +437,7 @@
             this.vt.Location = new System.Drawing.Point(0, 30);
             this.vt.Margin = new System.Windows.Forms.Padding(0);
             this.vt.Multiline = true;
-            this.vt.myBackColor = System.Drawing.Color.Empty;
+            this.vt.MyBackColor = System.Drawing.Color.Empty;
             this.vt.Name = "vt";
             this.vt.Padding = new System.Drawing.Point(0, 0);
             this.vt.SelectedIndex = 0;
@@ -1834,7 +1836,7 @@
 		#endregion
 
         private System.Windows.Forms.Label FormHeader;
-		private Paws.Interface.VerticalTabs vt;
+		private VerticalTabs vt;
 		private System.Windows.Forms.TabPage aboutTab;
 		private System.Windows.Forms.TabPage generalTab;
 		private System.Windows.Forms.Label versionLabel;

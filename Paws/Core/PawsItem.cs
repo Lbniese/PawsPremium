@@ -1,8 +1,8 @@
-﻿using Paws.Core.Conditions;
-using System;
-using System.Linq;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 using Paws.Core.Utilities;
 
@@ -10,60 +10,61 @@ namespace Paws.Core
 {
     public class PawsItem : IXmlSerializable
     {
+        public PawsItem()
+        {
+            Conditions = new List<ItemCondition>();
+        }
+
         /// <summary>
-        /// Gets or sets the name of the item.
+        ///     Gets or sets the name of the item.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// The entry id of the item (Required for locale independency)
+        ///     The entry id of the item (Required for locale independency)
         /// </summary>
         public int Entry { get; set; }
 
         /// <summary>
-        /// Enables or disables the use of the item.
+        ///     Enables or disables the use of the item.
         /// </summary>
         public bool Enabled { get; set; }
 
         /// <summary>
-        /// Gets or sets the conditions that must be satisfied prior to use.
+        ///     Gets or sets the conditions that must be satisfied prior to use.
         /// </summary>
         public List<ItemCondition> Conditions { get; set; }
 
         /// <summary>
-        /// Gets or sets the state the player must be in to use the item.
+        ///     Gets or sets the state the player must be in to use the item.
         /// </summary>
         public MyState MyState { get; set; }
-
-        public PawsItem()
-        {
-            this.Conditions = new List<ItemCondition>();
-        }
 
         public string GetConditionsDescription()
         {
             var description = string.Empty;
 
-            foreach (var condition in this.Conditions)
+            foreach (var condition in Conditions)
             {
                 description += condition.ToString();
-                if (condition != this.Conditions.Last()) description += "; ";
+                if (condition != Conditions.Last()) description += "; ";
             }
 
-            if (this.Conditions.Count == 0) description = "Off Item Cooldown";
+            if (Conditions.Count == 0) description = "Off Item Cooldown";
 
             return description;
         }
 
         #region IXmlSerializable
 
-        public System.Xml.Schema.XmlSchema GetSchema()
+        public XmlSchema GetSchema()
         {
             return null; // XmlSchema should almost always return null in custom xml serialization cases
         }
 
         /// <summary>
-        /// Since our conditions implement a behavior (interface) and not a state (base class), serialization must be done manually.
+        ///     Since our conditions implement a behavior (interface) and not a state (base class), serialization must be done
+        ///     manually.
         /// </summary>
         public void ReadXml(XmlReader reader)
         {
@@ -74,43 +75,47 @@ namespace Paws.Core
 
             reader.Read();
 
-            this.Name = name;
+            Name = name;
 
-            int outEntry = -1;
+            int outEntry;
             if (!int.TryParse(entry, out outEntry))
             {
-                Log.GUI(string.Format("WARNING: Unable to load item \"{0}\" because the entry id is missing. This is due to having an older version of the Paws-Items.xml settings file.  Please either delete the Paws-Items.xml file under your settings folder, or re-add items using the Items tab in the Paws user interface.", name));
+                Log.Gui(
+                    string.Format(
+                        "WARNING: Unable to load item \"{0}\" because the entry id is missing. This is due to having an older version of the Paws-Items.xml settings file.  Please either delete the Paws-Items.xml file under your settings folder, or re-add items using the Items tab in the Paws user interface.",
+                        name));
                 return;
             }
-            this.Entry = outEntry;
+            Entry = outEntry;
 
-            MyState outMyState = Core.MyState.NotInCombat;
+            MyState outMyState;
 
-            Enum.TryParse<MyState>(myState, out outMyState);
+            Enum.TryParse(myState, out outMyState);
 
-            this.MyState = outMyState;
-            this.Enabled = bool.Parse(enabled);
+            MyState = outMyState;
+            Enabled = bool.Parse(enabled);
 
-            XmlSerializer serializer = new XmlSerializer(this.Conditions.GetType());
+            var serializer = new XmlSerializer(Conditions.GetType());
 
-            this.Conditions = (List<ItemCondition>)serializer.Deserialize(reader);
+            Conditions = (List<ItemCondition>) serializer.Deserialize(reader);
             reader.ReadEndElement();
         }
 
         /// <summary>
-        /// Since our conditions implement a behavior (interface) and not a state (base class), serialization must be done manually.
+        ///     Since our conditions implement a behavior (interface) and not a state (base class), serialization must be done
+        ///     manually.
         /// </summary>
         public void WriteXml(XmlWriter writer)
         {
-            if (this.Conditions == null)
+            if (Conditions == null)
                 return;
 
-            writer.WriteAttributeString("Name", this.Name);
-            writer.WriteAttributeString("Entry", this.Entry.ToString());
-            writer.WriteAttributeString("MyState", this.MyState.ToString());
-            writer.WriteAttributeString("Enabled", this.Enabled.ToString());
-            XmlSerializer serializer = new XmlSerializer(this.Conditions.GetType());
-            serializer.Serialize(writer, this.Conditions);
+            writer.WriteAttributeString("Name", Name);
+            writer.WriteAttributeString("Entry", Entry.ToString());
+            writer.WriteAttributeString("MyState", MyState.ToString());
+            writer.WriteAttributeString("Enabled", Enabled.ToString());
+            var serializer = new XmlSerializer(Conditions.GetType());
+            serializer.Serialize(writer, Conditions);
         }
 
         #endregion

@@ -1,4 +1,4 @@
-﻿namespace Paws.Interface
+﻿namespace Paws.Interface.Forms
 {
     partial class AddNewConditionForm
     {

@@ -1,5 +1,4 @@
-﻿using Paws.Core.Conditions;
-using Paws.Core.Abilities.Attributes;
+﻿using Paws.Core.Abilities.Attributes;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Shared
@@ -10,7 +9,7 @@ namespace Paws.Core.Abilities.Shared
         public EntanglingRootsAbility()
             : base(WoWSpell.FromId(SpellBook.EntanglingRoots), true, true)
         {
-            base.Category = AbilityCategory.Defensive;   
+            Category = AbilityCategory.Defensive;
         }
     }
 }

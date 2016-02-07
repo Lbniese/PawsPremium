@@ -1,10 +1,6 @@
-﻿using Paws.Core.Conditions;
+﻿using System;
+using Paws.Core.Conditions;
 using Styx.WoWInternals;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Paws.Core.Abilities.Guardian
 {
@@ -12,7 +8,8 @@ namespace Paws.Core.Abilities.Guardian
     {
         public LacerateAbility()
             : base(WoWSpell.FromId(SpellBook.Lacerate), true, true)
-        { }
+        {
+        }
 
         public override void ApplyDefaultSettings()
         {
@@ -24,24 +21,25 @@ namespace Paws.Core.Abilities.Guardian
             var targetIsWithinMeleeRange = new MyTargetIsWithinMeleeRangeCondition();
             var facingTarget = new MeIsFacingTargetCondition();
 
-            base.Conditions.Add(lacerateIsEnabled);
-            base.Conditions.Add(inBearForm);
-            base.Conditions.Add(attackableTarget);
-            base.Conditions.Add(targetIsWithinMeleeRange);
-            base.Conditions.Add(facingTarget);
-            base.Conditions.Add(new ConditionTestSwitchCondition(
+            Conditions.Add(lacerateIsEnabled);
+            Conditions.Add(inBearForm);
+            Conditions.Add(attackableTarget);
+            Conditions.Add(targetIsWithinMeleeRange);
+            Conditions.Add(facingTarget);
+            Conditions.Add(new ConditionTestSwitchCondition(
                 new TargetHasAuraCondition(TargetType.MyCurrentTarget, SpellBook.Lacerate),
-                new TargetHasAuraMaxStacksCondition(TargetType.MyCurrentTarget, this.Spell.Id, 3)
-            ));
+                new TargetHasAuraMaxStacksCondition(TargetType.MyCurrentTarget, Spell.Id, 3)
+                ));
 
-            base.PandemicConditions.Add(lacerateIsEnabled);
-            base.PandemicConditions.Add(inBearForm);
-            base.PandemicConditions.Add(attackableTarget);
-            base.PandemicConditions.Add(targetIsWithinMeleeRange);
-            base.PandemicConditions.Add(facingTarget);
-            base.PandemicConditions.Add(new BooleanCondition(Settings.LacerateAllowClipping));
-            base.PandemicConditions.Add(new TargetHasAuraCondition(TargetType.MyCurrentTarget, this.Spell.Id));
-            base.PandemicConditions.Add(new TargetAuraMinTimeLeftCondition(TargetType.MyCurrentTarget, this.Spell.Id, TimeSpan.FromSeconds(4.5)));
+            PandemicConditions.Add(lacerateIsEnabled);
+            PandemicConditions.Add(inBearForm);
+            PandemicConditions.Add(attackableTarget);
+            PandemicConditions.Add(targetIsWithinMeleeRange);
+            PandemicConditions.Add(facingTarget);
+            PandemicConditions.Add(new BooleanCondition(Settings.LacerateAllowClipping));
+            PandemicConditions.Add(new TargetHasAuraCondition(TargetType.MyCurrentTarget, Spell.Id));
+            PandemicConditions.Add(new TargetAuraMinTimeLeftCondition(TargetType.MyCurrentTarget, Spell.Id,
+                TimeSpan.FromSeconds(4.5)));
         }
     }
 }

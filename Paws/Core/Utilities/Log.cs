@@ -1,10 +1,10 @@
-﻿using Styx.Common;
-using System.Windows.Media;
+﻿using System.Windows.Media;
+using Styx.Common;
 
 namespace Paws.Core.Utilities
 {
     /// <summary>
-    /// Logging class.
+    ///     Logging class.
     /// </summary>
     public static class Log
     {
@@ -46,7 +46,7 @@ namespace Paws.Core.Utilities
             AppendLine(message, Colors.LightSeaGreen);
         }
 
-        public static void GUI(string message)
+        public static void Gui(string message)
         {
             AppendLine(message, Colors.Aqua);
         }

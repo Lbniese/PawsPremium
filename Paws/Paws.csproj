@@ -32,14 +32,11 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GreyMagic">
-      <HintPath>..\..\..\GreyMagic.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Honorbuddy">
-      <HintPath>..\..\..\Honorbuddy.exe</HintPath>
+      <HintPath>..\..\..\..\Downloads\Honorbuddy 2.5.14801.812\Honorbuddy.exe</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -47,14 +44,9 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Tripper.Tools">
-      <HintPath>..\..\..\Tripper.Tools.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\..\..\Downloads\Honorbuddy 2.5.14801.812\Tripper.Tools.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -197,12 +189,12 @@
     <Compile Include="Core\Conditions\ICondition.cs" />
     <Compile Include="Core\ItemCondition.cs" />
     <Compile Include="Core\Managers\AbilityChainsManager.cs" />
+    <Compile Include="Core\Managers\ItemManager.cs" />
     <Compile Include="Core\MyState.cs" />
     <Compile Include="Core\PawsItem.cs" />
     <Compile Include="Core\Managers\GlobalSettingsManager.cs" />
     <Compile Include="Core\Managers\SnapshotManager.cs" />
     <Compile Include="Core\Managers\SnareManager.cs" />
-    <Compile Include="Core\Managers\ItemManager.cs" />
     <Compile Include="Core\Managers\AbilityManager.cs" />
     <Compile Include="Core\Managers\InterruptManager.cs" />
     <Compile Include="Core\Managers\SettingsManager.cs" />

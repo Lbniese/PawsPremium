@@ -1,34 +1,41 @@
-﻿using Paws.Core.Managers;
-using Paws.Core.Utilities;
-using Styx;
-using Styx.CommonBot.Coroutines;
-using Styx.WoWInternals.WoWObjects;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media;
+using Paws.Core.Managers;
+using Paws.Core.Utilities;
+using Styx;
+using Styx.CommonBot.Coroutines;
+using Styx.WoWInternals.WoWObjects;
 
 namespace Paws.Core
 {
     /// <summary>
-    /// Provides movement helper methods.
+    ///     Provides movement helper methods.
     /// </summary>
     public static class MovementHelper
     {
-        private static LocalPlayer Me { get { return StyxWoW.Me; } }
-        private static WoWUnit MyCurrentTarget { get { return Me.CurrentTarget; } }
+        private static LocalPlayer Me
+        {
+            get { return StyxWoW.Me; }
+        }
+
+        private static WoWUnit MyCurrentTarget
+        {
+            get { return Me.CurrentTarget; }
+        }
 
         [DllImport("user32.dll")]
         private static extern short GetAsyncKeyState(Keys vKey);
 
         /// <summary>
-        /// (Non-Blocking) Attempts to move to the player's current target.
+        ///     (Non-Blocking) Attempts to move to the player's current target.
         /// </summary>
         /// <returns>Returns true if we are able to move towards the target.</returns>
         public static async Task MoveToMyCurrentTarget()
         {
-            if (MyCurrentTarget == null) 
+            if (MyCurrentTarget == null)
                 return;
 
             try
@@ -46,15 +53,15 @@ namespace Paws.Core
                         Me.HasAttackableTarget() &&
                         Me.KnowsSpell(SpellBook.CatForm)
                             ? !Me.IsWithinMeleeDistanceOfTarget()
-                            : (MyCurrentTarget.Distance > 38 && MyCurrentTarget.InLineOfSpellSight));
+                            : MyCurrentTarget.Distance > 38 && MyCurrentTarget.InLineOfSpellSight);
 
-                await MovementHelper.MoveStop(
+                await MoveStop(
                     () =>
                         MyCurrentTarget != null &&
                         SettingsManager.Instance.AllowMovement &&
                         Me.KnowsSpell(SpellBook.CatForm)
                             ? Me.IsWithinMeleeDistanceOfTarget()
-                            : (MyCurrentTarget.Distance <= 38 && MyCurrentTarget.InLineOfSpellSight));
+                            : MyCurrentTarget.Distance <= 38 && MyCurrentTarget.InLineOfSpellSight);
             }
             catch (Exception ex)
             {
@@ -63,25 +70,25 @@ namespace Paws.Core
         }
 
         /// <summary>
-        /// (Non-Blocking) Attempts to move to the specified target.
+        ///     (Non-Blocking) Attempts to move to the specified target.
         /// </summary>
         /// <returns>Returns true if we are able to move towards the target.</returns>
         public static async Task MoveToTarget(WoWUnit target, Func<bool> conditionCheck = null)
         {
-            if (conditionCheck != null && !conditionCheck()) 
-                return;
-            
-            if (target == null) 
+            if (conditionCheck != null && !conditionCheck())
                 return;
 
-            if (target.IsDead) 
+            if (target == null)
+                return;
+
+            if (target.IsDead)
                 return;
 
             await CommonCoroutines.MoveTo(target.Location);
         }
 
         /// <summary>
-        /// (Non-Blocking) Stop the player from moving.
+        ///     (Non-Blocking) Stop the player from moving.
         /// </summary>
         /// <returns>Returns true if we are able to stop moving.</returns>
         public static async Task MoveStop(Func<bool> conditionCheck = null)
@@ -93,17 +100,17 @@ namespace Paws.Core
         }
 
         /// <summary>
-        /// (Non-Blocking) Attempts to face the player's current target.
+        ///     (Non-Blocking) Attempts to face the player's current target.
         /// </summary>
         /// <returns>Returns true if we are able to safely face the target</returns>
         public static async Task FaceMyCurrentTarget()
         {
-            if (MyCurrentTarget == null) 
+            if (MyCurrentTarget == null)
                 return;
 
             // Movement key detection routine courtesy of pasterke
-            if ((GetAsyncKeyState(Keys.LButton) != 0
-                && GetAsyncKeyState(Keys.RButton) != 0)) return;
+            if (GetAsyncKeyState(Keys.LButton) != 0
+                && GetAsyncKeyState(Keys.RButton) != 0) return;
 
             await FaceTarget(MyCurrentTarget,
                 () =>
@@ -114,12 +121,12 @@ namespace Paws.Core
         }
 
         /// <summary>
-        /// (Non-Blocking) Attempts to face the specified target.
+        ///     (Non-Blocking) Attempts to face the specified target.
         /// </summary>
         /// <returns>Returns true if we are able to safely face the target</returns>
         public static async Task FaceTarget(WoWUnit target, Func<bool> conditionCheck = null)
         {
-            if (conditionCheck != null && !conditionCheck()) 
+            if (conditionCheck != null && !conditionCheck())
                 return;
 
             target.Face();
@@ -127,20 +134,18 @@ namespace Paws.Core
         }
 
         /// <summary>
-        /// (Non-Blocking) Attempts to clear the player's current target.
+        ///     (Non-Blocking) Attempts to clear the player's current target.
         /// </summary>
         /// <returns>Returns true if we are able to clear the target</returns>
         public static async Task<bool> ClearMyDeadTarget()
         {
-            if (MyCurrentTarget != null && MyCurrentTarget.IsDead)
-            {
-                Me.ClearTarget();
-                Log.AppendLine(string.Format("Clearing dead target {0} [{1}]", MyCurrentTarget.SafeName, MyCurrentTarget.Guid), Colors.Bisque);
+            if (MyCurrentTarget == null || !MyCurrentTarget.IsDead) return false;
+            Me.ClearTarget();
+            Log.AppendLine(
+                string.Format("Clearing dead target {0} [{1}]", MyCurrentTarget.SafeName, MyCurrentTarget.Guid),
+                Colors.Bisque);
 
-                await CommonCoroutines.SleepForLagDuration();
-
-                return false;
-            }
+            await CommonCoroutines.SleepForLagDuration();
 
             return false;
         }

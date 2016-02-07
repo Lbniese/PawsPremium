@@ -145,4 +145,77 @@
   <data name="Minimalist" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\presets\minimalist.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="AddNewItemForm_removeSelectedConditionsButton_Click_Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="AddNewItemForm_saveButton_Click_You_must_enter_an_item_id_to_continue_" xml:space="preserve">
+    <value>You must enter an item id to continue.</value>
+  </data>
+  <data name="AddNewItemForm_saveButton_Click_You_must_enter_an_item_name_to_continue_" xml:space="preserve">
+    <value>You must enter an item name to continue.</value>
+  </data>
+  <data name="AddNewItemForm_saveButton_Click_Notice" xml:space="preserve">
+    <value>Notice</value>
+  </data>
+  <data name="AddNewConditionForm_conditionsComboBox_SelectedIndexChanged_There_are_no_parameters_required_for_this_condition_" xml:space="preserve">
+    <value>There are no parameters required for this condition.</value>
+  </data>
+  <data name="AddNewConditionForm_saveButton_Click_Please_select_a_Condition_" xml:space="preserve">
+    <value>Please select a Condition.</value>
+  </data>
+  <data name="AddNewConditionForm_saveButton_Click_Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="AddNewAbilityForm_saveButton_Click_Please_select_an_Ability_" xml:space="preserve">
+    <value>Please select an Ability.</value>
+  </data>
+  <data name="AddNewAbilityForm_saveButton_Click_Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="AddNewAbilityChainForm_hotKeyTriggerSetKeyButton_Click_Set_Key" xml:space="preserve">
+    <value>Set Key</value>
+  </data>
+  <data name="AddNewAbilityChainForm_hotKeyTriggerSetKeyButton_Click_Press_Key_Now" xml:space="preserve">
+    <value>Press Key Now</value>
+  </data>
+  <data name="AddNewAbilityChainForm_AddNewAbilityChainForm_KeyUp_" xml:space="preserve">
+    <value>Do not press any modifier keys such as Control, Shift, and Alt.
+Use the Checkboxes to assign those keys</value>
+  </data>
+  <data name="AddNewAbilityChainForm_saveButton_Click_The_ability_chain_name_text_box_cannot_be_blank_" xml:space="preserve">
+    <value>The ability chain name text box cannot be blank.</value>
+  </data>
+  <data name="AddNewAbilityChainForm_saveButton_Click_Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="AddNewAbilityChainForm_saveButton_Click_The_hot_key_must_be_set_" xml:space="preserve">
+    <value>The hot key must be set.</value>
+  </data>
+  <data name="AddNewAbilityChainForm_saveButton_Click_There_must_be_at_least_one_ability_" xml:space="preserve">
+    <value>There must be at least one ability.</value>
+  </data>
+  <data name="AddNewAbilityChainForm_removeSelectedAbilitiesButton_Click_Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="AbilityChainsControl_removeSelectedItemsButton_Click_Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="AbilityChainsControl_editItemToolStripMenuItem_Click_Feral" xml:space="preserve">
+    <value>Feral</value>
+  </data>
+  <data name="SettingsForm_InitSettingsMode_Feral" xml:space="preserve">
+    <value>Feral</value>
+  </data>
+  <data name="SettingsForm_InitSettingsMode_Guardian" xml:space="preserve">
+    <value>Guardian</value>
+  </data>
+  <data name="SettingsForm_itemsEnableCheckedItemsButton_Click_Enabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="SettingsForm_itemsDisableCheckedItemsButton_Click_Disabled" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="SettingsForm_itemsRemoveSelectedItemsButton_Click_Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
 </root>

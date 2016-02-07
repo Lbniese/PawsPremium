@@ -8,18 +8,18 @@ namespace Paws.Core.Abilities.Guardian
         public BristlingFurAbility()
             : base(WoWSpell.FromId(SpellBook.BristlingFur), false, true)
         {
-            base.Category = AbilityCategory.Defensive;
+            Category = AbilityCategory.Defensive;
         }
 
         public override void ApplyDefaultSettings()
         {
             base.ApplyDefaultSettings();
 
-            base.Conditions.Add(new BooleanCondition(Settings.BristlingFurEnabled));
-            base.Conditions.Add(new MeIsInBearFormCondition());
-            base.Conditions.Add(new MeIsInCombatCondition());
-            base.Conditions.Add(new TargetHealthRangeCondition(TargetType.Me, 0, Settings.BristlingFurMinHealth));
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, base.Spell.Id));
+            Conditions.Add(new BooleanCondition(Settings.BristlingFurEnabled));
+            Conditions.Add(new MeIsInBearFormCondition());
+            Conditions.Add(new MeIsInCombatCondition());
+            Conditions.Add(new TargetHealthRangeCondition(TargetType.Me, 0, Settings.BristlingFurMinHealth));
+            Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, Spell.Id));
         }
     }
 }

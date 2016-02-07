@@ -3,7 +3,7 @@
 namespace Paws.Core.Conditions
 {
     /// <summary>
-    /// Condition based on if the player is not flying.
+    ///     Condition based on if the player is not flying.
     /// </summary>
     public class MeIsNotFlyingCondition : ICondition
     {

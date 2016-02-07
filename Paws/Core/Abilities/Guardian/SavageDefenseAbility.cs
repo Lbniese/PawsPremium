@@ -8,19 +8,19 @@ namespace Paws.Core.Abilities.Guardian
         public SavageDefenseAbility()
             : base(WoWSpell.FromId(SpellBook.SavageDefense), false, true)
         {
-            base.Category = AbilityCategory.Defensive;
+            Category = AbilityCategory.Defensive;
         }
 
         public override void ApplyDefaultSettings()
         {
             base.ApplyDefaultSettings();
 
-            base.Conditions.Add(new BooleanCondition(Settings.SavageDefenseEnabled));
-            base.Conditions.Add(new MeIsInBearFormCondition());
-            base.Conditions.Add(new MeIsInCombatCondition());
-            base.Conditions.Add(new TargetHealthRangeCondition(TargetType.Me, 0, Settings.SavageDefenseMinHealth));
-            base.Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.SavageDefense));
-            base.Conditions.Add(new MyRageCondition(Settings.SavageDefenseMinRage));
+            Conditions.Add(new BooleanCondition(Settings.SavageDefenseEnabled));
+            Conditions.Add(new MeIsInBearFormCondition());
+            Conditions.Add(new MeIsInCombatCondition());
+            Conditions.Add(new TargetHealthRangeCondition(TargetType.Me, 0, Settings.SavageDefenseMinHealth));
+            Conditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.SavageDefense));
+            Conditions.Add(new MyRageCondition(Settings.SavageDefenseMinRage));
         }
     }
 }

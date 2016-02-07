@@ -1,4 +1,4 @@
-﻿namespace Paws.Interface
+﻿namespace Paws.Interface.Controls
 {
     partial class TwoRadioOptionsControl
     {

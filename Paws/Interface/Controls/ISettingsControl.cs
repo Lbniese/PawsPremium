@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Paws.Interface.Forms;
 
 namespace Paws.Interface.Controls
 {
     public interface ISettingsControl
     {
         SettingsForm SettingsForm { get; set; }
-        void BindUISettings();
+        void BindUiSettings();
         void ApplySettings();
     }
 }

@@ -1,114 +1,192 @@
-﻿using Paws.Core.Abilities;
-using Paws.Core.Utilities;
-using Styx;
-using Styx.WoWInternals.WoWObjects;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Shared = Paws.Core.Abilities.Shared;
-using Feral = Paws.Core.Abilities.Feral;
-using Guardian = Paws.Core.Abilities.Guardian;
+using Paws.Core.Abilities;
+using Paws.Core.Abilities.Feral;
+using Paws.Core.Abilities.Guardian;
+using Paws.Core.Abilities.Shared;
+using Paws.Core.Utilities;
+using Styx;
+using Styx.WoWInternals.WoWObjects;
+using BerserkAbility = Paws.Core.Abilities.Feral.BerserkAbility;
+using FaerieFireAbility = Paws.Core.Abilities.Feral.FaerieFireAbility;
+using IncarnationAbility = Paws.Core.Abilities.Feral.IncarnationAbility;
+using SurvivalInstinctsAbility = Paws.Core.Abilities.Feral.SurvivalInstinctsAbility;
+using ThrashAbility = Paws.Core.Abilities.Feral.ThrashAbility;
+using WildChargeAbility = Paws.Core.Abilities.Feral.WildChargeAbility;
 
 namespace Paws.Core.Managers
 {
     /// <summary>
-    /// Provides the management of loaded abilities.
+    ///     Provides the management of loaded abilities.
     /// </summary>
     public sealed class AbilityManager
     {
-        #region Singleton Stuff
-
-        private static AbilityManager _singletonInstance;
+        /// <summary>
+        ///     The amount of time to elapse in order to presume an ability has been casted too quickly after it has been already
+        ///     previously casted.
+        /// </summary>
+        public const int CastTryElapsedTimeMs = 500;
 
         /// <summary>
-        /// Singleton instance.
+        ///     The number of times allowed to cast an ability before it has been blocked after a consecutive attempt.
         /// </summary>
-        public static AbilityManager Instance
+        public const int CastTryThreshold = 1;
+
+        /// <summary>
+        ///     The length of time in Milliseconds to block an ability before it is allowed to be cast again.
+        /// </summary>
+        public const int BlockTimeMs = 2000;
+
+        /// <summary>
+        ///     Builds the list of abilities on creation.
+        /// </summary>
+        public AbilityManager()
         {
-            get
-            {
-                return _singletonInstance ?? (_singletonInstance = new AbilityManager());
-            }
+            Abilities = new List<IAbility>();
+            BlockedAbilities = new BlockedAbilityList();
+
+            // New Feral //
+            Abilities.Add(Create<MarkOfTheWildAbility>());
+            Abilities.Add(Create<CatFormAbility>());
+            Abilities.Add(Create<CatFormPowerShiftAbility>());
+            Abilities.Add(Create<ProwlAbility>());
+            Abilities.Add(Create<MoonfireHeightIssueAbility>());
+            Abilities.Add(Create<SurvivalInstinctsAbility>());
+            Abilities.Add(Create<SavageRoarAbility>());
+            Abilities.Add(Create<WildChargeAbility>());
+            Abilities.Add(Create<ProwlOpenerAbility>());
+            Abilities.Add(Create<ForceOfNatureAbility>());
+            Abilities.Add(Create<BerserkAbility>());
+            Abilities.Add(Create<TigersFuryAbility>());
+            Abilities.Add(Create<IncarnationAbility>());
+            Abilities.Add(Create<FerociousBiteAbility>());
+            Abilities.Add(Create<RipAbility>());
+            Abilities.Add(Create<RakeAbility>());
+            Abilities.Add(Create<WrathAbility>());
+            Abilities.Add(Create<MoonfireAbility>());
+            Abilities.Add(Create<ShredAbility>());
+            Abilities.Add(Create<MaimAbility>());
+            Abilities.Add(Create<RebirthAbility>());
+            Abilities.Add(Create<WarStompAbility>());
+            Abilities.Add(Create<BerserkingAbility>());
+            Abilities.Add(Create<ThrashAbility>());
+            Abilities.Add(Create<SwipeAbility>());
+            Abilities.Add(Create<HeartOfTheWildAbility>());
+            Abilities.Add(Create<RemoveSnareWithStampedingRoarAbility>());
+            Abilities.Add(Create<RemoveSnareWithDashAbility>());
+            Abilities.Add(Create<HealingTouchSnapshotAbility>());
+            Abilities.Add(Create<ShredAtFiveComboPointsAbility>());
+            Abilities.Add(Create<HealingTouchMyAllyAbility>());
+            Abilities.Add(Create<RejuvenateMyAllyAbility>());
+            Abilities.Add(Create<BearFormPowerShiftAbility>());
+
+            Abilities.Add(new FaerieFireAbility(WoWClass.Rogue, Settings.FaerieFireRogueEnabled));
+            Abilities.Add(new FaerieFireAbility(WoWClass.Druid, Settings.FaerieFireDruidEnabled));
+            Abilities.Add(new FaerieFireAbility(WoWClass.Warrior, Settings.FaerieFireWarriorEnabled));
+            Abilities.Add(new FaerieFireAbility(WoWClass.Paladin, Settings.FaerieFirePaladinEnabled));
+            Abilities.Add(new FaerieFireAbility(WoWClass.Mage, Settings.FaerieFireMageEnabled));
+            Abilities.Add(new FaerieFireAbility(WoWClass.Monk, Settings.FaerieFireMonkEnabled));
+            Abilities.Add(new FaerieFireAbility(WoWClass.Hunter, Settings.FaerieFireHunterEnabled));
+            Abilities.Add(new FaerieFireAbility(WoWClass.Priest, Settings.FaerieFirePriestEnabled));
+            Abilities.Add(new FaerieFireAbility(WoWClass.DeathKnight, Settings.FaerieFireDeathKnightEnabled));
+            Abilities.Add(new FaerieFireAbility(WoWClass.Shaman, Settings.FaerieFireShamanEnabled));
+            Abilities.Add(new FaerieFireAbility(WoWClass.Warlock, Settings.FaerieFireWarlockEnabled));
+
+            // Guardian //
+            Abilities.Add(Create<BearFormAbility>());
+            Abilities.Add(Create<MangleAbility>());
+            Abilities.Add(Create<LacerateAbility>());
+            Abilities.Add(Create<PulverizeAbility>());
+            Abilities.Add(Create<Abilities.Guardian.ThrashAbility>());
+            Abilities.Add(Create<MaulAbility>());
+            Abilities.Add(Create<Abilities.Guardian.SurvivalInstinctsAbility>());
+            Abilities.Add(Create<BarkskinAbility>());
+            Abilities.Add(Create<FrenziedRegenerationAbility>());
+            Abilities.Add(Create<SavageDefenseAbility>());
+            Abilities.Add(Create<Abilities.Guardian.BerserkAbility>());
+            Abilities.Add(Create<Abilities.Guardian.WildChargeAbility>());
+            Abilities.Add(Create<Abilities.Guardian.FaerieFireAbility>());
+            Abilities.Add(Create<GrowlAbility>());
+            Abilities.Add(Create<Abilities.Guardian.IncarnationAbility>());
+            Abilities.Add(Create<BristlingFurAbility>());
+
+            // Shared //
+            Abilities.Add(Create<SkullBashAbility>());
+            Abilities.Add(Create<CenarionWardAbility>());
+            Abilities.Add(Create<MightyBashAbility>());
+            Abilities.Add(Create<TyphoonAbility>());
+            Abilities.Add(Create<IncapacitatingRoarAbility>());
+            Abilities.Add(Create<MassEntanglementAbility>());
+            Abilities.Add(Create<RenewalAbility>());
+            Abilities.Add(Create<RejuvenationAbility>());
+            Abilities.Add(Create<HealingTouchAbility>());
+            Abilities.Add(Create<NaturesVigilAbility>());
+            Abilities.Add(Create<DashAbility>());
+            Abilities.Add(Create<StampedingRoarAbility>());
+            Abilities.Add(Create<DisplacerBeastAbility>());
+            Abilities.Add(Create<SootheAbility>());
+            Abilities.Add(Create<CycloneAbility>());
+            Abilities.Add(Create<EntanglingRootsAbility>());
         }
 
         /// <summary>
-        /// Rebuilds and reloads all of the abilities. Useful after changing settings.
-        /// </summary>
-        public static void ReloadAbilities()
-        {
-            _singletonInstance = new AbilityManager();
-        }
-
-        private static SettingsManager Settings { get { return SettingsManager.Instance; } }
-
-        #endregion
-
-        /// <summary>
-        /// The amount of time to elapse in order to presume an ability has been casted too quickly after it has been already previously casted.
-        /// </summary>
-        public const int CAST_TRY_ELAPSED_TIME_MS = 500;
-
-        /// <summary>
-        /// The number of times allowed to cast an ability before it has been blocked after a consecutive attempt.
-        /// </summary>
-        public const int CAST_TRY_THRESHOLD = 1;
-
-        /// <summary>
-        /// The length of time in Milliseconds to block an ability before it is allowed to be cast again.
-        /// </summary>
-        public const int BLOCK_TIME_MS = 2000;
-
-        /// <summary>
-        /// Gets the last casted ability.
+        ///     Gets the last casted ability.
         /// </summary>
         public IAbility LastCastAbility { get; private set; }
 
         /// <summary>
-        /// Gets the time of the last casted ability.
+        ///     Gets the time of the last casted ability.
         /// </summary>
         public DateTime LastCastDateTime { get; private set; }
 
         /// <summary>
-        /// Gets the number of successful cast attempts for the last casted ability.
+        ///     Gets the number of successful cast attempts for the last casted ability.
         /// </summary>
         public int LastCastTries { get; private set; }
 
         /// <summary>
-        /// Gets the list of loaded abilities.
+        ///     Gets the list of loaded abilities.
         /// </summary>
         public List<IAbility> Abilities { get; private set; }
 
         /// <summary>
-        /// Gets the list of abilities that are currently blocked.
+        ///     Gets the list of abilities that are currently blocked.
         /// </summary>
         public BlockedAbilityList BlockedAbilities { get; private set; }
 
-        
+
         /// <summary>
-        /// Gets a flag that tells if the character was just prowling within the last 0.5 seconds.
+        ///     Gets a flag that tells if the character was just prowling within the last 0.5 seconds.
         /// </summary>
         public bool WasJustProwling { get; set; }
 
         /// <summary>
-        /// Updates each loaded ability. This should only be done during the Main.Pulse().
+        ///     Updates each loaded ability. This should only be done during the Main.Pulse().
         /// </summary>
         public void Update()
         {
-            foreach (IAbility ability in Abilities)
+            foreach (var ability in Abilities)
             {
                 ability.Update();
             }
 
-            this.WasJustProwling = StyxWoW.Me.HasAura(SpellBook.Prowl);
+            WasJustProwling = StyxWoW.Me.HasAura(SpellBook.Prowl);
         }
 
         /// <summary>
-        /// <para>(Non-Blocking) Casts the specified ability on the provided target. Also generates logging and audit information.</para>
-        /// <para>This is the perferred entry point to casting an ability's spell, as it manages the logic behind blocked abilities and snapshotting.</para>
+        ///     <para>
+        ///         (Non-Blocking) Casts the specified ability on the provided target. Also generates logging and audit
+        ///         information.
+        ///     </para>
+        ///     <para>
+        ///         This is the perferred entry point to casting an ability's spell, as it manages the logic behind blocked
+        ///         abilities and snapshotting.
+        ///     </para>
         /// </summary>
         /// <returns>Will return true if the cast was successful.</returns>
-        public async Task<bool> Cast<T>(WoWUnit target) where T: IAbility
+        public async Task<bool> Cast<T>(WoWUnit target) where T : IAbility
         {
             var abilities = Get<T>();
 
@@ -117,14 +195,15 @@ namespace Paws.Core.Managers
 
             foreach (var ability in abilities)
             {
-                var blockedAbility = this.BlockedAbilities.GetBlockedAbilityByType(ability.GetType());
+                var blockedAbility = BlockedAbilities.GetBlockedAbilityByType(ability.GetType());
                 if (blockedAbility != null)
                 {
                     var blockedTimeInMs = (DateTime.Now - blockedAbility.BlockedDateAndTime).TotalMilliseconds;
-                    if (blockedTimeInMs >= BLOCK_TIME_MS)
+                    if (blockedTimeInMs >= BlockTimeMs)
                     {
-                        this.BlockedAbilities.Remove(blockedAbility);
-                        Log.Diagnostics(string.Format("Blocked ability {0} removed after {1} ms.", ability.Spell.Name, blockedTimeInMs));
+                        BlockedAbilities.Remove(blockedAbility);
+                        Log.Diagnostics(string.Format("Blocked ability {0} removed after {1} ms.", ability.Spell.Name,
+                            blockedTimeInMs));
                     }
                     else
                     {
@@ -135,153 +214,61 @@ namespace Paws.Core.Managers
 
                 var castResult = await ability.CastOnTarget(target);
 
-                if (castResult)
+                if (!castResult) continue;
+                if (ability == LastCastAbility)
+                    // This ability was already casted before, has it been less than the threshold minimum?
                 {
-                    if (ability == this.LastCastAbility) // This ability was already casted before, has it been less than the threshold minimum?
+                    var lastCastTimeInMs = (DateTime.Now - LastCastDateTime).TotalMilliseconds;
+                    if (lastCastTimeInMs < CastTryElapsedTimeMs)
                     {
-                        var lastCastTimeInMs = (DateTime.Now - this.LastCastDateTime).TotalMilliseconds;
-                        if (lastCastTimeInMs < CAST_TRY_ELAPSED_TIME_MS)
+                        if (LastCastTries >= CastTryThreshold)
                         {
-                            if (this.LastCastTries >= CAST_TRY_THRESHOLD)
-                            {
-                                this.BlockedAbilities.Add(new BlockedAbility(ability, DateTime.Now));
-                                Log.Diagnostics(string.Format("{0} has been blocked after {1} cast atttempts. Total of {2} blocked abilities.", ability.GetType().Name, this.LastCastTries+1, this.BlockedAbilities.Count));
+                            BlockedAbilities.Add(new BlockedAbility(ability, DateTime.Now));
+                            Log.Diagnostics(
+                                string.Format(
+                                    "{0} has been blocked after {1} cast atttempts. Total of {2} blocked abilities.",
+                                    ability.GetType().Name, LastCastTries + 1, BlockedAbilities.Count));
 
-                                return false;
-                            }
-                            else
-                            {
-                                this.LastCastTries++;
-                            }
+                            return false;
                         }
+                        LastCastTries++;
                     }
-                    else
-                    {
-                        this.LastCastTries = 1;
-                    }
-
-                    this.LastCastAbility = ability;
-                    this.LastCastDateTime = DateTime.Now;
-
-                    // Track Bleeds
-                    if (ability is Feral.ProwlOpenerAbility && Settings.RakeStealthOpener) SnapshotManager.Instance.AddRakedTarget(target);
-                    if (ability is Feral.RakeAbility) SnapshotManager.Instance.AddRakedTarget(target);
-                    // if (ability is Feral.RipAbility) SnapshotManager.Instance.AddRippedTarget(target);
-
-                    // Track Rejuvenation Targets
-                    if (ability is Feral.RejuvenateMyAllyAbility) UnitManager.Instance.LastKnownRejuvenatedAllies.Add(target);
-
-                    return true;
                 }
+                else
+                {
+                    LastCastTries = 1;
+                }
+
+                LastCastAbility = ability;
+                LastCastDateTime = DateTime.Now;
+
+                // Track Bleeds
+                if (ability is ProwlOpenerAbility && Settings.RakeStealthOpener)
+                    SnapshotManager.Instance.AddRakedTarget(target);
+                if (ability is RakeAbility) SnapshotManager.Instance.AddRakedTarget(target);
+                // if (ability is Feral.RipAbility) SnapshotManager.Instance.AddRippedTarget(target);
+
+                // Track Rejuvenation Targets
+                if (ability is RejuvenateMyAllyAbility) UnitManager.Instance.LastKnownRejuvenatedAllies.Add(target);
+
+                return true;
             }
 
             return false;
         }
 
         /// <summary>
-        /// Gets the current instance of the specified ability class.
+        ///     Gets the current instance of the specified ability class.
         /// </summary>
-        public List<IAbility> Get<T>() where T: IAbility
+        public List<IAbility> Get<T>() where T : IAbility
         {
-            return this.Abilities
+            return Abilities
                 .Where(o => o is T)
                 .ToList();
         }
 
         /// <summary>
-        /// Builds the list of abilities on creation.
-        /// </summary>
-        public AbilityManager()
-        {
-            this.Abilities = new List<IAbility>();
-            this.BlockedAbilities = new BlockedAbilityList();
-
-            // New Feral //
-            this.Abilities.Add(Create<Feral.MarkOfTheWildAbility>());
-            this.Abilities.Add(Create<Feral.CatFormAbility>());
-            this.Abilities.Add(Create<Feral.CatFormPowerShiftAbility>());
-            this.Abilities.Add(Create<Feral.ProwlAbility>());
-            this.Abilities.Add(Create<Feral.MoonfireHeightIssueAbility>());
-            this.Abilities.Add(Create<Feral.SurvivalInstinctsAbility>());
-            this.Abilities.Add(Create<Feral.SavageRoarAbility>());
-            this.Abilities.Add(Create<Feral.WildChargeAbility>());
-            this.Abilities.Add(Create<Feral.ProwlOpenerAbility>());
-            this.Abilities.Add(Create<Feral.ForceOfNatureAbility>());
-            this.Abilities.Add(Create<Feral.BerserkAbility>());
-            this.Abilities.Add(Create<Feral.TigersFuryAbility>());
-            this.Abilities.Add(Create<Feral.IncarnationAbility>());
-            this.Abilities.Add(Create<Feral.FerociousBiteAbility>());
-            this.Abilities.Add(Create<Feral.RipAbility>());
-            this.Abilities.Add(Create<Feral.RakeAbility>());
-            this.Abilities.Add(Create<Feral.WrathAbility>());
-            this.Abilities.Add(Create<Feral.MoonfireAbility>());
-            this.Abilities.Add(Create<Feral.ShredAbility>());
-            this.Abilities.Add(Create<Feral.MaimAbility>());
-            this.Abilities.Add(Create<Feral.RebirthAbility>());
-            this.Abilities.Add(Create<Feral.WarStompAbility>());
-            this.Abilities.Add(Create<Feral.BerserkingAbility>());
-            this.Abilities.Add(Create<Feral.ThrashAbility>());
-            this.Abilities.Add(Create<Feral.SwipeAbility>());
-            this.Abilities.Add(Create<Feral.HeartOfTheWildAbility>());
-            this.Abilities.Add(Create<Feral.RemoveSnareWithStampedingRoarAbility>());
-            this.Abilities.Add(Create<Feral.RemoveSnareWithDashAbility>());
-            this.Abilities.Add(Create<Feral.HealingTouchSnapshotAbility>());
-            this.Abilities.Add(Create<Feral.ShredAtFiveComboPointsAbility>());
-            this.Abilities.Add(Create<Feral.HealingTouchMyAllyAbility>());
-            this.Abilities.Add(Create<Feral.RejuvenateMyAllyAbility>());
-            this.Abilities.Add(Create<Feral.BearFormPowerShiftAbility>());
-
-            this.Abilities.Add(new Feral.FaerieFireAbility(WoWClass.Rogue, Settings.FaerieFireRogueEnabled));
-            this.Abilities.Add(new Feral.FaerieFireAbility(WoWClass.Druid, Settings.FaerieFireDruidEnabled));
-            this.Abilities.Add(new Feral.FaerieFireAbility(WoWClass.Warrior, Settings.FaerieFireWarriorEnabled));
-            this.Abilities.Add(new Feral.FaerieFireAbility(WoWClass.Paladin, Settings.FaerieFirePaladinEnabled));
-            this.Abilities.Add(new Feral.FaerieFireAbility(WoWClass.Mage, Settings.FaerieFireMageEnabled));
-            this.Abilities.Add(new Feral.FaerieFireAbility(WoWClass.Monk, Settings.FaerieFireMonkEnabled));
-            this.Abilities.Add(new Feral.FaerieFireAbility(WoWClass.Hunter, Settings.FaerieFireHunterEnabled));
-            this.Abilities.Add(new Feral.FaerieFireAbility(WoWClass.Priest, Settings.FaerieFirePriestEnabled));
-            this.Abilities.Add(new Feral.FaerieFireAbility(WoWClass.DeathKnight, Settings.FaerieFireDeathKnightEnabled));
-            this.Abilities.Add(new Feral.FaerieFireAbility(WoWClass.Shaman, Settings.FaerieFireShamanEnabled));
-            this.Abilities.Add(new Feral.FaerieFireAbility(WoWClass.Warlock, Settings.FaerieFireWarlockEnabled));
-
-            // Guardian //
-            this.Abilities.Add(Create<Guardian.BearFormAbility>());
-            this.Abilities.Add(Create<Guardian.MangleAbility>());
-            this.Abilities.Add(Create<Guardian.LacerateAbility>());
-            this.Abilities.Add(Create<Guardian.PulverizeAbility>());
-            this.Abilities.Add(Create<Guardian.ThrashAbility>());
-            this.Abilities.Add(Create<Guardian.MaulAbility>());
-            this.Abilities.Add(Create<Guardian.SurvivalInstinctsAbility>());
-            this.Abilities.Add(Create<Guardian.BarkskinAbility>());
-            this.Abilities.Add(Create<Guardian.FrenziedRegenerationAbility>());
-            this.Abilities.Add(Create<Guardian.SavageDefenseAbility>());
-            this.Abilities.Add(Create<Guardian.BerserkAbility>());
-            this.Abilities.Add(Create<Guardian.WildChargeAbility>());
-            this.Abilities.Add(Create<Guardian.FaerieFireAbility>());
-            this.Abilities.Add(Create<Guardian.GrowlAbility>());
-            this.Abilities.Add(Create<Guardian.IncarnationAbility>());
-            this.Abilities.Add(Create<Guardian.BristlingFurAbility>());
-
-            // Shared //
-            this.Abilities.Add(Create<Shared.SkullBashAbility>());
-            this.Abilities.Add(Create<Shared.CenarionWardAbility>());
-            this.Abilities.Add(Create<Shared.MightyBashAbility>());
-            this.Abilities.Add(Create<Shared.TyphoonAbility>());
-            this.Abilities.Add(Create<Shared.IncapacitatingRoarAbility>());
-            this.Abilities.Add(Create<Shared.MassEntanglementAbility>());
-            this.Abilities.Add(Create<Shared.RenewalAbility>());
-            this.Abilities.Add(Create<Shared.RejuvenationAbility>());
-            this.Abilities.Add(Create<Shared.HealingTouchAbility>());
-            this.Abilities.Add(Create<Shared.NaturesVigilAbility>());
-            this.Abilities.Add(Create<Shared.DashAbility>());
-            this.Abilities.Add(Create<Shared.StampedingRoarAbility>());
-            this.Abilities.Add(Create<Shared.DisplacerBeastAbility>());
-            this.Abilities.Add(Create<Shared.SootheAbility>());
-            this.Abilities.Add(Create<Shared.CycloneAbility>());
-            this.Abilities.Add(Create<Shared.EntanglingRootsAbility>());
-        }
-
-        /// <summary>
-        /// Create an instance of an ability using default settings.
+        ///     Create an instance of an ability using default settings.
         /// </summary>
         public static IAbility Create<T>() where T : AbilityBase
         {
@@ -290,5 +277,32 @@ namespace Paws.Core.Managers
 
             return instance;
         }
+
+        #region Singleton Stuff
+
+        private static AbilityManager _singletonInstance;
+
+        /// <summary>
+        ///     Singleton instance.
+        /// </summary>
+        public static AbilityManager Instance
+        {
+            get { return _singletonInstance ?? (_singletonInstance = new AbilityManager()); }
+        }
+
+        /// <summary>
+        ///     Rebuilds and reloads all of the abilities. Useful after changing settings.
+        /// </summary>
+        public static void ReloadAbilities()
+        {
+            _singletonInstance = new AbilityManager();
+        }
+
+        private static SettingsManager Settings
+        {
+            get { return SettingsManager.Instance; }
+        }
+
+        #endregion
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace Paws.Core.Abilities
 {
     /// <summary>
-    /// Defines the category that an ability belongs to. This is used for the purposes of logging.
+    ///     Defines the category that an ability belongs to. This is used for the purposes of logging.
     /// </summary>
     public enum AbilityCategory
     {

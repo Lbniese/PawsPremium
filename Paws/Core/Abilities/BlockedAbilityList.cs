@@ -8,7 +8,7 @@ namespace Paws.Core.Abilities
     {
         public BlockedAbility GetBlockedAbilityByType(Type t)
         {
-            foreach(var blockedAbility in this)
+            foreach (var blockedAbility in this)
             {
                 var type = blockedAbility.GetType();
 

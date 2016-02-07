@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Windows.Forms;
 using System.Linq;
+using System.Windows.Forms;
+using Styx;
 
-namespace Paws.Interface
+namespace Paws.Interface.Forms
 {
     public partial class AddItemMyBagsForm : Form
     {
@@ -14,9 +15,9 @@ namespace Paws.Interface
         private void AddItemMyBagsForm_Load(object sender, EventArgs e)
         {
             // load the items from my bags...
-            var useableItems = Styx.StyxWoW.Me.BagItems
+            var useableItems = StyxWoW.Me.BagItems
                 .Where(o => o.Usable)
-                .Select(o => new ItemSelectionEntry()
+                .Select(o => new ItemSelectionEntry
                 {
                     Entry = o.Entry,
                     Name = o.Name
@@ -26,13 +27,13 @@ namespace Paws.Interface
 
             foreach (var carriedItem in useableItems)
             {
-                this.carriedItemsComboBox.Items.Add(carriedItem);
+                carriedItemsComboBox.Items.Add(carriedItem);
             }
         }
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            DialogResult = DialogResult.OK;
         }
     }
 
@@ -41,14 +42,14 @@ namespace Paws.Interface
         public uint Entry { get; set; }
         public string Name { get; set; }
 
-        public override string ToString()
-        {
-            return this.Name;
-        }
-
         public int CompareTo(ItemSelectionEntry that)
         {
-            return this.Entry.CompareTo(that.Entry);
+            return Entry.CompareTo(that.Entry);
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

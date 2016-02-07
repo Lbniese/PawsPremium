@@ -2,12 +2,10 @@
 
 namespace Paws.Core.Abilities.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class)]
     public class AbilityChainAttribute : Attribute
     {
         public string FriendlyName { get; set; }
-
-
 
 
         //  Notes

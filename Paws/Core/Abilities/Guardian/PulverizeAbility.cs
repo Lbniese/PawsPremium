@@ -7,18 +7,19 @@ namespace Paws.Core.Abilities.Guardian
     {
         public PulverizeAbility()
             : base(WoWSpell.FromId(SpellBook.Pulverize))
-        { }
+        {
+        }
 
         public override void ApplyDefaultSettings()
         {
             base.ApplyDefaultSettings();
 
-            base.Conditions.Add(new BooleanCondition(Settings.PulverizeEnabled));
-            base.Conditions.Add(new MeIsInBearFormCondition());
-            base.Conditions.Add(new MeHasAttackableTargetCondition());
-            base.Conditions.Add(new MyTargetIsWithinMeleeRangeCondition());
-            base.Conditions.Add(new MeIsFacingTargetCondition());
-            base.Conditions.Add(new TargetHasAuraMinStacksCondition(TargetType.MyCurrentTarget, SpellBook.Lacerate, 3));
+            Conditions.Add(new BooleanCondition(Settings.PulverizeEnabled));
+            Conditions.Add(new MeIsInBearFormCondition());
+            Conditions.Add(new MeHasAttackableTargetCondition());
+            Conditions.Add(new MyTargetIsWithinMeleeRangeCondition());
+            Conditions.Add(new MeIsFacingTargetCondition());
+            Conditions.Add(new TargetHasAuraMinStacksCondition(TargetType.MyCurrentTarget, SpellBook.Lacerate, 3));
         }
     }
 }

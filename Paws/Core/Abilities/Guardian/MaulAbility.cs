@@ -7,24 +7,25 @@ namespace Paws.Core.Abilities.Guardian
     {
         public MaulAbility()
             : base(WoWSpell.FromId(SpellBook.Maul), false, true)
-        { }
+        {
+        }
 
         public override void ApplyDefaultSettings()
         {
             base.ApplyDefaultSettings();
 
-            base.Conditions.Add(new BooleanCondition(Settings.MaulEnabled));
-            base.Conditions.Add(new MeIsInBearFormCondition());
-            base.Conditions.Add(new MeHasAttackableTargetCondition());
-            base.Conditions.Add(new MyTargetIsWithinMeleeRangeCondition());
-            base.Conditions.Add(new MeIsFacingTargetCondition());
+            Conditions.Add(new BooleanCondition(Settings.MaulEnabled));
+            Conditions.Add(new MeIsInBearFormCondition());
+            Conditions.Add(new MeHasAttackableTargetCondition());
+            Conditions.Add(new MyTargetIsWithinMeleeRangeCondition());
+            Conditions.Add(new MeIsFacingTargetCondition());
             if (Settings.MaulOnlyDuringToothAndClawProc)
             {
-                base.Conditions.Add(new TargetHasAuraCondition(TargetType.Me, SpellBook.ToothAndClawProc));
+                Conditions.Add(new TargetHasAuraCondition(TargetType.Me, SpellBook.ToothAndClawProc));
             }
             if (Settings.MaulRequireMinRage)
             {
-                base.Conditions.Add(new MyRageCondition(Settings.MaulMinRage));
+                Conditions.Add(new MyRageCondition(Settings.MaulMinRage));
             }
         }
     }

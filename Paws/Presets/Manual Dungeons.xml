@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <SettingsManager>
   <BearFormEnabled>True</BearFormEnabled>
   <BearFormOnlyDuringPullOrCombat>True</BearFormOnlyDuringPullOrCombat>

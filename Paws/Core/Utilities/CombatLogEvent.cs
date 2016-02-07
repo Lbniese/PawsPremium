@@ -1,39 +1,35 @@
-﻿using Paws.Core.Managers;
+﻿using System;
+using Paws.Core.Managers;
 using Styx.WoWInternals;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Paws.Core.Utilities
 {
     /// <summary>
-    /// Encapsulates the base information of a combat log event.
+    ///     Encapsulates the base information of a combat log event.
     /// </summary>
     public class CombatLogEvent
     {
+        public CombatLogEvent(LuaEventArgs eventArgs)
+        {
+            EventType = eventArgs.EventName;
+
+            BaseArgs = new CombatLogEventBaseArgs
+            {
+                TimeStamp = Convert.ToInt32(eventArgs.Args[0]),
+                Event = Convert.ToString(eventArgs.Args[1]),
+                SourceUnitId = UnitManager.GuidToUnitId((string) eventArgs.Args[3]),
+                SourceName = Convert.ToString(eventArgs.Args[4]),
+                DestinationUnitId = UnitManager.GuidToUnitId((string) eventArgs.Args[7]),
+                DestinationName = Convert.ToString(eventArgs.Args[8])
+            };
+        }
+
         public string EventType { get; set; }
 
         public CombatLogEventBaseArgs BaseArgs { get; set; }
 
-        public CombatLogEvent(LuaEventArgs eventArgs)
-        {
-            this.EventType = eventArgs.EventName;
-
-            BaseArgs = new CombatLogEventBaseArgs()
-            {
-                TimeStamp = Convert.ToInt32(eventArgs.Args[0]),
-                Event = Convert.ToString(eventArgs.Args[1]),
-                SourceUnitId = UnitManager.GuidToUnitID((string)eventArgs.Args[3]),
-                SourceName = Convert.ToString(eventArgs.Args[4]),
-                DestinationUnitId = UnitManager.GuidToUnitID((string)eventArgs.Args[7]),
-                DestinationName = Convert.ToString(eventArgs.Args[8]),
-            };
-        }
-
         /// <summary>
-        /// Helper method to retrieve the event type of the COMBAT_LOG_EVENT_UNFILTERED event.
+        ///     Helper method to retrieve the event type of the COMBAT_LOG_EVENT_UNFILTERED event.
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
@@ -44,7 +40,7 @@ namespace Paws.Core.Utilities
     }
 
     /// <summary>
-    /// The base arguments that all combat log events share.
+    ///     The base arguments that all combat log events share.
     /// </summary>
     public struct CombatLogEventBaseArgs
     {
@@ -57,16 +53,16 @@ namespace Paws.Core.Utilities
     }
 
     /// <summary>
-    /// Provides additional information on a combat log event where the event is SPELL_CAST_SUCCESS
+    ///     Provides additional information on a combat log event where the event is SPELL_CAST_SUCCESS
     /// </summary>
     public class SpellCastSuccess : CombatLogEvent
     {
-        public string SpellName { get; set; }
-
         public SpellCastSuccess(LuaEventArgs eventArgs)
             : base(eventArgs)
         {
-            this.SpellName = (string)eventArgs.Args[12];
+            SpellName = (string) eventArgs.Args[12];
         }
+
+        public string SpellName { get; set; }
     }
 }

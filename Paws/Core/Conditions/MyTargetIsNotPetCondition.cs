@@ -3,7 +3,7 @@
 namespace Paws.Core.Conditions
 {
     /// <summary>
-    /// Condition based on if the player's current target is not a pet.
+    ///     Condition based on if the player's current target is not a pet.
     /// </summary>
     public class MyTargetIsNotPetCondition : ICondition
     {

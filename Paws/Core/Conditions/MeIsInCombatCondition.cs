@@ -1,10 +1,9 @@
-﻿using Paws.Core.Conditions.Attributes;
-using Styx;
+﻿using Styx;
 
 namespace Paws.Core.Conditions
 {
     /// <summary>
-    /// Condition based on if the player is in Combat.
+    ///     Condition based on if the player is in Combat.
     /// </summary>
     public class MeIsInCombatCondition : ICondition
     {

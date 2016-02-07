@@ -1,7 +1,7 @@
 ﻿namespace Paws.Core
 {
     /// <summary>
-    /// Provides the spell ids for the various druid abilities.
+    ///     Provides the spell ids for the various druid abilities.
     /// </summary>
     public static class SpellBook
     {
@@ -42,7 +42,7 @@
         public const int Soothe = 2908;
         public const int Cyclone = 33786;
         public const int EntanglingRoots = 339;
-        
+
         public const int Mangle = 33917;
         public const int Lacerate = 33745;
         public const int Pulverize = 80313;

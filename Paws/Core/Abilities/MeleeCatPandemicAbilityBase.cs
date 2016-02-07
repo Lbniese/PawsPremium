@@ -4,44 +4,44 @@ using Styx.WoWInternals;
 namespace Paws.Core.Abilities
 {
     //// <summary>
-    /// The base Ability class for common pandemic melee feral conditions. This class cannot be directly instantiated. 
-    /// </summary>
-    public abstract class MeleeFeralPandemicAbilityBase : PandemicAbilityBase 
+    /// The base Ability class for common pandemic melee feral conditions. This class cannot be directly instantiated.
+    /// 
+    public abstract class MeleeFeralPandemicAbilityBase : PandemicAbilityBase
     {
-        bool SavageRoarCheck { get; set; }
-
-        public MeleeFeralPandemicAbilityBase(WoWSpell spell, bool savageRoarCheck)
+        protected MeleeFeralPandemicAbilityBase(WoWSpell spell, bool savageRoarCheck)
             : base(spell)
         {
-            this.SavageRoarCheck = savageRoarCheck;
+            SavageRoarCheck = savageRoarCheck;
         }
+
+        private bool SavageRoarCheck { get; set; }
 
         public override void ApplyDefaultSettings()
         {
             base.ApplyDefaultSettings();
 
-            base.Conditions.Add(new MeHasAttackableTargetCondition());
-            base.Conditions.Add(new MeIsFacingTargetCondition());
-            base.Conditions.Add(new MeIsInCatFormCondition());
-            base.Conditions.Add(new MyTargetIsWithinMeleeRangeCondition());
-            if (this.SavageRoarCheck && Settings.SavageRoarEnabled)
+            Conditions.Add(new MeHasAttackableTargetCondition());
+            Conditions.Add(new MeIsFacingTargetCondition());
+            Conditions.Add(new MeIsInCatFormCondition());
+            Conditions.Add(new MyTargetIsWithinMeleeRangeCondition());
+            if (SavageRoarCheck && Settings.SavageRoarEnabled)
             {
-                base.Conditions.Add(new ConditionTestSwitchCondition(
+                Conditions.Add(new ConditionTestSwitchCondition(
                     new MeKnowsSpellCondition(SpellBook.SavageRoar),
                     new MySavageRoarAuraCondition()
-                ));
+                    ));
             }
 
-            base.PandemicConditions.Add(new MeHasAttackableTargetCondition());
-            base.PandemicConditions.Add(new MeIsFacingTargetCondition());
-            base.PandemicConditions.Add(new MeIsInCatFormCondition());
-            base.Conditions.Add(new MyTargetIsWithinMeleeRangeCondition());
-            if (this.SavageRoarCheck && Settings.SavageRoarEnabled)
+            PandemicConditions.Add(new MeHasAttackableTargetCondition());
+            PandemicConditions.Add(new MeIsFacingTargetCondition());
+            PandemicConditions.Add(new MeIsInCatFormCondition());
+            Conditions.Add(new MyTargetIsWithinMeleeRangeCondition());
+            if (SavageRoarCheck && Settings.SavageRoarEnabled)
             {
-                base.PandemicConditions.Add(new ConditionTestSwitchCondition(
+                PandemicConditions.Add(new ConditionTestSwitchCondition(
                     new MeKnowsSpellCondition(SpellBook.SavageRoar),
                     new MySavageRoarAuraCondition()
-                ));
+                    ));
             }
         }
     }

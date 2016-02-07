@@ -1,5 +1,5 @@
-﻿using Paws.Core.Conditions;
-using Paws.Core.Abilities.Attributes;
+﻿using Paws.Core.Abilities.Attributes;
+using Paws.Core.Conditions;
 using Styx.WoWInternals;
 
 namespace Paws.Core.Abilities.Feral
@@ -10,15 +10,15 @@ namespace Paws.Core.Abilities.Feral
         public BearFormPowerShiftAbility()
             : base(WoWSpell.FromId(SpellBook.BearForm))
         {
-            base.Category = AbilityCategory.Buff;
-            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, base.Spell.Id));
+            Category = AbilityCategory.Buff;
+            RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, Spell.Id));
         }
 
         public override void ApplyDefaultSettings()
         {
             base.ApplyDefaultSettings();
 
-            base.Conditions.Add(new BooleanCondition(Settings.BearFormPowerShiftEnabled));
+            Conditions.Add(new BooleanCondition(Settings.BearFormPowerShiftEnabled));
         }
     }
 }

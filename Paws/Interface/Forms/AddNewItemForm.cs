@@ -1,119 +1,114 @@
-﻿using Paws.Core;
-using Paws.Core.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
+using Paws.Core;
 
-namespace Paws.Interface
+namespace Paws.Interface.Forms
 {
     public partial class AddNewItemForm : Form
     {
-        public PawsItem PawsItem { get; set; }
-
         public AddNewItemForm()
         {
             InitializeComponent();
 
-            this.myStateComboBox.SelectedIndex = 0;
+            myStateComboBox.SelectedIndex = 0;
         }
 
         public AddNewItemForm(PawsItem item)
         {
             InitializeComponent();
 
-            this.PawsItem = item;
-            this.itemEntryTextBox.Text = this.PawsItem.Entry.ToString();
-            this.itemNameTextBox.Text = this.PawsItem.Name;
-            this.myStateComboBox.SelectedIndex = (int)this.PawsItem.MyState;
+            PawsItem = item;
+            itemEntryTextBox.Text = PawsItem.Entry.ToString();
+            itemNameTextBox.Text = PawsItem.Name;
+            myStateComboBox.SelectedIndex = (int) PawsItem.MyState;
 
-            foreach (var condition in this.PawsItem.Conditions)
+            foreach (
+                var conditionItem in
+                    PawsItem.Conditions.Select(condition => new ListViewItem(condition.ToString()) {Tag = condition}))
             {
-                var conditionItem = new ListViewItem(condition.ToString());
-                conditionItem.Tag = condition;
-
-                this.conditionsListView.Items.Add(conditionItem);
+                conditionsListView.Items.Add(conditionItem);
             }
         }
 
+        public PawsItem PawsItem { get; set; }
+
         private void newConditionButton_Click(object sender, EventArgs e)
         {
-            AddNewConditionForm newForm = new AddNewConditionForm();
+            var newForm = new AddNewConditionForm();
 
-            if (newForm.ShowDialog() == DialogResult.OK)
-            {
-                var conditionItem = new ListViewItem(newForm.ItemCondition.ToString());
-                conditionItem.Tag = newForm.ItemCondition;
+            if (newForm.ShowDialog() != DialogResult.OK) return;
+            var conditionItem = new ListViewItem(newForm.ItemCondition.ToString()) {Tag = newForm.ItemCondition};
 
-                this.conditionsListView.Items.Add(conditionItem);
-            }
+            conditionsListView.Items.Add(conditionItem);
         }
 
         private void removeSelectedConditionsButton_Click(object sender, EventArgs e)
         {
-            if (this.conditionsListView.CheckedItems.Count > 0)
-            {
-                var result = MessageBox.Show(string.Format("You are about to remove {0} {1}. Would you like to proceed?",
-                    this.conditionsListView.CheckedItems.Count, this.conditionsListView.CheckedItems.Count == 1 ? "condition" : "conditions"),
-                    "Warning",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning);
+            if (conditionsListView.CheckedItems.Count <= 0) return;
+            var result = MessageBox.Show(string.Format("You are about to remove {0} {1}. Would you like to proceed?",
+                conditionsListView.CheckedItems.Count,
+                conditionsListView.CheckedItems.Count == 1 ? "condition" : "conditions"),
+                Properties.Resources.AddNewItemForm_removeSelectedConditionsButton_Click_Warning,
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
 
-                if (result == DialogResult.Yes)
-                {
-                    foreach (ListViewItem condition in this.conditionsListView.CheckedItems)
-                    {
-                        condition.Remove();
-                    }
-                }
+            if (result != DialogResult.Yes) return;
+            foreach (ListViewItem condition in conditionsListView.CheckedItems)
+            {
+                condition.Remove();
             }
         }
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(this.itemEntryTextBox.Text))
+            if (string.IsNullOrEmpty(itemEntryTextBox.Text))
             {
-                MessageBox.Show("You must enter an item id to continue.", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(
+                    Properties.Resources.AddNewItemForm_saveButton_Click_You_must_enter_an_item_id_to_continue_,
+                    Properties.Resources.AddNewItemForm_saveButton_Click_Notice, MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
                 return;
             }
 
-            if (string.IsNullOrEmpty(this.itemNameTextBox.Text))
+            if (string.IsNullOrEmpty(itemNameTextBox.Text))
             {
-                MessageBox.Show("You must enter an item name to continue.", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(
+                    Properties.Resources.AddNewItemForm_saveButton_Click_You_must_enter_an_item_name_to_continue_,
+                    Properties.Resources.AddNewItemForm_saveButton_Click_Notice, MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
                 return;
             }
 
-            this.PawsItem = new PawsItem()
+            PawsItem = new PawsItem
             {
-                Name = this.itemNameTextBox.Text,
-                Entry = Convert.ToInt32(this.itemEntryTextBox.Text),
+                Name = itemNameTextBox.Text,
+                Entry = Convert.ToInt32(itemEntryTextBox.Text),
                 Enabled = true,
-                MyState = (MyState)this.myStateComboBox.SelectedIndex,
+                MyState = (MyState) myStateComboBox.SelectedIndex,
                 Conditions = new List<ItemCondition>()
             };
 
-            foreach (ListViewItem conditionListItem in this.conditionsListView.Items)
+            foreach (ListViewItem conditionListItem in conditionsListView.Items)
             {
                 var theCondition = conditionListItem.Tag as ItemCondition;
-                this.PawsItem.Conditions.Add(theCondition);
+                PawsItem.Conditions.Add(theCondition);
             }
 
-            this.DialogResult = DialogResult.OK;
+            DialogResult = DialogResult.OK;
         }
 
         private void myBagsButton_Click(object sender, EventArgs e)
         {
             var newForm = new AddItemMyBagsForm();
 
-            if (newForm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                var selectedItem = newForm.carriedItemsComboBox.SelectedItem as ItemSelectionEntry;
+            if (newForm.ShowDialog() != DialogResult.OK) return;
+            var selectedItem = newForm.carriedItemsComboBox.SelectedItem as ItemSelectionEntry;
 
-                if (selectedItem != null)
-                {
-                    this.itemEntryTextBox.Text = selectedItem.Entry.ToString();
-                    this.itemNameTextBox.Text = selectedItem.Name;
-                }
-            }
+            if (selectedItem == null) return;
+            itemEntryTextBox.Text = selectedItem.Entry.ToString();
+            itemNameTextBox.Text = selectedItem.Name;
         }
     }
 }

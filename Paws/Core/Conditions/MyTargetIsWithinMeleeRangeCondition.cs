@@ -4,7 +4,7 @@ using Styx;
 namespace Paws.Core.Conditions
 {
     /// <summary>
-    /// Condition based on if the player's current target is within melee range.
+    ///     Condition based on if the player's current target is within melee range.
     /// </summary>
     [ItemCondition(FriendlyName = "My Target is Within Melee Range")]
     public class MyTargetIsWithinMeleeRangeCondition : ICondition

@@ -1,17 +1,15 @@
-﻿using Paws.Core.Conditions;
-using Paws.Core.Abilities.Attributes;
+﻿using Paws.Core.Abilities.Attributes;
+using Paws.Core.Conditions;
 using Styx.WoWInternals;
-using System.Linq;
-using System;
 
 namespace Paws.Core.Abilities.Feral
 {
     /// <summary>
-    /// <para>Heart of the Wild, Talent</para>
-    /// <para>Instant, 6 min cooldown</para>
-    /// <para>Requires level 90</para>
-    /// <para>When activated, dramatically imporves the Druid's ability to tank, cast spells, and heal for 45 seconds.</para>
-    /// <para>http://www.wowhead.com/spell=108292/heart-of-the-wild</para>
+    ///     <para>Heart of the Wild, Talent</para>
+    ///     <para>Instant, 6 min cooldown</para>
+    ///     <para>Requires level 90</para>
+    ///     <para>When activated, dramatically imporves the Druid's ability to tank, cast spells, and heal for 45 seconds.</para>
+    ///     <para>http://www.wowhead.com/spell=108292/heart-of-the-wild</para>
     /// </summary>
     [AbilityChain(FriendlyName = "Heart of the Wild")]
     public class HeartOfTheWildAbility : AbilityBase
@@ -19,19 +17,19 @@ namespace Paws.Core.Abilities.Feral
         public HeartOfTheWildAbility()
             : base(WoWSpell.FromId(SpellBook.HeartOfTheWild), true, true)
         {
-            base.Category = AbilityCategory.Defensive;
+            Category = AbilityCategory.Defensive;
 
-            base.RequiredConditions.Add(new MeHasAttackableTargetCondition());
-            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, this.Spell.Id));
-            base.RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
+            RequiredConditions.Add(new MeHasAttackableTargetCondition());
+            RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, Spell.Id));
+            RequiredConditions.Add(new TargetDoesNotHaveAuraCondition(TargetType.Me, SpellBook.Prowl));
         }
 
         public override void ApplyDefaultSettings()
         {
             base.ApplyDefaultSettings();
 
-            base.Conditions.Add(new BooleanCondition(Settings.HeartOfTheWildEnabled));
-            base.Conditions.Add(new TargetHealthRangeCondition(TargetType.Me, 0, Settings.HeartOfTheWildMinHealth));
+            Conditions.Add(new BooleanCondition(Settings.HeartOfTheWildEnabled));
+            Conditions.Add(new TargetHealthRangeCondition(TargetType.Me, 0, Settings.HeartOfTheWildMinHealth));
         }
     }
 }
